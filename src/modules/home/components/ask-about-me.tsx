@@ -3,7 +3,7 @@ import { Sparkles } from "lucide-react";
 
 const AskAboutMe = () => {
   return (
-    <div className="grid w-full min-w-md items-center gap-2">
+    <div className="grid w-full min-w-md lg:min-w-xl items-center gap-2">
       <div className="relative">
         <div className="absolute left-2.5 top-4 h-4 w-4 text-muted-foreground opacity-40">
           <Sparkles className="h-4 w-4" />
