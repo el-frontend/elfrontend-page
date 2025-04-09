@@ -19,13 +19,13 @@ export const socialMedia: SocialMedia[] = [
     name: "Youtube",
     url: "https://youtube.com/@ElFrontend",
     icon: <YoutubeIcon/>,
-    className: "hover:text-red-600",
+    className: "hover:text-red-600 size-7",
   },
   {
     name: "GitHub",
     url: "https://github.com/el-frontend",
     icon: <GithubIcon />,
-    className: "hover:text-gray-800",
+    className: "hover:text-gray-500",
   },
   {
     name: "LinkedIn",
