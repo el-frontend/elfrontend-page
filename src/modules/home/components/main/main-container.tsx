@@ -1,7 +1,18 @@
+"use client";
+
 import SendMessage from "./send-message";
 import SlashCommands from "./slash-commands";
-import Terminal from "./terminal";
+
+import dynamic from "next/dynamic";
+import { TerminalContextProvider } from "react-terminal";
 import VideosPreview from "./videos-preview";
+
+const Terminal = dynamic(() => import("./terminal/terminal"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full bg-main-gradient animate-pulse rounded-md" />
+  ),
+});
 
 const MainContainer = () => {
   return (
@@ -11,7 +22,9 @@ const MainContainer = () => {
         <SendMessage />
       </div>
       <div className="row-span-2">
-        <Terminal />
+        <TerminalContextProvider>
+          <Terminal />
+        </TerminalContextProvider>
       </div>
       <div>
         <VideosPreview />
