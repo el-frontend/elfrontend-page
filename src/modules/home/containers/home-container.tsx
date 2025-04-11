@@ -1,5 +1,6 @@
 import AskAboutMe from "../components/ask-about-me";
 import CanIDo from "../components/can-i-do";
+import ChatContainer from "../components/chat/chat-containet";
 import MainContainer from "../components/main/main-container";
 import NavigationTabs from "../components/navigation-tabs";
 import Profile from "../components/profile";
@@ -14,6 +15,7 @@ const HomeContainer = () => {
         <NavigationTabs />
       </div>
       <MainContainer />
+      <ChatContainer />
     </div>
   );
 };

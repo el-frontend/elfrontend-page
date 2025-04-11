@@ -1,4 +1,6 @@
-import { askQuestion } from "@/server/ai/google/google-model";
+import {
+  askQuestion
+} from "@/server/ai/google/google-model";
 import React from "react";
 import Markdown from "react-markdown";
 import { TerminalContext } from "react-terminal";
@@ -33,20 +35,23 @@ export const useCommands = () => {
 
   const askQuestionWithAI = async (message: string) => {
     setTemporaryContent("Asking to the AI....");
-    const text = await askQuestion(message);
+    try {
+      const text = await askQuestion(message);
 
-    return text ? (
-      <div className="p-4 bg-main-gradient mt-2 rounded-md">
-        <Markdown
-          remarkPlugins={[remarkGfm]}
-          components={{ link: LinkRenderer, a: LinkRenderer }}
-        >
-          {text}
-        </Markdown>
-      </div>
-    ) : (
-      "The AI is busy try later"
-    );
+      return (
+        <div className="p-4 bg-main-gradient mt-2 rounded-md">
+          <Markdown
+            remarkPlugins={[remarkGfm]}
+            components={{ link: LinkRenderer, a: LinkRenderer }}
+          >
+            {text}
+          </Markdown>
+        </div>
+      );
+    } catch (err) {
+      console.error("Error asking AI: ", err);
+      return "The AI is busy try later";
+    }
   };
 
   // Format display based on item type (folder or file)
