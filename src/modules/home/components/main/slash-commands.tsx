@@ -30,16 +30,16 @@ const SlashCommands = () => {
         </div>
         <div className="flex items-center gap-2 p-2 bg-main-gradient rounded-l-md w-full ">
           <Sparkles className="w-4 h-4 text-muted-foreground" />
-          <span className="text-muted-foreground">/</span>
+          <span className="text-muted-foreground">projects</span>
         </div>
       </div>
       <div className="w-full p-[1px]">
         <div className="bg-main-gradient border border-muted rounded-md p-3 mt-12 flex flex-col gap-2 justify-center items-center">
           <div className="flex items-center gap-2">
             <div className="w-5 h-5 border border-[#27272a] rounded flex items-center justify-center">
-              <span className="text-xs">/</span>
+                <span className="text-xs">&gt;&gt;&gt;</span>
             </div>
-            <span className="text-md">Slash Commands</span>
+            <span className="text-md">Terminal Commands</span>
           </div>
           <p className="text-xs text-muted-foreground text-center">
             Review Projects, Skills and much more with commands

@@ -18,8 +18,8 @@ const MainContainer = () => {
   return (
     <div className="grid grid-cols-2 grid-rows-2 gap-6 w-full h-full">
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
-        <SlashCommands />
         <SendMessage />
+        <SlashCommands />
       </div>
       <div className="row-span-2">
         <TerminalContextProvider>

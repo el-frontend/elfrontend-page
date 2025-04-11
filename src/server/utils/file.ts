@@ -12,6 +12,13 @@ export async function getDataBase64Media(fileName: string) {
   return `data:${mimeType};base64,${base64}`;
 }
 
+export async function getDataBase64FromUrl(url: string) {
+  const response = await fetch(url);
+  const blob = await response.blob();
+  const buffer = Buffer.from(await blob.arrayBuffer());
+  return buffer.toString("base64");
+}
+
 export async function getMimeType(fileName: string) {
   const ext = path.extname(fileName).toLowerCase();
   switch (ext) {

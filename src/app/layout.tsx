@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Titillium_Web } from "next/font/google";
 
+import { ChatProvider } from "@/modules/home/store";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -36,8 +37,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${titillium.variable} antialiased dark overflow-x-hidden`}
       >
-        <MainLayout>{children}</MainLayout>
-        <Analytics/>
+        <ChatProvider>
+          <MainLayout>{children}</MainLayout>
+        </ChatProvider>
+        <Analytics />
       </body>
     </html>
   );
