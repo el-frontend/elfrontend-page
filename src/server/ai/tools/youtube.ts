@@ -1,0 +1,25 @@
+import { lastYoutubeVideos, mostPopularYoutubeVideos } from "@/server/services/youtube";
+import { YoutubeSearchResponse } from "@/server/types/youtube";
+import { tool } from "ai";
+import { z } from "zod";
+
+export const getYoutubePopularVideos = tool({
+  description: "Get the 4 most popular videos from the channel",
+  parameters: z.object({
+    channelId: z.string(),
+  }),
+  execute: async (): Promise<YoutubeSearchResponse[]> => {
+    return await mostPopularYoutubeVideos();
+  },
+});
+
+export const getYoutubeLastVideos = tool({
+  description: "Get the 4 last uploaded videos from the channel",
+  parameters: z.object({
+    channelId: z.string(),
+  }),
+  execute: async (): Promise<YoutubeSearchResponse[]> => {
+    return await lastYoutubeVideos();
+  },
+});
+

@@ -1,5 +1,9 @@
-import { elFrontendPrompt } from "@/lib/ai/prompts";
 import { generateUUID } from "@/lib/utils";
+import { elFrontendPrompt } from "@/server/ai/prompts";
+import {
+  getYoutubeLastVideos,
+  getYoutubePopularVideos,
+} from "@/server/ai/tools/youtube";
 import { google } from "@ai-sdk/google";
 
 import {
@@ -31,6 +35,14 @@ export async function POST(request: Request) {
           maxSteps: 5,
           experimental_transform: smoothStream({ chunking: "word" }),
           experimental_generateMessageId: generateUUID,
+          experimental_activeTools: [
+            "popularYoutubeVideo",
+            "youtubeLastVideos",
+          ],
+          tools: {
+            popularYoutubeVideo: getYoutubePopularVideos,
+            youtubeLastVideos: getYoutubeLastVideos,
+          },
         });
 
         result.consumeStream();

@@ -18,6 +18,7 @@ import { Markdown } from "./markdown";
 import { MessageActions } from "./message-actions";
 import { MessageEditor } from "./message-editor";
 import { MessageReasoning } from "./message-reasoning";
+import YoutubeVideos from "./tools/youtube-videos";
 
 const PurePreviewMessage = ({
   chatId,
@@ -131,6 +132,28 @@ const PurePreviewMessage = ({
                         setMessages={setMessages}
                         reload={reload}
                       />
+                    </div>
+                  );
+                }
+              }
+              if (type === "tool-invocation") {
+                const { toolInvocation } = part;
+                const { toolName, toolCallId, state } = toolInvocation;
+
+                if (state === "result") {
+                  const { result } = toolInvocation;
+                  return (
+                    <div
+                      key={toolCallId}
+                      className="flex flex-row gap-2 items-start"
+                    >
+                      {["popularYoutubeVideo", "youtubeLastVideos"].includes(
+                        toolName
+                      ) && (
+                        <div className="flex flex-col gap-2 w-full">
+                          <YoutubeVideos videos={result} />
+                        </div>
+                      )}
                     </div>
                   );
                 }

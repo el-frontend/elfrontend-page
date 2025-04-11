@@ -1,6 +1,6 @@
 "use server";
 
-import { elFrontendPrompt } from "@/lib/ai/prompts";
+import { elFrontendPrompt } from "@/server/ai/prompts";
 import { getDataBase64FromUrl } from "@/server/utils/file";
 import { google, GoogleGenerativeAIProviderOptions } from "@ai-sdk/google";
 import { CoreMessage, generateText, streamText, UserContent } from "ai";
@@ -18,7 +18,7 @@ export const askQuestion = async (question: string) => {
   if (contextFile) {
     content.push({
       type: "file",
-      data: `${process.env.NEXT_PUBLIC_APP_URL}/resume.md`,
+      data: contextFile,
       mimeType: "text/markdown",
     });
   }
