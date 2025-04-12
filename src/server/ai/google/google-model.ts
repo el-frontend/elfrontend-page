@@ -5,6 +5,11 @@ import { getDataBase64FromUrl } from "@/server/utils/file";
 import { google, GoogleGenerativeAIProviderOptions } from "@ai-sdk/google";
 import { CoreMessage, generateText, streamText, UserContent } from "ai";
 import { createStreamableValue, StreamableValue } from "ai/rsc";
+import {
+  getYoutubeLastVideos,
+  getYoutubePopularVideos,
+  searchYoutube,
+} from "../tools/youtube";
 
 export const askQuestion = async (question: string) => {
   const googleModel = google("gemini-2.0-flash");
@@ -39,6 +44,16 @@ export const askQuestion = async (question: string) => {
         content,
       },
     ],
+    experimental_activeTools: [
+      "popularYoutubeVideo",
+      "youtubeLastVideos",
+      "searchYoutube",
+    ],
+    tools: {
+      searchYoutube,
+      popularYoutubeVideo: getYoutubePopularVideos,
+      youtubeLastVideos: getYoutubeLastVideos,
+    },
   });
 
   return text;

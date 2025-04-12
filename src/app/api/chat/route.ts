@@ -3,7 +3,9 @@ import { elFrontendPrompt } from "@/server/ai/prompts";
 import {
   getYoutubeLastVideos,
   getYoutubePopularVideos,
+  searchYoutube,
 } from "@/server/ai/tools/youtube";
+
 import { google } from "@ai-sdk/google";
 
 import {
@@ -38,8 +40,10 @@ export async function POST(request: Request) {
           experimental_activeTools: [
             "popularYoutubeVideo",
             "youtubeLastVideos",
+            "searchYoutube",
           ],
           tools: {
+            searchYoutube,
             popularYoutubeVideo: getYoutubePopularVideos,
             youtubeLastVideos: getYoutubeLastVideos,
           },

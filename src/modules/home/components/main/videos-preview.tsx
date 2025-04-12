@@ -1,5 +1,5 @@
+import { YoutubeIcon } from "@/components/icons";
 import { lastYoutubeVideos } from "@/server/services/youtube";
-import { Video } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -10,7 +10,7 @@ const VideosPreview = async () => {
   return (
     <div className="bg-background border border-muted rounded-md overflow-hidden w-full  flex flex-col justify-between">
       <div className="md:col-span-1">
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 gap-6 p-2">
           {lastVideos.slice(0, 2).map((video) => {
             return (
               <div
@@ -39,13 +39,18 @@ const VideosPreview = async () => {
             );
           })}
         </div>
-
-        <div className="mt-4 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <Video className="w-5 h-5" />
-            <span className="font-medium">Videos</span>
+        <div className="w-full p-[1px]">
+          <div className="bg-main-gradient border border-muted rounded-md p-3 mt-12 flex flex-col gap-2 justify-center items-center">
+            <div className="flex items-center gap-2">
+              <div className="w-5 h-5 border border-[#27272a] rounded flex items-center justify-center">
+                <YoutubeIcon className="size-5" />
+              </div>
+              <span className="text-md">Videos</span>
+            </div>
+            <p className="text-xs text-muted-foreground text-center">
+              See my latest videos
+            </p>
           </div>
-          <p className="text-sm text-[#b3b3b3]">See my latest videos</p>
         </div>
       </div>
     </div>

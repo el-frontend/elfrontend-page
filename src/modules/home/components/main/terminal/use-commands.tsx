@@ -1,6 +1,4 @@
-import {
-  askQuestion
-} from "@/server/ai/google/google-model";
+import { askQuestion } from "@/server/ai/google/google-model";
 import React from "react";
 import Markdown from "react-markdown";
 import { TerminalContext } from "react-terminal";
@@ -164,6 +162,12 @@ export const useCommands = () => {
         at it! 🎉 <br />
         <strong className="text-purple-500">ai</strong> - ask to the ai about me{" "}
         <br />
+        <strong className="text-purple-500">projects</strong> - show me the
+        Carlos Chao projects <br />
+        <strong className="text-purple-500">videos</strong> - show me the best
+        youtube videos of Carlos Chao (ElFrontend) <br />
+        <strong className="text-purple-500">skills</strong> - show me the Carlos
+        Chao skills <br />
       </span>
     ),
     vim: (filename: string) => {
@@ -203,5 +207,17 @@ export const useCommands = () => {
       return null;
     },
     ai: askQuestionWithAI,
+    projects: () => {
+      return askQuestionWithAI("What are the Carlos Chao projects?");
+    },
+    videos: () => {
+      // return askQuestionWithAI(
+      //   "What are the best youtube videos of Carlos Chao (ElFrontend)?"
+      // );
+      return "Not implemented yet";
+    },
+    skills: () => {
+      return askQuestionWithAI("What are the Carlos Chao skills?");
+    },
   };
 };

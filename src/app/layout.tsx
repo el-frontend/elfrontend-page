@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Titillium_Web } from "next/font/google";
 
+import { Toaster } from "@/components/ui/sonner";
 import { ChatProvider } from "@/modules/home/store";
 import "./globals.css";
 
@@ -40,6 +41,7 @@ export default function RootLayout({
         <ChatProvider>
           <MainLayout>{children}</MainLayout>
         </ChatProvider>
+        <Toaster />
         <Analytics />
       </body>
     </html>

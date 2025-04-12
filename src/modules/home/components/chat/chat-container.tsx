@@ -1,7 +1,12 @@
 "use client";
 
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { useRouter, useSearchParams } from "next/navigation";
 import Chat from "./chat";
 
@@ -18,8 +23,10 @@ const ChatContainer = () => {
   return (
     <Dialog open={!!chat} onOpenChange={closeChat}>
       <DialogContent className="w-screen max-w-screen sm:max-w-screen h-screen lg:w-[90%] lg:h-[90%]">
-        <DialogTitle>ElFrontend Chat</DialogTitle>
-        <DialogDescription>Know more about</DialogDescription>
+        <DialogHeader>
+          <DialogTitle>ElFrontend Chat</DialogTitle>
+          <DialogDescription>Ask me anything, I&apos;ll try my best to answer</DialogDescription>
+        </DialogHeader>
         <Chat initialChat={chat} isReadonly={false} />
       </DialogContent>
     </Dialog>

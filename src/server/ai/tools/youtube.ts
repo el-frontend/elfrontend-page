@@ -1,4 +1,8 @@
-import { lastYoutubeVideos, mostPopularYoutubeVideos } from "@/server/services/youtube";
+import {
+  lastYoutubeVideos,
+  mostPopularYoutubeVideos,
+  searchYoutube as searchYoutubeService,
+} from "@/server/services/youtube";
 import { YoutubeSearchResponse } from "@/server/types/youtube";
 import { tool } from "ai";
 import { z } from "zod";
@@ -23,3 +27,12 @@ export const getYoutubeLastVideos = tool({
   },
 });
 
+export const searchYoutube = tool({
+  description: "Search for videos on YouTube",
+  parameters: z.object({
+    query: z.string(),
+  }),
+  execute: async ({ query }): Promise<YoutubeSearchResponse[]> => {
+    return await searchYoutubeService(query);
+  },
+});
