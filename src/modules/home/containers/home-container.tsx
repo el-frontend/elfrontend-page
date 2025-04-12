@@ -3,6 +3,8 @@ import AskAboutMe from "../components/ask-about-me";
 import CanIDo from "../components/can-i-do";
 import ChatContainer from "../components/chat/chat-container";
 import MainContainer from "../components/main/main-container";
+import { VideoPreviewSkeleton } from "../components/main/skeleton/video-preview-skeleton";
+import VideosPreview from "../components/main/videos-preview";
 import NavigationTabs from "../components/navigation-tabs";
 import Profile from "../components/profile";
 
@@ -15,7 +17,13 @@ const HomeContainer = () => {
         <AskAboutMe />
         <NavigationTabs />
       </div>
-      <MainContainer />
+      <MainContainer
+        videoPreviewComponent={
+          <Suspense fallback={<VideoPreviewSkeleton />}>
+            <VideosPreview />
+          </Suspense>
+        }
+      />
       <Suspense fallback={null}>
         <ChatContainer />
       </Suspense>

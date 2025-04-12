@@ -17,10 +17,10 @@ const ChatContainer = () => {
 
   return (
     <Dialog open={!!chat} onOpenChange={closeChat}>
-      <DialogTitle>ElFrontend Chat</DialogTitle>
-      <DialogDescription>Know more about</DialogDescription>
       <DialogContent className="w-screen max-w-screen sm:max-w-screen h-screen lg:w-[90%] lg:h-[90%]">
-        <Chat initialChat={chat} isReadonly={false}/>
+        <DialogTitle>ElFrontend Chat</DialogTitle>
+        <DialogDescription>Know more about</DialogDescription>
+        <Chat initialChat={chat} isReadonly={false} />
       </DialogContent>
     </Dialog>
   );

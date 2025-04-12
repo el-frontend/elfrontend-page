@@ -4,7 +4,7 @@ import { Mail } from "lucide-react";
 
 const SendMessage = () => {
   return (
-    <div className="bg-background border border-muted rounded-md overflow-hidden w-full  flex flex-col">
+    <div className="bg-background border border-muted rounded-md overflow-hidden w-full  flex flex-col justify-between">
       <div className="flex-grow p-4">
         <Textarea name="email_body" className="w-full min-h-12 h-full bg-muted"/>
       </div>

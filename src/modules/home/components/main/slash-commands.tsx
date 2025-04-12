@@ -3,7 +3,7 @@ import { BriefcaseBusiness, Sparkles } from "lucide-react";
 
 const SlashCommands = () => {
   return (
-    <div className="bg-background border border-muted rounded-md overflow-hidden w-full ">
+    <div className="bg-background border border-muted rounded-md overflow-hidden w-full flex flex-col justify-between">
       <div className="flex flex-col justify-end items-end pl-6 pt-6 w-full gap-3">
         <div className="pl-3 py-2 flex flex-col items-start justify-center  bg-main-gradient border border-muted rounded-l-md gap-3 w-full">
           <div className="flex items-center gap-3 ">
@@ -24,7 +24,7 @@ const SlashCommands = () => {
             </div>
             <div>
               <h3 className="font-medium">Videos</h3>
-              <p className="text-xs text-foreground">Show all my videos</p>
+              <p className="text-xs text-muted-foreground">Show my last videos</p>
             </div>
           </div>
         </div>

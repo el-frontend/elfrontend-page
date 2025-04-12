@@ -1,4 +1,4 @@
-import { elFrontendPrompt } from "@/server/ai/ai/prompts";
+import { elFrontendPrompt } from "@/server/ai/prompts";
 import { GoogleGenerativeAIProviderOptions } from "@ai-sdk/google";
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { generateText, UserContent } from "ai";
@@ -6,7 +6,7 @@ import { generateText, UserContent } from "ai";
 export const askQuestion = async (question: string) => {
   const model = createOpenRouter({ apiKey: process.env.OPENAI_API_KEY });
 
-  const content: UserContent = [];
+  const content: UserContent = [];      
 
   content.push({
     type: "file",
