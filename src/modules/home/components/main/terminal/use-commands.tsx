@@ -6,6 +6,7 @@ import Markdown from "react-markdown";
 import { TerminalContext } from "react-terminal";
 import remarkGfm from "remark-gfm";
 import { fileData, fileSystem } from "./files-data";
+import HtopSimulation from "./htop-simulation";
 
 export const useCommands = () => {
   const { dispatch } = useMainContext();
@@ -177,6 +178,8 @@ export const useCommands = () => {
         directory <br />
         <strong className="text-purple-500">ls</strong> - list current directory
         contents <br />
+        <strong className="text-purple-500">htop</strong> - show htop simulation
+        <br />
         <strong className="text-purple-500">help</strong> - you&apos;re looking
         at it! 🎉 <br />
         <strong className="text-purple-500">ai</strong> - ask to the ai about me{" "}
@@ -247,5 +250,8 @@ export const useCommands = () => {
     ecursor: () => toggleBeautifulCursor(true),
     dcursor: () => toggleBeautifulCursor(false),
     background: setBackground,
+    htop: () => {
+      return <HtopSimulation />;
+    },
   };
 };
