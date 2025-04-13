@@ -10,8 +10,9 @@ const Profile = () => {
       <Image
         src="/images/avatar.webp"
         alt="ElFrontend Profile Picture"
-        width={60}
-        height={60}
+        width={80}
+        height={80}
+        quality={100}
         className="rounded-full"
       />
       <div className="flex flex-col items-start justify-center gap-1">

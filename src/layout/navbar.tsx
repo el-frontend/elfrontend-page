@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Navbar = () => {
   return (
-    <nav className="container text-primary h-22 flex justify-between items-center relative">
+    <nav className="container text-primary h-26 lg:h-22 flex flex-col lg:flex-row justify-between items-center relative z-10 px-2 lg:px-0  py-4 lg:py-0">
       <Link
         className="text-primary flex gap-2 justify-center items-center"
         href="/"
@@ -15,9 +15,6 @@ const Navbar = () => {
         </span>
       </Link>
       <SocialList />
-      <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl text-center text-red-600">
-        Under Construction
-      </span>
     </nav>
   );
 };

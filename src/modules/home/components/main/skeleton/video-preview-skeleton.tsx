@@ -13,7 +13,7 @@ const VideoSkeleton = () => {
 
 export const VideoPreviewSkeleton = () => {
   return (
-    <div className="grid grid-cols-2 gap-6">
+    <div className="grid grid-cols-2 gap-6 p-2">
       <VideoSkeleton />
       <VideoSkeleton />
     </div>

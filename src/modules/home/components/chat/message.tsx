@@ -11,7 +11,7 @@ import { UseChatHelpers } from "@ai-sdk/react";
 import type { UIMessage } from "ai";
 import clsx from "clsx";
 import equal from "fast-deep-equal";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import { memo, useState } from "react";
 import { PencilEditIcon, SparklesIcon } from "./icons";
 import { Markdown } from "./markdown";

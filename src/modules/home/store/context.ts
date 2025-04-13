@@ -2,15 +2,15 @@
 
 import { Dispatch, createContext } from 'react'
 import { TAction } from './actions'
-import initialState, { IChatState } from './initialState'
+import initialState, { IMainStore } from './initialState'
 
 interface IContextProps {
-  state: IChatState
+  state: IMainStore
   dispatch: Dispatch<TAction>
 }
-const ChatContext = createContext<IContextProps>({
+const MainContext = createContext<IContextProps>({
   state: initialState,
   dispatch: () => {}
 })
 
-export default ChatContext
+export default MainContext

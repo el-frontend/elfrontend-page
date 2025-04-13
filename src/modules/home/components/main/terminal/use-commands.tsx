@@ -1,3 +1,5 @@
+import { useMainContext } from "@/modules/home/store";
+import { BackgroundType } from "@/modules/home/store/types";
 import { askQuestion } from "@/server/ai/google/google-model";
 import React from "react";
 import Markdown from "react-markdown";
@@ -6,6 +8,7 @@ import remarkGfm from "remark-gfm";
 import { fileData, fileSystem } from "./files-data";
 
 export const useCommands = () => {
+  const { dispatch } = useMainContext();
   const { setBufferedContent, setTemporaryContent } =
     React.useContext(TerminalContext);
   if (!setBufferedContent || !setTemporaryContent) {
@@ -66,6 +69,22 @@ export const useCommands = () => {
         ))}
       </span>
     );
+  };
+
+  const toggleBeautifulCursor = (isEnable: boolean) => {
+    dispatch({ type: "TOGGLE_BEAUTIFUL_CURSOR", payload: isEnable });
+    return isEnable ? "Beautiful cursor enabled" : "Beautiful cursor disabled";
+  };
+
+  const setBackground = (background: BackgroundType | string) => {
+    if (!["none", "grid", "beams", "aurora"].includes(background)) {
+      return "Invalid background type";
+    }
+    dispatch({
+      type: "UPDATE_BACKGROUND",
+      payload: background as BackgroundType,
+    });
+    return `Background set to ${background}`;
   };
 
   return {
@@ -168,6 +187,12 @@ export const useCommands = () => {
         youtube videos of Carlos Chao (ElFrontend) <br />
         <strong className="text-purple-500">skills</strong> - show me the Carlos
         Chao skills <br />
+        <strong className="text-purple-500">ecursor</strong> - enable beautiful
+        cursor <br />
+        <strong className="text-purple-500">dcursor</strong> - disable beautiful
+        cursor <br />
+        <strong className="text-purple-500">background</strong> - set background
+        can be none, grid, beams, aurora <br />
       </span>
     ),
     vim: (filename: string) => {
@@ -219,5 +244,8 @@ export const useCommands = () => {
     skills: () => {
       return askQuestionWithAI("What are the Carlos Chao skills?");
     },
+    ecursor: () => toggleBeautifulCursor(true),
+    dcursor: () => toggleBeautifulCursor(false),
+    background: setBackground,
   };
 };

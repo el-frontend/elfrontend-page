@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { UseChatHelpers } from '@ai-sdk/react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { memo } from 'react';
 
 interface SuggestedActionsProps {

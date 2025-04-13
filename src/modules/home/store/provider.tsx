@@ -2,13 +2,13 @@
 
 import React, { FC, useReducer } from "react";
 
-import ChatContext from "./context";
+import MainContext from "./context";
 import initialState from "./initialState";
 import reducer from "./reducer";
 
-const ChatProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
+const MainProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  return <ChatContext value={{ state, dispatch }}>{children}</ChatContext>
+  return <MainContext value={{ state, dispatch }}>{children}</MainContext>
   
 };
-export default ChatProvider;
+export default MainProvider;

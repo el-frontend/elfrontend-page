@@ -41,15 +41,22 @@ const Chat: React.FC<Props> = ({ initialChat, isReadonly = false }) => {
         id: crypto.randomUUID(),
         role: "user",
         content: initialChat,
+        experimental_attachments: [
+          {
+            name: "resume.md",
+            url: `${process.env.NEXT_PUBLIC_APP_URL}/resume.md`,
+            contentType: "text/markdown",
+          },
+        ],
       });
     }
   }, [initialChat]);
 
   const [attachments, setAttachments] = useState<Attachment[]>([
     {
-      name: "cv.pdf",
-      url: `${window.location.origin}/cv.pdf`,
-      contentType: "application/pdf",
+      name: "resume.md",
+      url: `${process.env.NEXT_PUBLIC_APP_URL}/resume.md`,
+      contentType: "text/markdown",
     },
   ]);
 

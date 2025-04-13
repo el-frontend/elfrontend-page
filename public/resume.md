@@ -15,6 +15,47 @@ Highly experienced software architect and team leader with over 10 years of expe
 
 ## Work Experience
 
+### Personal Projects
+
+January 2022 - PRESENT, Cuba
+
+**ElFrontend**
+
+- This is my personal website. This is where I share my knowledge and experiences with the developer community. All the app are focus in the experience of AI. 
+- Github Repo: https://github.com/el-frontend/elfrontend-page
+- Live Demo: https://elfrontend.com
+
+**LinkTracker**
+
+- Link Tracker is a NextJS 15 application designed to create and manage short links, tracking their usage and providing analytics.
+- Github Repo: https://github.com/el-frontend/link-tracker
+
+**JobsIt**
+
+- A job platform with different implementations using NestJS in the backend and ReactJS, Angular, VueJS, Svelte, NextJS in the frontend. The main objective is to provide to the community guidelines to develop frontend applications following best practices.
+- Github Repo: https://github.com/el-frontend/job-it-challenge
+
+**Calendai**
+
+- A Next.js application that helps you manage your social media content creation and scheduling with the power of AI.
+- Github Repo: https://github.com/el-frontend/calendai
+- Live Demo: https://calendai.vercel.app
+
+**Fluvx**
+
+- Fluvx is a stage manager inspired in Vuex API and base on Reactivity API from Vue 3. Its main goal is simplicity and for this it provides composable functions to create stores in a simple way. It is written in Typescript and has full support.
+- Github Repo: https://github.com/el-frontend/fluvx
+
+**ReactHookStore**
+
+- This template provides a minimal setup to get stater to work with React Hooks and Context API and create a scalable stores for your application.
+- Github Repo: https://github.com/el-frontend/react-hooks-store-starter
+
+**ElFrontend**
+
+- A Next.js application that helps you manage your social media content creation and scheduling with the power of AI.
+- Github Repo: https://github.com/el-frontend/elfrontend
+
 ### ElFrontend Community / Founder & Content Creator
 
 April 2024 - PRESENT, Cuba
@@ -24,6 +65,20 @@ April 2024 - PRESENT, Cuba
 - Organize live workshops and interactive coding challenges
 - Provide mentorship and career guidance to community members
 - Build and maintain web applications using cutting-edge frontend frameworks
+
+### TechRadar / Team Leader
+
+February 2025 - PRESENT, Cuba
+
+- Lead the development of tech radar tool to manage the technologies used in the company.
+- Tech stack: TypeScript, React.js, shadcn/ui
+
+### Pulse / Team Leader
+
+December 2024 - PRESENT, Cuba
+
+- Lead the development of a billing system
+- Tech stack: TypeScript, React.js, Next.js 14 (App Router), shadcn/ui
 
 ### Avangtur / Team Leader
 
@@ -83,22 +138,50 @@ January 2021 - June 2021, Cuba
 
 ### Languages
 
-- JavaScript/TypeScript
+- JavaScript/TypeScript - 9 years of experience
   - Modern ES6+ features and patterns
   - Advanced async programming
   - Type system and architecture
-- Python, PHP, Dart
+- Python - 3 years of experience
   - Backend development
   - Data processing
+  - Cross-platform development
+- PHP - 3 years of experience
+  - Backend development
+  - Data processing
+  - Cross-platform development
+- Dart - 1 years of experience
+  - Mobile development
   - Cross-platform development
 
 ### Frameworks & Tools
 
-- Frontend: React, Vue, Angular, Next.js, Gatsby.js
-- Backend: Node.js, Django, Laravel
-- Mobile: React Native, Flutter
-- Databases: PostgreSQL, MySQL, MongoDB, DynamoDB, Couchbase, Redis
-- Cloud & DevOps: AWS, GCP, Docker, Git, CI/CD
+- Frontend: Over 10 years of experience
+  - React.js - 6 years of experience
+  - Vue.js - 1 years of experience
+  - Angular - 3 years of experience
+  - Next.js - 2 years of experience
+  - Gatsby.js - 1 year of experience
+- Backend: Over 6 years of experience
+  - Node.js - 6 years of experience
+  - Django - 2 years of experience
+  - Laravel - 1 years of experience
+- Mobile: Over 1 year of experience
+  - React Native - 1 years of experience
+  - Flutter - 1 year of experience
+- Databases: Over 7 years of experience
+  - PostgreSQL - 7 years of experience
+  - MySQL - 6 years of experience
+  - MongoDB - 3 years of experience
+  - DynamoDB - 1 year of experience
+  - Couchbase - 1 year of experience
+  - Redis - 1 year of experience
+- Cloud & DevOps: Over 5 years of experience
+  - AWS - 5 years of experience
+  - GCP - 1 year of experience
+  - Docker - 6 years of experience
+  - Git - 10 years of experience
+  - CI/CD - 3 years of experience
 
 ## Education
 
@@ -111,7 +194,6 @@ September 2010 - July 2015, Havana, Cuba
 - Strong foundation in algorithms and system design
 
 ## YouTube
-
 
 ### Most Popular Videos
 

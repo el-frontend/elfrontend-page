@@ -21,10 +21,12 @@ const Terminal = () => {
     }
   };
 
+
+
   return (
     <div
       className={clsx(
-        "bg-background border border-muted rounded-lg overflow-hidden md:row-span-2 h-[calc(100vh-320px)] w-full pb-4",
+        "bg-background border border-muted rounded-lg overflow-hidden md:row-span-2 h-160 lg:h-[calc(100vh-250px)] w-full pb-4",
         isFullScreen ? "fixed top-0 left-0 h-screen w-screen z-50" : "z-10"
       )}
     >

@@ -1,29 +1,47 @@
-import { motion } from 'framer-motion';
+import { motion } from "motion/react";
+import Image from "next/image";
 
 export const Greeting = () => {
   return (
     <div
       key="overview"
-      className="max-w-3xl mx-auto md:mt-20 px-8 size-full flex flex-col justify-center"
+      className="max-w-3xl mx-auto md:mt-20 px-8 size-full flex  justify-start items-start gap-4"
     >
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 10 }}
-        transition={{ delay: 0.5 }}
-        className="text-2xl font-semibold"
+        transition={{ delay: 0.45 }}
+        className="text-2xl font-semibold pb-2"
       >
-        Hello there!
+        <Image
+          src="/images/avatar.webp"
+          width={100}
+          height={100}
+          className="object-cover rounded-md"
+          alt="ElFrontend Avatar"
+        />
       </motion.div>
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 10 }}
-        transition={{ delay: 0.6 }}
-        className="text-2xl text-zinc-500"
-      >
-        How can I help you today?
-      </motion.div>
+      <div className="flex flex-col gap-2 h-fit">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 10 }}
+          transition={{ delay: 0.5 }}
+          className="text-2xl font-semibold"
+        >
+          Hello there!
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 10 }}
+          transition={{ delay: 0.6 }}
+          className="text-2xl text-zinc-500"
+        >
+          How can I help you today?
+        </motion.div>
+      </div>
     </div>
   );
 };

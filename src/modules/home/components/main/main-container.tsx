@@ -19,17 +19,17 @@ type Props = {
 
 const MainContainer = ({ videoPreviewComponent }: Props) => {
   return (
-    <div className="grid grid-cols-2 grid-rows-2 gap-6 w-full h-full">
-      <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
+    <div className="grid grid-cols-1 grid-rows-4 lg:grid-cols-2 lg:grid-rows-2 gap-6 w-full h-full justify-start items-start z-10">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-2 max-h-full h-full">
         <SendMessage />
         <SlashCommands />
       </div>
-      <div className="row-span-2">
+      <div className="row-span-1 lg:row-span-2 h-fit">
         <TerminalContextProvider>
           <Terminal />
         </TerminalContextProvider>
       </div>
-      <div>{videoPreviewComponent}</div>
+      <div className="flex flex-col max-h-fit">{videoPreviewComponent}</div>
     </div>
   );
 };

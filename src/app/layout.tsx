@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Titillium_Web } from "next/font/google";
 
 import { Toaster } from "@/components/ui/sonner";
-import { ChatProvider } from "@/modules/home/store";
+import { MainProvider } from "@/modules/home/store";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -38,9 +38,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${titillium.variable} antialiased dark overflow-x-hidden`}
       >
-        <ChatProvider>
+        <MainProvider>
           <MainLayout>{children}</MainLayout>
-        </ChatProvider>
+        </MainProvider>
         <Toaster />
         <Analytics />
       </body>

@@ -1,10 +1,10 @@
 'use client'
 
 import { use } from 'react'
-import ChatContext from './context'
+import MainContext from './context'
 
-const useChatContext = () => {
-  return use(ChatContext)
+const useMainContext = () => {
+  return use(MainContext)
 }
 
-export default useChatContext
+export default useMainContext

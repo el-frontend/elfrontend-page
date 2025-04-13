@@ -20,10 +20,10 @@ const AskAboutMe = () => {
   };
 
   return (
-    <div className="grid w-full min-w-md lg:min-w-xl items-center gap-2">
+    <div className="grid w-full  lg:min-w-xl items-center gap-2">
       <div className="relative">
         <div className="absolute left-2.5 top-4 h-4 w-4 text-muted-foreground opacity-40">
-          <Sparkles className="h-4 w-4" />
+          <Sparkles className="h-4 w-4 animate-pulse text-purple-300" />
         </div>
         <Input
           onKeyDown={onEnter}
@@ -32,7 +32,7 @@ const AskAboutMe = () => {
           id="search"
           type="search"
           placeholder="Ask a question about me"
-          className="w-full rounded-md bg-black pl-8 border-gray-500 h-[46px] text-muted-foreground"
+          className="w-full rounded-md bg-black pl-8 border-gray-500 h-[46px] text-muted-foreground focus-visible:ring-purple-500 focus-visible:ring-[1px]"
         />
       </div>
     </div>
