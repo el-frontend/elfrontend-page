@@ -3,6 +3,7 @@
 import { generateUUID } from "@/lib/utils";
 import { useChat } from "@ai-sdk/react";
 import { Attachment } from "ai";
+import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Messages } from "./messages";
@@ -11,9 +12,10 @@ import { MultimodalInput } from "./multimodal-input";
 type Props = {
   initialChat: string;
   isReadonly: boolean;
+  className?: string;
 };
 
-const Chat: React.FC<Props> = ({ initialChat, isReadonly = false }) => {
+const Chat: React.FC<Props> = ({ initialChat, isReadonly = false, className }) => {
   const {
     messages,
     setMessages,
@@ -61,7 +63,7 @@ const Chat: React.FC<Props> = ({ initialChat, isReadonly = false }) => {
   ]);
 
   return (
-    <div className="flex flex-col min-w-0 overflow-y-auto">
+    <div className={clsx("flex flex-col min-w-0 overflow-y-auto", className)}>
       <Messages
         chatId={id}
         status={status}
