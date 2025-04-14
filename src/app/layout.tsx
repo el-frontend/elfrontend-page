@@ -5,6 +5,7 @@ import { Geist, Geist_Mono, Titillium_Web } from "next/font/google";
 
 import { Toaster } from "@/components/ui/sonner";
 import { MainProvider } from "@/modules/home/store";
+import { ThemeProvider } from "next-themes";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -34,12 +35,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${titillium.variable} antialiased dark overflow-x-hidden`}
+        className={`${geistSans.variable} ${geistMono.variable} ${titillium.variable} antialiased overflow-x-hidden`}
       >
         <MainProvider>
-          <MainLayout>{children}</MainLayout>
+          <ThemeProvider
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+            attribute="class"
+          >
+            <MainLayout>{children}</MainLayout>
+          </ThemeProvider>
         </MainProvider>
         <Toaster />
         <Analytics />

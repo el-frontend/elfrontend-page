@@ -1,6 +1,10 @@
+"use client";
+
 import ElFrontendLogo from "@/components/icons/logo";
 import SocialList from "@/components/social/social-list";
+import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
+import ThemeSwitcher from "./theme-switcher";
 
 const Navbar = () => {
   return (
@@ -10,11 +14,15 @@ const Navbar = () => {
         href="/"
       >
         <ElFrontendLogo className="h-6 w-auto" />
-        <span className="text-[#9641FA] text-xl font-medium hover:text-white transition-colors duration-500">
+        <span className="text-purple-700 dark:text-purple-600 text-xl font-medium dark:hover:text-white transition-colors duration-500">
           ElFrontend
         </span>
       </Link>
-      <SocialList />
+      <div className="flex justify-center items-center gap-5">
+        <SocialList />
+        <Separator className="!h-6" orientation="vertical" />
+        <ThemeSwitcher />
+      </div>
     </nav>
   );
 };

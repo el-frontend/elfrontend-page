@@ -2,7 +2,7 @@ const WelcomeMessage = () => {
   return (
     <div className="my-2">
       <div>
-        <pre className="font-mono text-xs sm:text-sm text-purple-600">
+        <pre className="font-mono text-xs sm:text-sm text-primary dark:text-purple-600  font-bold">
           {`
   ______ _ ______               _                 _ 
  ${"|"}  ____${"|"} ${"|"}  ____${"|"}             ${"|"} ${"|"}               ${"|"} ${"|"}

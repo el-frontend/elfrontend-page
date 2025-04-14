@@ -9,7 +9,7 @@ const SocialList = () => {
           href={social.url}
           target="_blank"
           rel="noreferrer"
-          className={`${social.className} hover:transform hover:scale-110 transition-transform duration-500`}
+          className={`${social.className} hover:transform hover:scale-110 transition-transform duration-500 text-primary`}
         >
           {social.icon}
         </a>

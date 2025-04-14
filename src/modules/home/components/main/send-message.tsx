@@ -33,11 +33,11 @@ const SendMessage = () => {
     }
   };
   return (
-    <div className="bg-background border border-muted rounded-md overflow-hidden w-full  flex flex-col justify-between max-h-full">
+    <div className="bg-card dark:bg-background shadow border dark:border-muted rounded-md overflow-hidden w-full  flex flex-col justify-between max-h-full">
       <div className="flex-grow p-4 flex flex-col gap-2">
         <Textarea
           name="email_body"
-          className="w-full min-h-32 h-full bg-muted focus-visible:ring-purple-500 focus-visible:ring-[1px] p-4"
+          className="w-full min-h-32 h-full bg-card dark:bg-muted focus-visible:ring-purple-500 focus-visible:ring-[1px] p-4"
           rows={12}
           value={message}
           placeholder="Contact me, ask me anything"
@@ -71,7 +71,7 @@ const SendMessage = () => {
         </Button>
       </div>
       <div className="w-full p-[1px]">
-        <div className="bg-main-gradient border border-muted rounded-md py-6 mt-4 flex flex-col gap-2 justify-center items-center">
+        <div className="bg-main-gradient border dark:border-muted rounded-md py-6 mt-4 flex flex-col gap-2 justify-center items-center">
           <p className="text-sm text-foreground text-center">
             Do you want to know more about me?
           </p>

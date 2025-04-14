@@ -5,7 +5,7 @@ import { Code, FolderOpen, User, Video } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 
 const buttonClass =
-  "border hover:border hover:border-purple-500 hover:transition hover:duration-700";
+  "border hover:border hover:border-purple-500 hover:transition hover:duration-700 bg-secondary border-purple-200 dark:border-inherit text-primary";
 
 const NavigationTabs = () => {
   const { push } = useRouter();

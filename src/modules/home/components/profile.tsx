@@ -16,8 +16,8 @@ const Profile = () => {
         className="rounded-full"
       />
       <div className="flex flex-col items-start justify-center gap-1">
-        <h3 className="text-primary text-xl font-normal">Carlos Chao Cortes</h3>
-        <p className="text-gray-500 text-md">@ElFrontend</p>
+        <h3 className="text-primary text-xl font-bold">Carlos Chao Cortes</h3>
+        <p className="text-gray-700 dark:text-gray-400 text-md">@ElFrontend</p>
       </div>
     </section>
   );

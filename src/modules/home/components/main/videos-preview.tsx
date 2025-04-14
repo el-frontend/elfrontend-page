@@ -9,7 +9,7 @@ const VideosPreview = async () => {
   const lastVideos = await lastYoutubeVideos();
 
   return (
-    <div className="bg-background border border-muted rounded-md overflow-hidden w-full  flex flex-col justify-between">
+    <div className="bg-card dark:bg-background shadow border dark:border-muted rounded-md overflow-hidden w-full  flex flex-col justify-between">
       <div className="md:col-span-1">
         {lastVideos.length === 0 ? (
           <VideoPreviewSkeleton />
@@ -19,7 +19,7 @@ const VideosPreview = async () => {
               return (
                 <SpotlightCard
                   key={video.id.videoId}
-                  className="bg-main-gradient rounded-lg overflow-hidden"
+                  className="dark:bg-main-gradient rounded-lg overflow-hidden"
                 >
                   <div className="relative">
                     <Image
@@ -47,12 +47,12 @@ const VideosPreview = async () => {
         <div className="w-full p-[1px]">
           <div className="bg-main-gradient border border-muted rounded-md p-3 mt-8 flex flex-col gap-2 justify-center items-center">
             <div className="flex items-center gap-2">
-              <div className="w-5 h-5 border border-[#27272a] rounded flex items-center justify-center">
+              <div className="w-5 h-5 rounded flex items-center justify-center">
                 <YoutubeIcon className="size-5" />
               </div>
               <span className="text-md">Videos</span>
             </div>
-            <p className="text-xs text-muted-foreground text-center">
+            <p className="text-xs dark:text-muted-foreground text-center">
               See my latest videos
             </p>
           </div>
