@@ -15,7 +15,11 @@ type Props = {
   className?: string;
 };
 
-const Chat: React.FC<Props> = ({ initialChat, isReadonly = false, className }) => {
+const Chat: React.FC<Props> = ({
+  initialChat,
+  isReadonly = false,
+  className,
+}) => {
   const {
     messages,
     setMessages,
@@ -43,24 +47,11 @@ const Chat: React.FC<Props> = ({ initialChat, isReadonly = false, className }) =
         id: crypto.randomUUID(),
         role: "user",
         content: initialChat,
-        experimental_attachments: [
-          {
-            name: "resume.md",
-            url: `${process.env.NEXT_PUBLIC_APP_URL}/resume.md`,
-            contentType: "text/markdown",
-          },
-        ],
       });
     }
   }, [initialChat]);
 
-  const [attachments, setAttachments] = useState<Attachment[]>([
-    {
-      name: "resume.md",
-      url: `${process.env.NEXT_PUBLIC_APP_URL}/resume.md`,
-      contentType: "text/markdown",
-    },
-  ]);
+  const [attachments, setAttachments] = useState<Attachment[]>([]);
 
   return (
     <div className={clsx("flex flex-col min-w-0 overflow-y-auto", className)}>

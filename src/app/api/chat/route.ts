@@ -5,6 +5,7 @@ import {
   getYoutubePopularVideos,
   searchYoutube,
 } from "@/server/ai/tools/youtube";
+import { getDataBase64FromUrl } from "@/server/utils/file";
 
 import { google } from "@ai-sdk/google";
 
@@ -13,6 +14,7 @@ import {
   smoothStream,
   streamText,
   UIMessage,
+  UserContent,
 } from "ai";
 
 // Allow streaming responses up to 30 seconds
@@ -26,6 +28,21 @@ export async function POST(request: Request) {
       messages: Array<UIMessage>;
     } = await request.json();
 
+
+    const contextFile = await getDataBase64FromUrl(
+      `${process.env.NEXT_PUBLIC_APP_URL}/resume.md`
+    );
+
+    const content: UserContent = [];
+
+    if (contextFile) {
+      content.push({
+        type: "file",
+        data: contextFile,
+        mimeType: "text/markdown",
+      });
+    }
+
     return createDataStreamResponse({
       execute: (dataStream) => {
         const googleModel = google("gemini-2.0-flash");
@@ -33,7 +50,13 @@ export async function POST(request: Request) {
         const result = streamText({
           model: googleModel,
           system: elFrontendPrompt,
-          messages,
+          messages: [
+            {
+              role: "user",
+              content: contextFile,
+            },
+            ...messages,
+          ],
           maxSteps: 5,
           experimental_transform: smoothStream({ chunking: "word" }),
           experimental_generateMessageId: generateUUID,
