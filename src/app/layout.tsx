@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Titillium_Web } from "next/font/google";
 
 import { Toaster } from "@/components/ui/sonner";
+import { generateMetadata } from "@/lib/metadata";
 import { MainProvider } from "@/modules/home/store";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
@@ -24,10 +25,7 @@ const titillium = Titillium_Web<"--font-titillium-web">({
   weight: ["400", "600", "700"],
 });
 
-export const metadata: Metadata = {
-  title: "ElFrontend",
-  description: "ElFrontend - Official Website",
-};
+export const metadata: Metadata = generateMetadata();
 
 export default function RootLayout({
   children,
