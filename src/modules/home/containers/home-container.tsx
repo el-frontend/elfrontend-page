@@ -12,7 +12,7 @@ import Profile from "../components/profile";
 
 const HomeContainer = () => {
   return (
-    <div className="flex flex-col items-center justify-center gap-12z w-full h-full ">
+    <div className=" container mx-auto px-4 sm:px-0 py-8 flex flex-col items-center justify-center gap-12z w-full h-full ">
       <div className="flex flex-col gap-5 w-full h-full max-w-2xl items-center justify-center z-10">
         <Profile />
         <CanIDo />

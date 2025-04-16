@@ -1,15 +1,15 @@
 "use client";
 
+import { TerminalContextProvider } from "react-terminal";
 import SendMessage from "./send-message";
 import SlashCommands from "./slash-commands";
 
 import dynamic from "next/dynamic";
-import { TerminalContextProvider } from "react-terminal";
 
 const Terminal = dynamic(() => import("./terminal/terminal"), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-full bg-main-gradient animate-pulse rounded-md" />
+    <div className="w-full  bg-main-gradient animate-pulse rounded-md  h-160 lg:h-[calc(100vh-250px)]" />
   ),
 });
 

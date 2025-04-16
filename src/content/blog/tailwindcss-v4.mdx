@@ -1,0 +1,94 @@
+---
+title: "Tailwind CSS 3 vs. Tailwind CSS 4: ¿Qué ha cambiado y cómo afecta a tu flujo de trabajo?"
+description: "El lanzamiento de Tailwind CSS 4.0 representa una evolución significativa en el desarrollo frontend. Con una arquitectura rediseñada, mejoras de rendimiento y una experiencia más cercana a CSS nativo, esta versión transforma la forma en que los desarrolladores interactúan con el framework. Ideal para quienes vienen de Tailwind CSS 3, ofrece una nueva era más rápida, eficiente y moderna."
+image: "/images/blog/tailwind3-4.webp"
+date: "2025-01-24"
+author: "elfrontend"
+---
+
+# Tailwind CSS 4.0: El futuro del desarrollo frontend
+
+El lanzamiento de **Tailwind CSS 4.0** ha marcado un antes y un después en el mundo del desarrollo frontend. Con una arquitectura completamente renovada y nuevas características, esta versión no solo mejora el rendimiento, sino que también redefine cómo interactuamos con el framework.
+
+Si estás acostumbrado a Tailwind CSS 3, aquí te explico las principales diferencias y cómo adaptarte a esta nueva era.
+
+
+## 1. Configuración: De JavaScript a CSS
+
+En **Tailwind CSS 3**, la configuración se realizaba principalmente a través de un archivo `tailwind.config.js`, donde definías temas, plugins y rutas de contenido.
+
+En **Tailwind CSS 4**, esto ha cambiado radicalmente: ahora la configuración se hace directamente en CSS utilizando el nuevo `@theme` y `@import`.
+
+**Tailwind CSS 3:**
+
+```js
+// tailwind.config.js
+export default {
+  content: ["./src/**/*.{html,js}"],
+  theme: {
+    extend: {
+      colors: {
+        primary: "#ff0000",
+      },
+    },
+  },
+};
+```
+
+**Tailwind CSS 4:**
+
+```css
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #ff0000;
+}
+```
+
+Este enfoque **CSS-first** no solo simplifica la configuración, sino que también reduce la dependencia de JavaScript, haciendo que el framework se sienta más nativo.
+
+---
+
+## 2. Rendimiento: El motor Oxide
+
+Tailwind CSS 4 introduce el motor **Oxide**, una reescritura completa del framework que utiliza **Rust** para tareas críticas de rendimiento. Esto ha resultado en mejoras significativas:
+
+- ⚡ Hasta **10 veces más rápido** en builds completos.
+- ⚡ Hasta **100 veces más rápido** en builds incrementales (sin cambios en el CSS).
+
+En comparación, Tailwind CSS 3 ya era rápido, pero **Oxide** lleva la velocidad a otro nivel, especialmente en proyectos grandes.
+
+---
+
+## 3. Detección automática de contenido
+
+En Tailwind CSS 3, era necesario configurar manualmente las rutas de contenido en el archivo de configuración. Tailwind CSS 4 elimina este paso al detectar automáticamente los archivos de plantilla, utilizando heurísticas inteligentes para ignorar archivos binarios y carpetas ignoradas en `.gitignore`.
+
+Si necesitas agregar rutas adicionales, puedes usar la directiva `@source` en tu archivo CSS.
+
+---
+
+## 4. Nuevas características CSS modernas
+
+Tailwind CSS 4 aprovecha lo último de CSS:
+
+- ✅ **Consultas de contenedor**: Aplica estilos según el tamaño del contenedor padre.
+- ✅ **Variables CSS nativas**: Todos los tokens de diseño se exponen como variables CSS.
+- ✅ **Gradientes avanzados**: Soporte para radiales, cónicos y nuevos modos de interpolación.
+
+---
+
+## 5. Compatibilidad y migración
+
+Aunque Tailwind CSS 4 introduce cambios importantes, el equipo ha priorizado la **compatibilidad hacia atrás**. Puedes migrar gradualmente desde Tailwind CSS 3 utilizando la [guía oficial de actualización](https://tailwindcss.com/blog/tailwindcss-v4#new-high-performance-engine) y herramientas automatizadas.
+
+---
+
+## 🚀 Conclusión
+
+Tailwind CSS 4 no es solo una actualización, es una **evolución**. Con un enfoque más cercano a CSS nativo, rendimiento revolucionario y características modernas, este framework sigue siendo una herramienta esencial para el desarrollo frontend.
+
+Si aún no lo has probado, te invito a explorarlo y experimentar cómo puede optimizar tu flujo de trabajo.
+
+🔗 [Ver post oficial de Tailwind CSS](https://tailwindcss.com/blog/tailwindcss-v4#new-high-performance-engine)
+
