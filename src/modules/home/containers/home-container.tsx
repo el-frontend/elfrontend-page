@@ -4,6 +4,7 @@ import CanIDo from "../components/can-i-do";
 import ChatContainer from "../components/chat/chat-container";
 import BackgroundSwitcher from "../components/main/background";
 import BeautifulCursor from "../components/main/cursor";
+import LastBlogArticles from "../components/main/last-blog-articles";
 import MainContainer from "../components/main/main-container";
 import { VideoPreviewSkeleton } from "../components/main/skeleton/video-preview-skeleton";
 import VideosPreview from "../components/main/videos-preview";
@@ -23,6 +24,11 @@ const HomeContainer = () => {
         videoPreviewComponent={
           <Suspense fallback={<VideoPreviewSkeleton />}>
             <VideosPreview />
+          </Suspense>
+        }
+        lastBlogArticles={
+          <Suspense fallback={null}>
+            <LastBlogArticles />
           </Suspense>
         }
       />

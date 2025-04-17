@@ -1,4 +1,4 @@
-import { cn, } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import "@/styles/mdx.css";
 
 import { Mdx } from "@/components/mdx-component";
@@ -74,4 +74,4 @@ const ArticleContainer: React.FC<Props> = ({ blog }) => {
   );
 };
 
-export default ArticleContainer
+export default ArticleContainer;

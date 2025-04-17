@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Code, FolderOpen, User, Video } from "lucide-react";
+import { Book, Code, FolderOpen, User, Video } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 
 const buttonClass =
@@ -46,6 +46,13 @@ const NavigationTabs = () => {
         onClick={() => onNavigate("What videos has Carlos Chao created?")}
       >
         <Video className="w-4 h-4" /> My Videos
+      </Button>
+      <Button
+        className={buttonClass}
+        variant="secondary"
+        onClick={() => push("/blog")}
+      >
+        <Book className="w-4 h-4" /> My Blog
       </Button>
     </div>
   );

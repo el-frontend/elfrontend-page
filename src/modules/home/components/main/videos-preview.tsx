@@ -1,4 +1,3 @@
-import SpotlightCard from "@/components/animations/spotlight-card/spotlight-card";
 import { YoutubeIcon } from "@/components/icons";
 import { lastYoutubeVideos } from "@/server/services/youtube";
 import Image from "next/image";
@@ -14,32 +13,30 @@ const VideosPreview = async () => {
         {lastVideos.length === 0 ? (
           <VideoPreviewSkeleton />
         ) : (
-          <div className="grid grid-cols-2 gap-6 p-2">
-            {lastVideos.slice(0, 2).map((video) => {
+          <div className="flex flex-col gap-4 p-2">
+            {lastVideos.slice(0, 3).map((video) => {
               return (
-                <SpotlightCard
+                <div
                   key={video.id.videoId}
-                  className="dark:bg-main-gradient rounded-lg overflow-hidden"
+                  className="w-full rounded-lg overflow-hidden flex gap-4 relative h-24 justify-between items-center border p-2"
                 >
-                  <div className="relative">
+                  <div className="w-22 h-22 relative aspect-square">
                     <Image
                       src={video.snippet.thumbnails.high.url}
                       alt={video.snippet.title}
-                      width={400}
-                      height={250}
-                      className="w-full object-cover"
+                      fill
+                      className="object-cover"
                     />
                   </div>
-                  <div className="p-4">
-                    <Link
-                      className="font-bold text-sm text-primary hover:underline"
-                      href={`https://www.youtube.com/watch?v=${video.id.videoId}`}
-                      target="_blank"
-                    >
-                      {video.snippet.title}
-                    </Link>
-                  </div>
-                </SpotlightCard>
+
+                  <Link
+                    className="font-bold text-xs text-primary hover:underline line-clamp-4"
+                    href={`https://www.youtube.com/watch?v=${video.id.videoId}`}
+                    target="_blank"
+                  >
+                    {video.snippet.title}
+                  </Link>
+                </div>
               );
             })}
           </div>
@@ -52,9 +49,13 @@ const VideosPreview = async () => {
               </div>
               <span className="text-md">Videos</span>
             </div>
-            <p className="text-xs dark:text-muted-foreground text-center">
-              See my latest videos
-            </p>
+            <Link
+              href="https://youtube.com/@ElFrontend"
+              target="_blank"
+              className="text-xs dark:text-muted-foreground text-center hover:underline cursor-pointer"
+            >
+              See all my videos
+            </Link>
           </div>
         </div>
       </div>

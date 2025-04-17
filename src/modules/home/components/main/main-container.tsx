@@ -15,9 +15,10 @@ const Terminal = dynamic(() => import("./terminal/terminal"), {
 
 type Props = {
   videoPreviewComponent: React.ReactNode;
+  lastBlogArticles: React.ReactNode;
 };
 
-const MainContainer = ({ videoPreviewComponent }: Props) => {
+const MainContainer = ({ videoPreviewComponent, lastBlogArticles }: Props) => {
   return (
     <div className="grid grid-cols-1 grid-rows-4 lg:grid-cols-2 lg:grid-rows-2 gap-6 w-full h-full justify-start items-start z-10">
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-2 max-h-full h-full">
@@ -29,7 +30,10 @@ const MainContainer = ({ videoPreviewComponent }: Props) => {
           <Terminal />
         </TerminalContextProvider>
       </div>
-      <div className="flex flex-col max-h-fit">{videoPreviewComponent}</div>
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-2 max-h-full h-full">
+        {lastBlogArticles}
+        {videoPreviewComponent}
+      </div>
     </div>
   );
 };
