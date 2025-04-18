@@ -69,6 +69,11 @@ const Terminal = () => {
               themeColor: "#000000",
               themePromptColor: "#a917a8",
             },
+            system: {
+              themeBGColor: "transparent",
+              themeColor: "#FFFEFC",
+              themePromptColor: "#a917a8",
+            },
           }}
           theme={theme}
         />
