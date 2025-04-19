@@ -1,5 +1,6 @@
 import MainLayout from "@/layout/main";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Titillium_Web } from "next/font/google";
 
@@ -49,6 +50,7 @@ export default function RootLayout({
         </MainProvider>
         <Toaster />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
