@@ -1,0 +1,83 @@
+---
+title: "Cookie Store API: La nueva forma moderna de manejar cookies en JavaScript y React"
+description: "La gestión de cookies en JavaScript ha sido históricamente complicada. El uso de document.cookie es sincrónico, propenso a errores y difícil de manejar, especialmente cuando se trabaja con múltiples cookies. Afortunadamente, la nueva Cookie Store API ofrece una alternativa moderna, asíncrona y más sencilla para interactuar con las cookies en el navegador."
+image: "/images/blog/new-cookie-api.webp"
+date: "2025-04-21"
+author: "elfrontend"
+---
+
+# **🍪 Cookie Store API: La nueva forma moderna de manejar cookies en JavaScript y React**
+
+La gestión de cookies en JavaScript ha sido históricamente complicada. El uso de document.cookie es sincrónico, propenso a errores y difícil de manejar, especialmente cuando se trabaja con múltiples cookies. Afortunadamente, la nueva **Cookie Store API** ofrece una alternativa moderna, asíncrona y más sencilla para interactuar con las cookies en el navegador.
+
+## **🚀 ¿Qué es la Cookie Store API?**
+
+La Cookie Store API es una interfaz asíncrona que permite leer, escribir y eliminar cookies de manera más eficiente. Además, permite escuchar cambios en las cookies, lo cual es especialmente útil para aplicaciones que necesitan reaccionar ante modificaciones en el estado del usuario. Esta API está disponible en navegadores basados en Chromium, como Chrome y Edge.
+
+## **📦 Ventajas clave**
+
+- **Asíncrona**: No bloquea el hilo principal, mejorando el rendimiento.
+- **Accesible desde Service Workers**: Permite manejar cookies incluso cuando la aplicación no está activa.
+- **Eventos de cambio**: Posibilidad de reaccionar ante modificaciones en las cookies.
+- **Manejo más sencillo**: Métodos directos para establecer, obtener y eliminar cookies.
+
+## **⚙️ Ejemplo práctico en React: Gestión de preferencias de idioma**
+
+Supongamos que queremos guardar la preferencia de idioma de un usuario en una cookie y reaccionar cuando esta cambie.
+
+### **1. Establecer la cookie de idioma**
+
+```jsx
+// Establecer la cookie de idioma a 'es' (español)
+await cookieStore.set('idioma', 'es');
+```
+
+### **2. Obtener la cookie de idioma**
+
+```jsx
+// Obtener el valor de la cookie 'idioma'
+const cookie = await cookieStore.get('idioma');
+console.log(cookie?.value); // 'es'
+```
+
+### **3. Eliminar la cookie de idioma**
+
+```jsx
+// Eliminar la cookie 'idioma'
+await cookieStore.delete('idioma');
+```
+
+### **4. Escuchar cambios en la cookie de idioma**
+
+```jsx
+// Escuchar cambios en la cookie 'idioma'
+cookieStore.addEventListener('change', (event) => {
+  for (const cookie of event.changed) {
+    if (cookie.name === 'idioma') {
+      console.log(`Idioma cambiado a: ${cookie.value}`);
+    }
+  }
+  for (const cookie of event.deleted) {
+    if (cookie.name === 'idioma') {
+      console.log('La cookie de idioma ha sido eliminada');
+    }
+  }
+});
+```
+
+## **🧪 Consideraciones importantes**
+
+- **Compatibilidad**: Actualmente, la Cookie Store API está disponible en navegadores basados en Chromium y Safari. Verifica la compatibilidad antes de implementarla en producción.
+- **Contexto seguro**: Solo funciona en contextos seguros (HTTPS).
+- **Soporte en Service Workers**: La API también está disponible en Service Workers, lo que permite manejar cookies incluso cuando la aplicación no está activa.
+
+## **🎯 Conclusión**
+
+La Cookie Store API representa un avance significativo en la gestión de cookies en aplicaciones web modernas. Su naturaleza asíncrona, combinada con la capacidad de escuchar cambios y su integración con Service Workers, la convierten en una herramienta poderosa para desarrolladores que buscan una forma más eficiente y reactiva de manejar cookies.
+
+**Referencias:**
+
+- [MDN Web Docs: Cookie Store API](https://developer.mozilla.org/en-US/docs/Web/API/Cookie_Store_API)
+- [Raymond Camden: Using the Cookie Store API](https://www.raymondcamden.com/2023/04/12/using-the-cookie-store-api)
+- [Telerik: Modern Cookie Management with the Cookie Store API](https://www.telerik.com/blogs/modern-cookie-management-cookie-store-api)
+- [Fully Stacked: Cookie Store API](https://fullystacked.net/cookiestore-api/)
