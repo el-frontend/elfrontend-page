@@ -73,6 +73,7 @@ const components = {
         "font-medium underline text-primary underline-offset-4",
         className,
       )}
+      target="_blank"
       {...props}
     />
   ),
