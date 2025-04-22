@@ -17,7 +17,7 @@ const VideosPreview = async () => {
             return (
               <div
                 key={video.id.videoId}
-                className="w-full rounded-lg overflow-hidden flex gap-4 relative h-24 justify-between items-center border p-2"
+                className="w-full rounded-lg overflow-hidden flex gap-4 relative h-24 justify-between items-center border p-2 border-muted"
               >
                 <div className="w-22 h-22 relative aspect-square">
                   <Image
@@ -29,7 +29,7 @@ const VideosPreview = async () => {
                 </div>
 
                 <Link
-                  className="font-bold text-xs text-primary hover:underline line-clamp-4"
+                  className="font-bold text-xs text-primary hover:underline line-clamp-4 text-left grow"
                   href={`https://www.youtube.com/watch?v=${video.id.videoId}`}
                   target="_blank"
                 >

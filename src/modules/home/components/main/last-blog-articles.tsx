@@ -15,7 +15,7 @@ const LastBlogArticles = async () => {
           blogs.slice(0, 3).map((blog) => (
             <div
               key={blog.slug}
-              className="w-full rounded-lg overflow-hidden flex gap-4 relative h-24 justify-between items-center border p-2"
+              className="w-full rounded-lg overflow-hidden flex gap-4 relative h-24 justify-between items-center border  border-muted p-2"
             >
               <div className="w-22 h-22 relative aspect-square">
                 <Image
@@ -26,7 +26,7 @@ const LastBlogArticles = async () => {
                 />
               </div>
               <Link
-                className="font-bold text-xs text-primary hover:underline line-clamp-4"
+                className="font-bold text-xs text-primary hover:underline line-clamp-4 text-left grow"
                 href={blog.slug}
               >
                 {blog.title}

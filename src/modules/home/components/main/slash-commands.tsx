@@ -78,7 +78,7 @@ const SlashCommands = () => {
             </div>
           </motion.div>
         </div>
-        <div className="flex items-center gap-2 p-2 bg-main-gradient border rounded-l-md w-full min-h-9">
+        <div className="flex items-center gap-2 p-2 bg-main-gradient border border-muted rounded-l-md w-full min-h-9">
           <Sparkles className="w-4 h-4 text-muted-foreground" />
           <TypingAnimation
             className="text-primary dark:text-muted-foreground text-sm font-medium"

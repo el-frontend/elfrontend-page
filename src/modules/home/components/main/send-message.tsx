@@ -33,7 +33,7 @@ const SendMessage = () => {
     }
   };
   return (
-    <div className="bg-card dark:bg-background shadow border dark:border-muted rounded-md overflow-hidden w-full  flex flex-col justify-between max-h-full">
+    <div className="bg-card dark:bg-background shadow border dark:border-muted rounded-md overflow-hidden w-full  flex flex-col justify-between max-h-full" id="contact">
       <div className="flex-grow p-4 flex flex-col gap-2">
         <Textarea
           name="email_body"
