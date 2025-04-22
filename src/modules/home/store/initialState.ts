@@ -13,7 +13,7 @@ const initialState: IMainStore = {
   // isEnableBeautifulCursor: localStorage.getItem("beautiful-cursor") === "true",
   // background: (localStorage.getItem("background") ?? "none") as BackgroundType,
   isEnableBeautifulCursor: false,
-  background: "none",
+  background: "beams",
 };
 
 export default initialState;
