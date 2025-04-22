@@ -1,14 +1,15 @@
 "use client";
 
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { useRouter, useSearchParams } from "next/navigation";
 import SnakeGame from "./snake";
+import Wordle from "./wordle/wordle";
 
 const GameModal = () => {
   const query = useSearchParams();
@@ -24,6 +25,8 @@ const GameModal = () => {
     switch (game) {
       case "snake":
         return <SnakeGame onExit={closeGame} />;
+      case "wordle":
+        return <Wordle />;
     }
   };
 
@@ -34,6 +37,7 @@ const GameModal = () => {
           <DialogTitle>Game</DialogTitle>
           <DialogDescription>
             {game === "snake" && "Play Snake"}
+            {game === "wordle" && "Play Wordle"}
           </DialogDescription>
         </DialogHeader>
         {getGame()}

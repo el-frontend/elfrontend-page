@@ -1,6 +1,9 @@
+"use client";
+
 import { useMainContext } from "@/modules/home/store";
 import { BackgroundType } from "@/modules/home/store/types";
 import { askQuestion } from "@/server/ai/google/google-model";
+import { useRouter } from "next/navigation";
 import React from "react";
 import Markdown from "react-markdown";
 import { TerminalContext } from "react-terminal";
@@ -12,6 +15,8 @@ export const useCommands = () => {
   const { dispatch } = useMainContext();
   const { setBufferedContent, setTemporaryContent } =
     React.useContext(TerminalContext);
+  const router = useRouter();
+
   if (!setBufferedContent || !setTemporaryContent) {
     throw new Error("TerminalContext is not available");
   }
@@ -86,6 +91,10 @@ export const useCommands = () => {
       payload: background as BackgroundType,
     });
     return `Background set to ${background}`;
+  };
+
+  const launchGame = (game: string) => {
+    router.push(`?game=${game}`);
   };
 
   return {
@@ -196,6 +205,8 @@ export const useCommands = () => {
         cursor <br />
         <strong className="text-purple-500">background</strong> - set background
         can be none, grid, beams, aurora <br />
+        <strong className="text-purple-500">game</strong> - launch a game,
+        Available games: snake, wordle <br />
       </span>
     ),
     vim: (filename: string) => {
@@ -253,5 +264,6 @@ export const useCommands = () => {
     htop: () => {
       return <HtopSimulation />;
     },
+    game: launchGame,
   };
 };

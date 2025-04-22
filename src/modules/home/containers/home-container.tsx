@@ -7,9 +7,12 @@ import BeautifulCursor from "../components/main/cursor";
 import LastBlogArticles from "../components/main/last-blog-articles";
 import MainContainer from "../components/main/main-container";
 import { VideoPreviewSkeleton } from "../components/main/skeleton/video-preview-skeleton";
+import GameModal from "../components/main/terminal/games/game-modal";
 import VideosPreview from "../components/main/videos-preview";
 import NavigationTabs from "../components/navigation-tabs";
 import Profile from "../components/profile";
+
+
 
 const HomeContainer = () => {
   return (
@@ -37,6 +40,9 @@ const HomeContainer = () => {
       </Suspense>
       <BeautifulCursor />
       <BackgroundSwitcher />
+      <Suspense fallback={null}>
+        <GameModal />
+      </Suspense>
     </div>
   );
 };
