@@ -1,0 +1,168 @@
+---
+title: "Principios y Patrones Fundamentales en el Diseño de Software"
+description: "El diseño de software implica más que solo escribir código funcional; requiere estructurar el código de manera que sea robusto, mantenible y escalable."
+image: "/images/blog/software-principles-design-patterns.webp"
+date: "2025-05-04"
+author: "elfrontend"
+---
+
+El diseño de software implica más que solo escribir código funcional; requiere estructurar el código de manera que sea robusto, mantenible y escalable. Los patrones de diseño son herramientas importantes que proporcionan soluciones probadas a problemas comunes encontrados durante el desarrollo de software. Actúan como plantillas o planos personalizables para resolver problemas de diseño particulares en el código. Además, los principios de diseño, como los principios SOLID, guían en la creación de software con consideraciones para el mantenimiento y la extensión a medida que crece el proyecto. Comprender y aplicar estos patrones y principios ayuda a los desarrolladores a crear sistemas de software más eficientes, flexibles y fáciles de mantener.
+
+## Clasificación de Patrones de Diseño
+
+Los patrones de diseño se clasifican típicamente por su propósito en tres grupos:
+
+1. **Creacionales**
+2. **Estructurales**
+3. **De comportamiento**
+
+---
+
+## Patrones Creacionales
+
+Se centran en el proceso de creación de objetos o problemas relacionados con la creación de objetos.
+
+### Factory Method Pattern
+
+Proporciona una interfaz para crear objetos en una superclase, permitiendo que las subclases alteren el tipo de objetos que se crearán. Es útil cuando los tipos exactos de objetos a crear pueden variar.
+
+### Abstract Factory Pattern
+
+Proporciona una interfaz para crear familias de objetos relacionados o dependientes sin especificar sus clases concretas.
+
+Componentes:
+
+* **Abstract Factory**: Define una interfaz para crear familias de productos relacionados.
+* **Concrete Factories**: Implementan la interfaz para crear productos específicos.
+* **Abstract Products**: Definen métodos comunes para una familia de productos.
+* **Concrete Products**: Instancias reales de los productos creados por las fábricas.
+
+Ejemplo: Interfaces como `CarFactory`, `Car`, `CarSpecification`, y clases como `NorthAmericaCarFactory`, `EuropeCarFactory`, `Sedan`, `Hatchback`.
+
+### Singleton Pattern
+
+Asegura que una clase tenga solo una instancia y proporciona un punto de acceso global a ella. Ideal para gestionar conexiones a bases de datos o configuraciones.
+
+### Prototype Pattern
+
+Permite la creación de nuevos objetos copiando un objeto existente (prototipo). Útil para clases que se especifican en tiempo de ejecución.
+
+### Builder Pattern
+
+Permite construir objetos complejos paso a paso, separando su construcción de su representación. Ofrece flexibilidad, reutilización y control sobre el proceso.
+
+Ejemplo: Una clase `House` construida con una clase interna `HouseBuilder` con métodos encadenables.
+
+---
+
+## Patrones Estructurales
+
+Se centran en cómo se organizan las clases y los objetos para formar estructuras funcionales más grandes.
+
+### Adapter Pattern
+
+Permite usar la interfaz de una clase existente como una interfaz adicional, actuando como un puente entre interfaces incompatibles.
+
+### Bridge Pattern
+
+Separa la abstracción de la implementación. Tiene dos partes: abstracción e implementación.
+
+### Composite Pattern
+
+Permite componer objetos en estructuras de árbol para representar jerarquías parte-todo. Hojas y nodos comparten una interfaz común.
+
+### Decorator Pattern
+
+Permite añadir comportamiento a objetos individuales dinámicamente, sin afectar otros objetos de la misma clase.
+
+### Facade Pattern
+
+Proporciona una interfaz unificada a un conjunto de interfaces en un subsistema. Simplifica el uso de sistemas complejos.
+
+### Flyweight Pattern
+
+Optimiza el uso de memoria compartiendo un estado común entre múltiples objetos. Reduce la cantidad de objetos creados.
+
+### Proxy Pattern
+
+Utiliza un objeto sustituto para controlar el acceso a otro objeto. Útil para control de acceso, carga perezosa o registro.
+
+---
+
+## Patrones de Comportamiento
+
+Describen patrones de comunicación entre objetos y asignación de responsabilidades.
+
+### Chain of Responsibility Pattern
+
+Permite que una solicitud pase a través de una cadena de objetos para ser procesada. Cada objeto decide si la maneja o la pasa al siguiente.
+
+### Command Pattern
+
+Transforma una solicitud en un objeto independiente con toda su información. Puede pasarse, almacenarse y ejecutarse posteriormente.
+
+### Interpreter Pattern
+
+Define una representación gramatical para un lenguaje y un intérprete para tratar con dicha gramática.
+
+### Iterator Pattern
+
+Permite acceder secuencialmente a los elementos de una colección sin exponer su estructura interna.
+
+### Mediator Pattern
+
+Introduce una capa intermedia para que la interacción entre objetos ocurra a través de un mediador, reduciendo el acoplamiento.
+
+### Memento Pattern
+
+Permite restaurar el estado de un objeto a su estado anterior. Útil para implementar puntos de control.
+
+### Observer Pattern
+
+Establece una dependencia uno-a-muchos entre objetos. Cuando el sujeto cambia, notifica automáticamente a los observadores.
+
+### State Pattern
+
+Modifica el comportamiento de un objeto según su estado interno. El comportamiento cambia al cambiar el objeto de estado.
+
+### Strategy Pattern
+
+Permite seleccionar algoritmos en tiempo de ejecución. Encapsula una familia de algoritmos en clases distintas.
+
+### Template Method Pattern
+
+Define un algoritmo como un esqueleto en una clase padre. Las subclases implementan los detalles específicos.
+
+### Visitor Pattern
+
+Permite realizar operaciones sobre un conjunto de objetos similares sin cambiar sus clases.
+
+---
+
+## Principios S.O.L.I.D.
+
+Son cinco principios para diseñar software orientado a objetos mantenible y extensible. Propuestos por Robert C. Martin (Uncle Bob):
+
+### S - Single Responsibility Principle (SRP)
+
+Una clase debe tener una sola razón para cambiar, es decir, una única responsabilidad. Ejemplo: separar la lógica de cálculo de la lógica de presentación.
+
+### O - Open/Closed Principle (OCP)
+
+Una clase debe estar abierta para extensión, pero cerrada para modificación. Se logra mediante la abstracción y polimorfismo.
+
+### L - Liskov Substitution Principle (LSP)
+
+Una subclase debe ser sustituible por su clase base sin alterar el comportamiento esperado.
+
+### I - Interface Segregation Principle (ISP)
+
+Una clase no debe verse forzada a implementar interfaces que no utiliza. Mejor usar varias interfaces específicas.
+
+### D - Dependency Inversion Principle (DIP)
+
+Los módulos de alto nivel no deben depender de los de bajo nivel. Ambos deben depender de abstracciones.
+
+---
+
+Aplicar patrones de diseño y principios SOLID no solo mejora la calidad del software, sino que facilita su evolución a largo plazo. Son la base de una arquitectura sólida y profesional.
