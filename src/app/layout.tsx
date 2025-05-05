@@ -1,6 +1,7 @@
 import MainLayout from "@/layout/main";
+import { GoogleTagManager } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from '@vercel/speed-insights/next';
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Titillium_Web } from "next/font/google";
 
@@ -51,6 +52,7 @@ export default function RootLayout({
         <Toaster />
         <Analytics />
         <SpeedInsights />
+        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GA_API_KEY ?? ""} />
       </body>
     </html>
   );
