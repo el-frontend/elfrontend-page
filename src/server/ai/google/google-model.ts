@@ -12,7 +12,7 @@ import {
 } from "../tools/youtube";
 
 export const askQuestion = async (question: string) => {
-  const googleModel = google("gemini-2.0-flash");
+  const googleModel = google("gemini-2.5-flash");
 
   const contextFile = await getDataBase64FromUrl(
     `${process.env.NEXT_PUBLIC_APP_URL}/resume.md`
@@ -62,7 +62,7 @@ export const askQuestion = async (question: string) => {
 export const askQuestionStream = async (
   question: string
 ): Promise<StreamableValue<string, unknown>> => {
-  const googleModel = google("gemini-2.0-flash");
+  const googleModel = google("gemini-2.5-flash");
 
   const contextFile = await getDataBase64FromUrl(
     `${process.env.NEXT_PUBLIC_APP_URL}/resume.md`
@@ -112,7 +112,7 @@ export const askQuestionStream = async (
 export const askStreaming = async (
   messages: CoreMessage[]
 ): Promise<Response> => {
-  const googleModel = google("gemini-2.0-flash");
+  const googleModel = google("gemini-2.5-flash");
 
   const result = streamText({
     model: googleModel,

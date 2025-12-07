@@ -45,7 +45,7 @@ export async function POST(request: Request) {
 
     return createDataStreamResponse({
       execute: (dataStream) => {
-        const googleModel = google("gemini-2.0-flash");
+        const googleModel = google("gemini-2.5-flash");
 
         const result = streamText({
           model: googleModel,

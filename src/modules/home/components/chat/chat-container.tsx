@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { useRouter, useSearchParams } from "next/navigation";
 import Chat from "./chat";
+import { ChatRateLimitProvider } from "./store/chat-context";
 
 const ChatContainer = () => {
   const query = useSearchParams();
@@ -27,7 +28,9 @@ const ChatContainer = () => {
           <DialogTitle>ElFrontend Chat</DialogTitle>
           <DialogDescription>Ask me anything, I&apos;ll try my best to answer</DialogDescription>
         </DialogHeader>
-        <Chat initialChat={chat} isReadonly={false} />
+        <ChatRateLimitProvider>
+          <Chat initialChat={chat} isReadonly={false} />
+        </ChatRateLimitProvider>
       </DialogContent>
     </Dialog>
   );

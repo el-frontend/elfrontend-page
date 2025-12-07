@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Messages } from "./messages";
 import { MultimodalInput } from "./multimodal-input";
+import { useChatRateLimit } from "./store/chat-context";
 
 type Props = {
   initialChat: string;
@@ -20,6 +21,8 @@ const Chat: React.FC<Props> = ({
   isReadonly = false,
   className,
 }) => {
+  const { incrementMessage, remainingMessages, resetIn } = useChatRateLimit();
+
   const {
     messages,
     setMessages,
@@ -43,18 +46,37 @@ const Chat: React.FC<Props> = ({
 
   useEffect(() => {
     if (initialChat) {
+      if (!incrementMessage()) {
+        toast.error(`Message limit reached. Resets in ${resetIn}`);
+        return;
+      }
       append({
         id: crypto.randomUUID(),
         role: "user",
         content: initialChat,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialChat]);
 
   const [attachments, setAttachments] = useState<Attachment[]>([]);
 
+  const handleSubmitWithLimit: typeof handleSubmit = (event, chatRequestOptions) => {
+    event?.preventDefault?.();
+    if (!incrementMessage()) {
+      toast.error(`Message limit reached (${remainingMessages}/10). Resets in ${resetIn}`);
+      return;
+    }
+    handleSubmit(event, chatRequestOptions);
+  };
+
   return (
     <div className={clsx("flex flex-col min-w-0 overflow-y-auto", className)}>
+      {/* Rate limit indicator */}
+      <div className="text-xs text-muted-foreground text-center py-1">
+        {remainingMessages}/10 messages remaining • Resets in {resetIn}
+      </div>
+      
       <Messages
         chatId={id}
         status={status}
@@ -64,13 +86,16 @@ const Chat: React.FC<Props> = ({
         isReadonly={isReadonly}
         isArtifactVisible={false}
       />
-      <form className="flex mx-auto px-4 bg-background pb-4 md:pb-6 gap-2 w-full md:max-w-3xl">
+      <form 
+        onSubmit={handleSubmitWithLimit}
+        className="flex mx-auto px-4 bg-background pb-4 md:pb-6 gap-2 w-full md:max-w-3xl"
+      >
         {!isReadonly && (
           <MultimodalInput
             chatId={id}
             input={input}
             setInput={setInput}
-            handleSubmit={handleSubmit}
+            handleSubmit={handleSubmitWithLimit}
             status={status}
             stop={stop}
             attachments={attachments}

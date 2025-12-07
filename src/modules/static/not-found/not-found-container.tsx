@@ -1,4 +1,5 @@
 import Chat from "@/modules/home/components/chat/chat";
+import { ChatRateLimitProvider } from "@/modules/home/components/chat/store/chat-context";
 import Link from "next/link";
 
 const NotFoundContainer = () => {
@@ -11,7 +12,9 @@ const NotFoundContainer = () => {
         <Link href="/" className="text-primary underline">Return Home</Link>
       </h2>
 
-      <Chat initialChat={""} isReadonly={false} className="w-full h-full" />
+      <ChatRateLimitProvider>
+        <Chat initialChat={""} isReadonly={false} className="w-full h-full" />
+      </ChatRateLimitProvider>
     </div>
   );
 };

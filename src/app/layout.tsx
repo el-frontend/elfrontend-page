@@ -52,6 +52,7 @@ export default function RootLayout({
         <Toaster />
         <Analytics />
         <SpeedInsights />
+        {/* Add Google Tag Manager */}
         {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID &&
           process.env.NODE_ENV === "production" && (
             <GoogleTagManager
