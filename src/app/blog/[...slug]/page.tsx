@@ -1,6 +1,7 @@
 import { blogs as allBlogs } from "#site/content";
 import "@/styles/mdx.css";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 import ArticleContainer from "@/modules/blog/container/article-container";
 
@@ -52,7 +53,7 @@ export default async function BlogPageItem({ params }: BlogPageItemProps) {
   const blog = await getBlogFromParams(await params);
 
   if (!blog) {
-    return {};
+    notFound();
   }
 
   return <ArticleContainer blog={blog} />;
