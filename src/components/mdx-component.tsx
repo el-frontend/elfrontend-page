@@ -4,6 +4,7 @@ import React, { HTMLAttributes } from "react";
 import * as runtime from "react/jsx-runtime";
 
 import Image from "next/image";
+import Mermaid from "./mermaid";
 
 const useMDXComponent = (code: string) => {
   const fn = new Function(code);
@@ -11,6 +12,51 @@ const useMDXComponent = (code: string) => {
 };
 
 type ComponentsProps = HTMLAttributes<HTMLElement>;
+
+const extractText = (node: React.ReactNode): string => {
+  if (typeof node === "string" || typeof node === "number") {
+    return String(node);
+  }
+
+  if (Array.isArray(node)) {
+    return node.map(extractText).join("");
+  }
+
+  if (React.isValidElement(node)) {
+    const props = node.props as { children?: React.ReactNode };
+    return extractText(props.children);
+  }
+
+  return "";
+};
+
+const findMermaidCode = (node: React.ReactNode): string | null => {
+  if (Array.isArray(node)) {
+    for (const child of node) {
+      const code = findMermaidCode(child);
+      if (code) return code;
+    }
+
+    return null;
+  }
+
+  if (!React.isValidElement(node)) {
+    return null;
+  }
+
+  const props = node.props as {
+    className?: string;
+    children?: React.ReactNode;
+    'data-language'?: string;
+  };
+  
+  if (props['data-language']?.includes("mermaid")) {
+    const code = extractText(props.children).trim();
+    return code.length ? code : null;
+  }
+
+  return findMermaidCode(props.children);
+};
 
 const components = {
   h1: ({ className, ...props }: ComponentsProps) => (
@@ -139,15 +185,25 @@ const components = {
       {...props}
     />
   ),
-  pre: ({ className, ...props }: ComponentsProps) => (
-    <pre
-      className={cn(
-        "mb-4 mt-6 overflow-x-auto text-sm  rounded-lg border py-4",
-        className,
-      )}
-      {...props}
-    />
-  ),
+  pre: ({ className, children, ...props }: ComponentsProps) => {
+    const mermaidCode = findMermaidCode(children);
+
+    if (mermaidCode) {
+      return <Mermaid chart={mermaidCode} className={className} />;
+    }
+
+    return (
+      <pre
+        className={cn(
+          "mb-4 mt-6 overflow-x-auto text-sm  rounded-lg border py-4",
+          className,
+        )}
+        {...props}
+      >
+        {children}
+      </pre>
+    );
+  },
   code: ({ className, ...props }: ComponentsProps) => (
     <code
       className={cn(
