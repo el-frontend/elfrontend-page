@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8">
+<title>ElFrontend · Arcade Edition</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="assets/logo-dark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Silkscreen:wght@400;700&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Brand */
+    --brand: #a070ff;
+    --brand-deep: #7a23dc;
+
+    /* NES-ish palette */
+    --ink:    #fef9e7;        /* light cream */
+    --paper:  #1a0f2e;        /* deep purple-black */
+    --paper-2:#0e0820;        /* almost-black */
+    --shadow: #07041a;
+
+    --hot-yellow: #fcd34d;
+    --hot-green:  #5dd55d;
+    --hot-pink:   #ff6b8a;
+    --hot-blue:   #6cb4ee;
+    --hot-orange: #ff8e3c;
+    --hot-red:    #ef4444;
+
+    --dim: #8978c5;
+    --dim-2: #5e5085;
+
+    --font-pixel: "Press Start 2P", monospace;
+    --font-pixel-body: "VT323", monospace;
+    --font-pixel-ui: "Silkscreen", monospace;
+    --font-mono: "Geist Mono", ui-monospace, monospace;
+  }
+
+  *,*::before,*::after { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-pixel-body);
+    font-size: 18px;
+    -webkit-font-smoothing: none;
+    image-rendering: pixelated;
+    overflow-x: hidden;
+  }
+  body {
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(160,112,255,0.18), transparent 70%),
+      radial-gradient(ellipse 60% 40% at 50% 100%, rgba(122,35,220,0.12), transparent 70%),
+      var(--paper);
+    min-height: 100vh;
+    /* prevent any default font smoothing */
+    text-rendering: geometricPrecision;
+  }
+
+  ::selection { background: var(--brand); color: #000; }
+
+  /* Pixel-perfect 8bit reset */
+  button, input, textarea, select {
+    font-family: inherit;
+    color: inherit;
+  }
+  button { cursor: pointer; }
+  a { color: inherit; text-decoration: none; }
+
+  /* CRT scanline overlay (toggleable) */
+  .crt-scan {
+    position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+    background:
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.18) 0 1px, transparent 1px 4px);
+    mix-blend-mode: multiply;
+  }
+  .crt-vignette {
+    position: fixed; inset: 0; pointer-events: none; z-index: 9998;
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.6) 100%);
+  }
+  .crt-glow {
+    position: fixed; inset: 0; pointer-events: none; z-index: 9997;
+    box-shadow: inset 0 0 120px rgba(160,112,255,0.18);
+  }
+  /* Subtle CRT flicker */
+  .crt-flicker {
+    position: fixed; inset: 0; pointer-events: none; z-index: 9996;
+    background: rgba(160,112,255,0.012);
+    animation: flicker 8s steps(60) infinite;
+  }
+  @keyframes flicker { 50% { opacity: 0.5; } }
+
+  /* Common helpers */
+  .pixel-text {
+    font-family: var(--font-pixel);
+    letter-spacing: 0.02em;
+    text-rendering: geometricPrecision;
+  }
+  .pixel-ui {
+    font-family: var(--font-pixel-ui);
+    letter-spacing: 0.04em;
+  }
+  .crt-on .crt-scan,
+  .crt-on .crt-vignette,
+  .crt-on .crt-glow,
+  .crt-on .crt-flicker { display: block; }
+  .crt-off .crt-scan,
+  .crt-off .crt-vignette,
+  .crt-off .crt-glow,
+  .crt-off .crt-flicker { display: none; }
+
+  /* Scrollbar — pixel chunky */
+  ::-webkit-scrollbar { width: 16px; height: 16px; }
+  ::-webkit-scrollbar-track { background: var(--paper-2); }
+  ::-webkit-scrollbar-thumb { background: var(--brand-deep); border: 3px solid var(--paper-2); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--brand); }
+
+  /* Boot screen */
+  #boot {
+    position: fixed; inset: 0; z-index: 100000;
+    background: #000;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-pixel-body);
+    color: var(--hot-green);
+    overflow: hidden;
+  }
+  #boot.done { display: none; }
+
+  /* Konami banner */
+  .konami {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    z-index: 100001;
+    padding: 40px 60px;
+    background: var(--brand);
+    color: #000;
+    font-family: var(--font-pixel);
+    font-size: 28px;
+    letter-spacing: 0.1em;
+    border: 6px solid var(--ink);
+    box-shadow: 0 0 0 6px var(--brand-deep), 0 0 60px var(--brand);
+    animation: konami-pop 2.5s ease forwards;
+  }
+  @keyframes konami-pop {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+    20% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+    30% { transform: translate(-50%, -50%) scale(1); }
+    80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+  }
+
+  /* Walking sprite path */
+  @keyframes walk-x {
+    from { left: -80px; }
+    to { left: calc(100vw + 80px); }
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  @keyframes float-up { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-30px); opacity: 0; } }
+
+  /* Press-start link underline */
+  .px-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    border-bottom: 3px solid var(--brand);
+    padding-bottom: 2px;
+    transition: color 0.2s;
+  }
+  .px-link:hover { color: var(--hot-yellow); border-bottom-color: var(--hot-yellow); }
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+  /* Section header style */
+  .sec-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 32px; gap: 24px;
+    border-bottom: 4px dashed var(--dim-2);
+    padding-bottom: 14px;
+  }
+  .sec-stage {
+    font-family: var(--font-pixel);
+    font-size: 10px;
+    color: var(--hot-yellow);
+    letter-spacing: 0.25em;
+    margin-bottom: 10px;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .sec-title {
+    margin: 0;
+    font-family: var(--font-pixel);
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+  .sec-title em {
+    font-style: normal;
+    color: var(--brand);
+  }
+  .sec-sub {
+    font-family: var(--font-pixel-body);
+    font-size: 22px;
+    color: var(--dim);
+    line-height: 1.4;
+    margin-top: 8px;
+    max-width: 560px;
+  }
+
+  /* Pixel chip */
+  .pchip {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: transparent;
+    border: 2px solid currentColor;
+    padding: 6px 10px;
+    font-family: var(--font-pixel);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* Game-card frame */
+  .pcard {
+    background: var(--paper-2);
+    border: 3px solid var(--ink);
+    position: relative;
+    box-shadow: 4px 4px 0 0 rgba(160,112,255,0.35);
+    transition: transform 0.12s steps(2), box-shadow 0.12s steps(2);
+  }
+  .pcard:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 0 var(--brand);
+  }
+
+  /* Difficulty banner ribbon */
+  .ribbon-strip {
+    display: flex; gap: 6px; align-items: center;
+  }
+</style>
+</head>
+<body>
+<div id="boot">
+  <pre id="boot-text" style="margin:0; font-size: 18px; line-height: 1.5;"></pre>
+</div>
+
+<div class="crt-scan"></div>
+<div class="crt-vignette"></div>
+<div class="crt-glow"></div>
+<div class="crt-flicker"></div>
+
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="arcade-data.jsx"></script>
+<script type="text/babel" src="arcade-sprites.jsx"></script>
+<script type="text/babel" src="arcade-audio.jsx"></script>
+<script type="text/babel" src="arcade-chat.jsx"></script>
+<script type="text/babel" src="arcade-terminal.jsx"></script>
+<script type="text/babel" src="arcade-extras.jsx"></script>
+<script type="text/babel" src="arcade-sections.jsx"></script>
+<script type="text/babel" src="arcade-app.jsx"></script>
+</body>
+</html>
