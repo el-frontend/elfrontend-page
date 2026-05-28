@@ -1,5 +1,6 @@
 "use client";
 
+import { playClick } from "../../audio";
 import { useArcade } from "../../context/arcade-context";
 import type { Lang } from "../../content/copy";
 import { PxHeart, PxStar } from "../sprites/pixel";
@@ -55,14 +56,29 @@ export function StatusBar() {
           ))}
         </span>
 
-        <button onClick={() => setSound(!sound)} style={tinyBtn} type="button">
+        <button
+          onClick={() => {
+            // Play before flipping so a "sound: off" → "on" still chirps.
+            playClick();
+            setSound(!sound);
+          }}
+          style={tinyBtn}
+          type="button"
+        >
           {copy.soundLabel}:
           <span style={{ color: sound ? "var(--hot-green)" : "var(--hot-red)", marginLeft: 6 }}>
             {sound ? copy.onOff.on : copy.onOff.off}
           </span>
         </button>
 
-        <button onClick={() => setCrt(!crt)} style={tinyBtn} type="button">
+        <button
+          onClick={() => {
+            playClick();
+            setCrt(!crt);
+          }}
+          style={tinyBtn}
+          type="button"
+        >
           {copy.crtLabel}:
           <span style={{ color: crt ? "var(--hot-green)" : "var(--hot-red)", marginLeft: 6 }}>
             {crt ? copy.onOff.on : copy.onOff.off}
@@ -73,7 +89,10 @@ export function StatusBar() {
           {(["en", "es"] as Lang[]).map((c) => (
             <button
               key={c}
-              onClick={() => setLang(c)}
+              onClick={() => {
+                playClick();
+                setLang(c);
+              }}
               style={{
                 background: lang === c ? "var(--brand)" : "transparent",
                 color: lang === c ? "#000" : "var(--ink)",

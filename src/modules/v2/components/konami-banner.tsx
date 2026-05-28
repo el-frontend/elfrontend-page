@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { playFanfare } from "../audio";
 import { useArcade } from "../context/arcade-context";
 import { useKonami } from "../hooks/use-konami";
 
@@ -9,6 +10,7 @@ export function KonamiBanner() {
   const [visible, setVisible] = useState(false);
 
   useKonami(() => {
+    playFanfare();
     cycleAccent();
     setVisible(true);
   });

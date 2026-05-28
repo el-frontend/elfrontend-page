@@ -2,6 +2,7 @@
 
 import { useChat } from "@ai-sdk/react";
 import { useEffect, useRef } from "react";
+import { playClick, playSend, playType } from "../../audio";
 import { useArcade } from "../../context/arcade-context";
 import { PxArrow, PxAvatar, PxHeart } from "../sprites/pixel";
 
@@ -21,7 +22,17 @@ export function HeroChat() {
   }, [messages, isLoading]);
 
   const focus = () => inputRef.current?.focus();
-  const askChip = (q: string) => append({ role: "user", content: q });
+  const askChip = (q: string) => {
+    playClick();
+    append({ role: "user", content: q });
+  };
+  const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    playSend();
+    handleSubmit(e);
+  };
+  const onInputKey: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.key.length === 1) playType();
+  };
 
   return (
     <div
@@ -119,7 +130,7 @@ export function HeroChat() {
 
       {/* Input */}
       <form
-        onSubmit={handleSubmit}
+        onSubmit={onSubmit}
         style={{
           display: "flex",
           alignItems: "center",
@@ -144,6 +155,7 @@ export function HeroChat() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onClick={focus}
+          onKeyDown={onInputKey}
           placeholder={copy.askPlaceholder}
           aria-label="Ask Carlos"
           disabled={isLoading}

@@ -1,9 +1,10 @@
 "use client";
 
+import ElFrontendLogo from "@/components/icons/logo";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useArcade } from "../../context/arcade-context";
-import { PxArrow, PxLogo } from "../sprites/pixel";
+import { PxArrow } from "../sprites/pixel";
 
 type NavKey = "home" | "about" | "skills" | "projects" | "videos" | "blog" | "contact";
 
@@ -46,9 +47,22 @@ export function Nav() {
         flexWrap: "wrap",
       }}
     >
-      <Link href="/" style={{ display: "flex", alignItems: "center", gap: 16 }}>
-        <span style={{ position: "relative", display: "inline-flex" }}>
-          <PxLogo scale={3} />
+      <Link
+        href="/"
+        aria-label="ElFrontend home"
+        style={{ display: "flex", alignItems: "center", gap: 16 }}
+      >
+        <span
+          style={{
+            position: "relative",
+            display: "inline-flex",
+            padding: 6,
+            border: "3px solid var(--ink)",
+            background: "var(--paper-2)",
+            boxShadow: "3px 3px 0 var(--brand-deep)",
+          }}
+        >
+          <ElFrontendLogo width={42} height={32} />
           <span
             className="arcade-blink"
             style={{

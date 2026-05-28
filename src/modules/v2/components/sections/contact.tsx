@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { playClick, playPowerUp, playType } from "../../audio";
 import { useArcade } from "../../context/arcade-context";
 import { PxArrow, PxHeart, PxMushroom, PxStar, PxTrophy } from "../sprites/pixel";
 
@@ -28,7 +29,12 @@ export function ContactSection() {
   const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     if (!form.name || !form.email || !form.message) return;
+    playPowerUp();
     setSent(true);
+  };
+
+  const onTypeKey: React.KeyboardEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
+    if (e.key.length === 1) playType();
   };
 
   const reset = () => {
@@ -140,6 +146,7 @@ export function ContactSection() {
                 <input
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  onKeyDown={onTypeKey}
                   placeholder="P1"
                   style={fieldStyle(accentColor)}
                 />
@@ -149,6 +156,7 @@ export function ContactSection() {
                   type="email"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  onKeyDown={onTypeKey}
                   placeholder="hi@your.email"
                   style={fieldStyle(accentColor)}
                 />
@@ -161,7 +169,10 @@ export function ContactSection() {
                   <button
                     key={k}
                     type="button"
-                    onClick={() => setForm({ ...form, kind: k })}
+                    onClick={() => {
+                      playClick();
+                      setForm({ ...form, kind: k });
+                    }}
                     style={{
                       background: form.kind === k ? accentColor : "transparent",
                       color: form.kind === k ? "#000" : "var(--ink)",
@@ -183,6 +194,7 @@ export function ContactSection() {
               <textarea
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
+                onKeyDown={onTypeKey}
                 placeholder={copy.contactPlaceholder}
                 rows={5}
                 style={{

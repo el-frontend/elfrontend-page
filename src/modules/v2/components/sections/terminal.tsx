@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { playSend, playType } from "../../audio";
 import { useArcade } from "../../context/arcade-context";
 import { PROJECTS, SKILL_GROUPS } from "../../content/data";
 import { PxArrow } from "../sprites/pixel";
@@ -185,6 +186,7 @@ export function TerminalSection() {
           <form
             onSubmit={(e) => {
               e.preventDefault();
+              if (draft.trim()) playSend();
               run(draft);
             }}
             style={{
@@ -203,6 +205,7 @@ export function TerminalSection() {
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
               onKeyDown={(e) => {
+                if (e.key.length === 1) playType();
                 if (e.key === "ArrowUp") {
                   e.preventDefault();
                   if (history.length === 0) return;

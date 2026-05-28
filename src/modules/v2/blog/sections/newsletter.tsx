@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { playPowerUp, playType } from "../../audio";
 import { useArcade } from "../../context/arcade-context";
 import { PxArrow, PxHeart, PxStar } from "../../components/sprites/pixel";
 import { BLOG_COPY } from "../blog-copy";
@@ -14,6 +15,7 @@ export function Newsletter() {
   const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     if (!email) return;
+    playPowerUp();
     setDone(true);
   };
 
@@ -148,6 +150,9 @@ export function Newsletter() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key.length === 1) playType();
+                }}
                 placeholder={t.newsletterPlaceholder}
                 aria-label="Email"
                 style={{

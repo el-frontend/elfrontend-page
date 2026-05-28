@@ -9,6 +9,7 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from "react";
+import { setSoundEnabled } from "../audio";
 import { ACCENT_OPTIONS, COPY, type AccentKey, type CopyByLang, type Difficulty, type Lang } from "../content/copy";
 
 type ArcadeState = {
@@ -117,6 +118,11 @@ export function ArcadeProvider({ children }: { children: ReactNode }) {
     root.classList.toggle("crt-on", state.crt);
     root.classList.toggle("crt-off", !state.crt);
   }, [state.crt]);
+
+  // Mirror the sound toggle into the audio module so blips respect it.
+  useEffect(() => {
+    setSoundEnabled(state.sound);
+  }, [state.sound]);
 
   const setLang = useCallback((lang: Lang) => commit({ ...snapshot, lang }), []);
   const setAccent = useCallback((accent: AccentKey) => commit({ ...snapshot, accent }), []);
