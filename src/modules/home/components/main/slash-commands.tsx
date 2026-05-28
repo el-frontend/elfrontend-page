@@ -1,6 +1,6 @@
 import { TypingAnimation } from "@/components/animations/text-typing";
 import { YoutubeIcon } from "@/components/icons";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { BriefcaseBusiness, ListTodo, Palette, Sparkles } from "lucide-react";
 
 const SlashCommands = () => {
