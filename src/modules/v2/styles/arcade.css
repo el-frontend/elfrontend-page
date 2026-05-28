@@ -39,6 +39,7 @@
   min-height: 100vh;
   text-rendering: geometricPrecision;
   position: relative;
+  overflow-x: hidden;
 }
 
 .arcade-root *,
@@ -289,5 +290,41 @@
   .arcade-root .talks-row > *:nth-child(2),
   .arcade-root .talks-row > *:nth-child(4) {
     display: none !important;
+  }
+  .arcade-root .footer-right {
+    justify-content: flex-start !important;
+  }
+}
+
+/* Phone-width tuning: trim padding, shrink large pixel type so it doesn't
+   overflow the viewport on narrow screens. */
+@media (max-width: 640px) {
+  .arcade-root .container {
+    padding: 0 16px;
+  }
+  .arcade-root section,
+  .arcade-root footer {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  .arcade-root .sec-title {
+    font-size: 16px;
+  }
+  .arcade-root .sec-sub {
+    font-size: 18px;
+  }
+  .arcade-root .sec-head {
+    margin-bottom: 24px;
+    gap: 14px;
+  }
+  .arcade-root h1.pixel-text {
+    font-size: 24px !important;
+    line-height: 1.35 !important;
+  }
+  .arcade-root h1.pixel-text + * .arcade-blink,
+  .arcade-root h1.pixel-text .arcade-blink {
+    width: 16px !important;
+    height: 24px !important;
+    vertical-align: -4px !important;
   }
 }

@@ -9,7 +9,7 @@ export function ArcadeFooter() {
   return (
     <footer style={{ padding: "40px 32px 32px" }}>
       <div
-        className="container"
+        className="container grid-3"
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr 1fr",
@@ -48,7 +48,7 @@ export function ArcadeFooter() {
         </div>
 
         <div
-          className="pixel-text"
+          className="pixel-text footer-right"
           style={{
             fontSize: 9,
             color: "var(--dim)",
