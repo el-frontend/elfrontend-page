@@ -74,6 +74,32 @@ export type Project = {
 
 export const PROJECTS: Project[] = [
   {
+    id: "resuelve",
+    name: "Resuelve",
+    year: "2026",
+    color: "hot-orange",
+    tag: { en: "SERVICE PLATFORM", es: "PLATAFORMA DE SERVICIOS" },
+    desc: {
+      en: "Building the #1 service platform in Cuba — connecting customers with trusted local providers across every category.",
+      es: "Construyendo la plataforma de servicios #1 en Cuba — conectando clientes con proveedores locales de confianza en todas las categorías.",
+    },
+    stack: ["Next.js", "TypeScript", "Tailwind", "Postgres"],
+    href: "https://resuelvecuba.com",
+  },
+  {
+    id: "synclat",
+    name: "Synclat",
+    year: "2026",
+    color: "hot-blue",
+    tag: { en: "MUSIC SYNC", es: "SYNC MUSICAL" },
+    desc: {
+      en: "The first Latin Music sync platform — licensing Latin tracks for film, TV and ads in a few clicks.",
+      es: "La primera plataforma de sync de música latina — licenciando tracks latinos para cine, TV y publicidad en pocos clics.",
+    },
+    stack: ["Next.js", "TypeScript", "AI", "Tailwind"],
+    href: "https://synclat.ai",
+  },
+  {
     id: "p1",
     name: "Web Video Wizard",
     year: "2026",
