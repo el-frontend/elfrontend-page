@@ -8,5 +8,6 @@ export type BlogPost = {
   tag: string;
   image: string;
   description: string;
+  lang: "es" | "en";
   likes: number;
 };

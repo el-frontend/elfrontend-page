@@ -2,9 +2,9 @@
 
 import { ArcadeMdx } from "../arcade-mdx";
 
-export function ArticleBody({ code }: { code: string }) {
+export function ArticleBody({ code, lang }: { code: string; lang: string }) {
   return (
-    <article style={{ padding: "24px 32px 48px" }}>
+    <article lang={lang} style={{ padding: "24px 32px 48px" }}>
       <div
         className="container arcade-prose"
         style={{

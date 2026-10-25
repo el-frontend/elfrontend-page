@@ -15,6 +15,7 @@ export function getAllArcadeBlogPosts(): BlogPost[] {
       tag: inferTag(b.title),
       image: b.image,
       description: b.description,
+      lang: b.lang,
       // Stable pseudo-likes so cards have a number without runtime drift.
       likes: 20 + ((i * 37) % 160),
     }));

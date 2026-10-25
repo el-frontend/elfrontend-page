@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { PropsWithChildren } from "react";
 
 export const metadata: Metadata = {
-  title: "ElFrontend · Arcade Edition",
+  title: { absolute: "ElFrontend · Arcade Edition", template: "%s · ElFrontend" },
   description:
     "Carlos Chao — software architect, React/Next.js educator, ElFrontend community. Press start to talk to me.",
   alternates: { canonical: "https://elfrontend.com" },
