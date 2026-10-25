@@ -1,0 +1,71 @@
+---
+title: "Desarrollo con IA: la diferencia no está en el modelo, está en el contexto que le das"
+description: "Después de meses iterando, consolidé una forma de desarrollar con IA que combina Claude Code, Skills y testing continuo. Esta es la charla que di en mi equipo, y el flujo completo que hoy uso en cada feature."
+image: "/images/blog/desarrollo-ia-contexto.webp"
+date: "2026-08-29"
+author: "elfrontend"
+---
+
+Cuando empecé a usar agentes de código en serio, mi problema no era la calidad del modelo. Era que cada sesión empezaba de cero: volvía a explicar la arquitectura, volvía a repetir las convenciones del proyecto, volvía a corregir las mismas decisiones. El resultado eran features que llegaban rápido al 80% y se quedaban ahí, con rework acumulado.
+
+La conclusión, después de varios meses de prueba y error, es simple: **la variable que más mueve la aguja no es qué modelo usas, sino cómo le entregas el contexto.** Un modelo excelente con contexto pobre produce código mediocre. Un modelo bueno con contexto estructurado produce código que pasa review.
+
+De ahí salió el framework que presenté en esta charla. Son cinco piezas, y cada una ataca un punto concreto donde se pierde contexto.
+
+## 1. AI-driven PRD: requisitos escritos para modelos, no para clientes
+
+Un PRD tradicional está lleno de narrativa, justificación de negocio y lenguaje diplomático. Nada de eso ayuda a un agente; solo consume tokens.
+
+Un AI-driven PRD es lo contrario: criterios de aceptación verificables, entidades y contratos explícitos, casos borde enumerados, y lo que está fuera de alcance dicho en voz alta. Menos tokens, más precisión, y algo que el modelo puede convertir en tareas sin inventarse la mitad.
+
+## 2. CLAUDE.md + Skills: reglas persistentes y conocimiento bajo demanda
+
+Aquí hay dos capas que conviene no mezclar.
+
+`CLAUDE.md` son las **reglas persistentes** del proyecto: stack, estructura de carpetas, convenciones de nombres, cómo se corren los tests, qué está prohibido tocar. Se carga siempre. Es lo que hace que el agente sepa cómo se trabaja aquí *antes* de escribir la primera línea.
+
+Las **Skills** son conocimiento bajo demanda: procedimientos que solo importan en cierto tipo de tarea (crear un endpoint, migrar un esquema, generar un componente siguiendo el design system). Se cargan cuando hacen falta. Así el contexto base se mantiene liviano y el conocimiento especializado sigue disponible.
+
+La regla que sigo: si aplica siempre, va en `CLAUDE.md`; si aplica a veces, es una Skill.
+
+## 3. Planes antes de código
+
+Ninguna tarea empieza directamente en el editor. Primero un plan: el modelo investiga el repositorio, propone un enfoque, discute conmigo las decisiones dudosas, y recién entonces genera una lista de tareas con checkmarks.
+
+Esto cambia dónde ocurre la discusión. Corregir un plan cuesta un párrafo; corregir una implementación cuesta una tarde. Y la lista de tareas sobrevive entre sesiones: si cierro el laptop, mañana el agente sabe exactamente en qué punto estábamos.
+
+## 4. Diseño declarativo
+
+Para las pantallas uso generadores como Stitch o Claude Design. Describo la intención —qué tiene que lograr el usuario, qué jerarquía, qué estados— y obtengo la pantalla. Itero sobre la intención, no sobre píxeles.
+
+No sustituye a un diseñador en producto maduro, pero para validar un flujo o arrancar una feature elimina el cuello de botella clásico de "no puedo empezar porque no hay diseño".
+
+## 5. Desarrollo con validación continua
+
+La última pieza es la que evita que todo lo anterior se degrade: `accept edits` con revisión activa, pruebas automáticas corriendo en cada paso, commits convencionales y PR listo al cerrar la tarea.
+
+La validación tiene que ser continua, no un checkpoint al final. Un agente que rompe un test y sigue avanzando acumula deuda a una velocidad que ningún humano puede auditar después.
+
+## El resultado
+
+Menos contexto perdido entre sesiones, menos rework, y —lo más importante para un equipo— un flujo que se puede replicar. Cuando el contexto vive en archivos versionados y no en la cabeza de quien prompteó mejor, deja de ser un truco personal y pasa a ser parte del repositorio.
+
+## El framework es portable
+
+Nada de esto depende de una herramienta concreta. Lo describo con Claude Code porque es lo que uso a diario, pero las cinco piezas se trasladan tal cual a Codex, a Cursor o a Kiro: cambia el nombre del archivo, no la idea.
+
+* **Reglas persistentes:** `CLAUDE.md` en Claude Code, `.cursor/rules` en Cursor, `.kiro/steering/` en Kiro. Y el estándar `AGENTS.md`, que hoy leen prácticamente todos, es el mínimo común denominador si quieres escribirlo una sola vez.
+* **Conocimiento bajo demanda:** las Skills tienen su equivalente en las reglas por `globs` o por descripción de Cursor, y en los modos de inclusión (`always`, `fileMatch`, `manual`) de Kiro. La mecánica es la misma: no cargar todo siempre.
+* **Planes antes de código:** el modo plan de Claude Code, los specs de Kiro (`requirements.md`, `design.md`, `tasks.md`). Cualquier cosa que te obligue a discutir el enfoque antes de generar archivos sirve.
+* **Validación continua:** hooks, tasks del editor o simplemente tests corriendo en watch. Lo importante es que el agente no pueda avanzar sobre algo roto.
+
+Si alguna de estas piezas no existe en tu herramienta, casi siempre se puede simular con un archivo markdown versionado y un poco de disciplina. Ese es justamente el punto: el valor está en el contexto que construyes, no en el vendor.
+
+## Recursos
+
+📺 **La charla completa:** [https://www.youtube.com/watch?v=mmt24cot0vg](https://www.youtube.com/watch?v=mmt24cot0vg)
+
+📄 **El documento vivo con todos los flujos de la metodología:** [https://docs.google.com/document/d/1ZyUSmP-VkhL5FZC6C\_U2FiBPmWjSPmyuHhgA\_Vq7KEI/edit?usp=sharing](https://docs.google.com/document/d/1ZyUSmP-VkhL5FZC6C_U2FiBPmWjSPmyuHhgA_Vq7KEI/edit?usp=sharing)
+***
+
+¿Ya tienes tu propio flujo con IA? Me interesa saber qué estás probando: qué parte del contexto te sigue costando mantener y qué herramienta te funcionó mejor. Déjalo en los comentarios.

@@ -1,6 +1,7 @@
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
+import remarkGfm from "remark-gfm";
 import { defineCollection, defineConfig, s } from "velite";
 
 const computedFields = <T extends { slug: string }>(data: T) => ({
@@ -14,7 +15,7 @@ const blogs = defineCollection({
   schema: s
     .object({
       slug: s.path(),
-      title: s.string().max(99),
+      title: s.string().max(120),
       description: s.string().max(999),
       date: s.isodate(),
       published: s.boolean().default(true),
@@ -36,6 +37,7 @@ export default defineConfig({
   },
   collections: { blogs },
   mdx: {
+    remarkPlugins: [remarkGfm],
     rehypePlugins: [
       rehypeSlug,
       [rehypePrettyCode, { theme: "nord" }],

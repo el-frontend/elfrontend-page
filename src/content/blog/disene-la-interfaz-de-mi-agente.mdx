@@ -1,0 +1,73 @@
+---
+title: "Diseñé la interfaz de mi agente antes de programarla: lo que aprendí del comando /design de Claude Code"
+description: "De regenerar HTML a ciegas a un lienzo con 15 pantallas que ya se parecen a mi app."
+image: "/images/blog/disene-interfaz-agente.webp"
+date: "2026-09-13"
+author: "elfrontend"
+---
+
+Imagina que se te inunda el baño. Abres PaHoy, escribes "se me inundó el baño, me dañó el piso y un mueble, estoy en 11 y 64" y no haces nada más. Un agente arma el proyecto, lo parte en oficios, busca proveedores, les escribe y te va trayendo lo que contestan. Ese es el concierge que llevo un tiempo construyendo.
+
+La lógica ya funciona. La pantalla no. Un chat solo no aguanta un proyecto con cuatro oficios, varios proveedores y estados que cambian sin que tú estés. Y probándolo me dolieron tres cosas: mientras el agente trabaja ves tres puntitos durante 24 pasos sin saber qué hace; si los proveedores contestan cuando no estás, tienes que escribir "¿novedades?" para enterarte; y si quieres responderle a un proveedor, el agente te manda a otra página a buscar cuál de los tres trabajos era.
+
+Había que rediseñar esa pantalla.
+
+### Primer intento: artefactos
+
+Lo primero que hice fue lo que ya me funcionaba para otras cosas: pedirle a Claude Code que me hiciera mockups en HTML y los publicara como artefacto. Se ven bien, se comparten con un link, en cinco minutos tienes algo que enseñar.
+
+El problema apareció en la segunda iteración. Le pedía un cambio chico y volvía con una página entera regenerada. Cambiaba fuentes, colores, a veces el flujo completo. Cada vuelta era una lotería. Y lo peor: nada se parecía a PaHoy. Tenían el look de cualquier dashboard de internet, no el de mi app.
+
+### Segundo intento: /design
+
+A mediados de agosto Anthropic sacó en preview el comando `/design` dentro de Claude Code. Es Claude Design corriendo desde la terminal. Le describí la pantalla del concierge y le pedí varias opciones.
+
+Lo primero que hizo fue distinto a todo lo anterior: antes de dibujar nada, leyó el proyecto. Los componentes de la app, el `tailwind.config`, las pantallas del chat que ya existen. Después me preguntó si quería mockups estáticos o un prototipo con controles que funcionen. Le pedí las dos cosas: las pantallas principales interactivas y el resto estáticas.
+
+El resultado fue un lienzo, que llamé "Concierge v2", con dos páginas.
+
+La primera, "El flujo", tiene 8 pantallas: el agente trabajando, la propuesta de proveedores, las respuestas con precio, el estado del proyecto, comparar, la ficha del proveedor, la vista al volver después de horas, y la versión móvil a 390 px. Las dos primeras son interactivas: puedes abrir los grupos del log de trabajo y quitar proveedores con las casillas para ver cómo cambia el botón.
+
+La segunda, "El panel", son 7 artboards que no son pantallas sino decisiones: la anatomía del panel lateral, cómo se navega, qué acciones existen en cada estado del proveedor, cómo se le habla al proveedor sin salir del chat, cómo se rechaza, a qué ancho el panel empuja y a cuál se convierte en sheet, y los estados que siempre se olvidan (vacío, error, sin resultados, cargando).
+
+![Agent Concierge Flow](/images/blog/disene-interfaz-agente.webp)
+
+Y todo salió con mi paleta, mi fuente, el sidebar de 280 px y el verde de PaHoy. Por primera vez los mockups parecían de mi app. En el código de los artboards hasta quedaron comentarios tipo `w-[280px]`, porque los sacó de mis clases de Tailwind.
+
+### Lo que se rompió
+
+Aquí viene lo bueno. Lo que se rompió no fue la herramienta, fue mi diseño, y lo vi antes de programarlo.
+
+En el primer pase el panel lateral tenía cinco pestañas planas: Lista, Comparar, Mapa, Reseñas, Respuestas. Se veía limpio. Estaba mal. Mapa y Reseñas no son hermanas de Lista: son secciones de un proveedor concreto. Como pestañas de primer nivel obligan a preguntar "¿el mapa de quién?", y esa respuesta no cabe en una barra de pestañas. Si hubiera ido directo al código me habría dado cuenta con el componente ya hecho.
+
+La solución fue darle profundidad al panel: la raíz es el proyecto con sus cuatro oficios; dentro de un oficio están Lista, Comparar y Respuestas; encima se empuja la ficha del proveedor con galería, cobertura y reseñas; y un nivel más abajo, la conversación con ese proveedor. Una sola flecha de vuelta. Dejé la pantalla vieja de Comparar en el lienzo a propósito, con las cinco pestañas, para poder comparar las dos versiones.
+
+### Las decisiones que tomé en el lienzo
+
+Hay cosas que me costó menos decidir mirando un artboard que escribiendo un prompt:
+
+Rechazar un proveedor y buscar sustituto son dos acciones, no una. El agente nunca busca reemplazo por su cuenta, y si al rechazado ya se le había escrito, traer a otro es un SMS más y se le dice al cliente antes, porque el gasto lo autoriza él.
+
+Aceptar es la única firma del cliente. El agente no acepta precios, y no por el prompt: porque no tiene herramienta para hacerlo.
+
+El concierge lee el chat con el proveedor (de ahí saca quién contestó) pero no escribe en él. Lo que cambia es que ahora el cliente sí puede escribir sin irse: dos conversaciones a la vez, el concierge a la izquierda y el proveedor a la derecha.
+
+Varias de estas ideas vinieron de mirar cómo lo hacen otros agentes (el log de trabajo colapsable y la decisión anclada al composer los tomé de t3code, la vista "al volver" de la pestaña Last turn de Codex) y de las ideas de Sergio, mi cofounder en PaHoy, para la ficha del proveedor: galería, reseñas y cobertura.
+
+### Qué aprendí
+
+Uno. Diseñar antes de escribir código no es un lujo, es más rápido. El error de las cinco pestañas me habría costado un componente entero; en el lienzo me costó una nota.
+
+Dos. El contexto del código es lo que hace que el diseño sirva. `/design` funciona porque lee mis tokens, mis componentes y mi esquema. Sin eso te devuelve un dashboard genérico, igual que los artefactos.
+
+Tres. Separar el flujo de las decisiones. Una página con las pantallas y otra con los paneles de "por qué" me sirvió más que cualquier documento. Cada artboard lleva su nota pegada al lado y cualquiera del equipo entiende el razonamiento sin preguntarme.
+
+Cuatro. Es un preview, y aun así no me falló en nada. Hay que guardar a mano antes de pedir la implementación, el editor va embebido en el canvas y no se actualiza, y si dos personas editan a la vez el segundo pierde. Para trabajar solo alcanza de sobra.
+
+### Lo que sigue
+
+Ahora toca implementar. Primero el log de trabajo (que se acaben los tres puntitos), después la propuesta anclada al composer, y después el panel con profundidad. Lo voy contando en el Space.
+
+Si estás haciendo algo parecido, prueba esto: antes de pedirle código a Claude, pídele el diseño. `/design a few options for {tu pantalla}`. Mira lo que se rompe en el lienzo, que ahí es barato.
+
+Link al lienzo: [https://claude.ai/code/artifact/e3d7f588-44d3-4b86-a5ab-3718eb640408](https://claude.ai/code/artifact/e3d7f588-44d3-4b86-a5ab-3718eb640408)
