@@ -1,59 +1,89 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Personal site + blog for **ElFrontend** (Carlos Chao). Next.js 16 App Router · React 19 · TypeScript strict · Tailwind v4 · shadcn/ui · Velite (MDX) · Vercel AI SDK v4 (Gemini). Deployed on Vercel.
 
 ## Commands
 
-Package manager is **pnpm** (see `packageManager` in `package.json`). Most contributors also use `npm`; both work.
+Package manager: **pnpm** (`packageManager` in `package.json`). A `package-lock.json` also exists — don't add deps with npm, it desyncs the lockfiles.
 
-- `pnpm dev` — runs `velite --watch` (MDX content pipeline) **and** `next dev --turbo` in parallel via `npm-run-all`. You generally need both; Next imports `#site/content` from the velite output.
-- `pnpm build` — runs content build then `next build --turbo` sequentially.
-- `pnpm build:content` / `pnpm dev:content` — run velite alone (useful when blog content is stale but Next is already running).
-- `pnpm start` — production server (`next start --turbo`).
-- `pnpm email:dev` — React Email preview server for templates in `src/server/email/`.
-- Lint: `pnpm exec next lint` (flat config in `eslint.config.mjs`, extends `eslint-config-next/core-web-vitals` + `/typescript`).
-- Typecheck: `pnpm exec tsc --noEmit`.
+| Task | Command |
+|---|---|
+| Dev (Velite watch + `next dev --turbo`) | `pnpm dev` |
+| Build (Velite, then Next) | `pnpm build` |
+| Rebuild blog content only | `pnpm build:content` |
+| Typecheck | `pnpm exec tsc --noEmit` |
+| Lint | `pnpm exec eslint .` (flat config, `eslint.config.mjs`) |
+| Email template preview | `pnpm email:dev` |
 
-There is no test runner configured.
+No test runner. **Verify changes with `tsc --noEmit` + lint + `pnpm build`** (the build catches missing modules that broke Vercel before — see commit `f7bc3f8`). For UI changes, run `pnpm dev` and check the page, including at phone width (the arcade layout has had mobile overflow bugs).
+
+`#site/content` resolves to `.velite/`, which only exists after Velite runs. If types for `blogs` are missing, run `pnpm build:content` first.
 
 ## Architecture
 
-**Next.js 16 App Router + React 19 + Tailwind v4 + shadcn/ui (New York style, neutral base).** TypeScript is strict.
+### Routes (`src/app/`)
+- `(arcade)/` — **the live site.** `/` (home), `/blog`, `/blog/[...slug]`. Layout imports `@/modules/v2/styles/arcade.css` and wraps in `.arcade-root`.
+- `(with-nav)/v1` — previous site version, kept under `/v1` with `MainLayout` + navbar. Legacy; don't add features here.
+- `api/chat/route.ts` — AI chat (POST). Used by `modules/v2/components/sections/hero-chat.tsx`.
+- `layout.tsx` — root: fonts, `MainProvider` (home store), `next-themes` `ThemeProvider` (class attribute, system default), sonner `Toaster`, Vercel Analytics/Speed Insights, GTM only when `NODE_ENV === "production"` and `NEXT_PUBLIC_GOOGLE_ANALYTICS_ID` is set.
+- `sitemap.ts`, `robots.txt`, `not-found.tsx`, icons.
 
-### Path aliases (`tsconfig.json`)
-- `@/*` → `src/*`
-- `#site/content` → `.velite` (generated; do not edit)
+### Feature modules (`src/modules/`)
+- `v2/` — **arcade edition (current).** `components/` (`arcade-shell`, `sections/*`, `sprites/`, CRT overlay, Konami banner), `blog/` (blog + article shells, `server/data.ts`), `content/` (`copy.ts`, `data.ts` — static site copy/projects/skills), `context/arcade-context.tsx`, `hooks/`, `audio.ts`, `server/data.ts` (YouTube + blog data loaders for server components), `styles/arcade.css`.
+- `home/`, `blog/` — v1 modules. `home/store` still provides `MainProvider` used by the root layout.
+- `static/` — not-found page.
 
-### Content pipeline (Velite)
-Blog posts live in `src/content/blog/*.mdx`. `velite.config.ts` defines the `blogs` collection schema (title, description, date, image, author, published, body). Output is written to `.velite/` and asset references to `public/static/`. App code imports posts via `import { blogs } from "#site/content"`. MDX is rendered with `rehype-pretty-code` (nord theme), `rehype-slug`, and `rehype-autolink-headings`. **Never edit `.velite/` directly** — re-run velite after changing MDX or `velite.config.ts`.
+New feature work goes in a module, not top-level `components/`. Pattern: server components fetch via `<module>/server/*.ts` and pass plain props to `"use client"` shells.
 
-### Source layout (`src/`)
-- `app/` — App Router. Routes: `/` (page.tsx), `/blog/[...slug]`, API at `app/api/chat` (AI chat) and `app/api/blog`. `layout.tsx` wires `MainProvider` (Zustand-style store from `modules/home/store`), `ThemeProvider` (next-themes, system default, class attribute), `Toaster` (sonner), Vercel Analytics/Speed Insights, and a conditional Google Tag Manager. Static assets (`resume.md`, `cv.pdf`, `sitemap.ts`, `robots.txt`, icons) sit under `app/`.
-- `modules/` — feature modules (`home`, `blog`). Each has `components/`, `container[s]/`, and the home module owns the shared store. New feature work belongs here, not at the top level.
-- `components/` — cross-feature UI. `components/ui/` is the shadcn registry (do not hand-edit; add via `pnpm dlx shadcn add ...`). Other subfolders: `chat`, `animations`, `icons`, `social`, `terminal`.
-- `server/` — server-only code: `ai/` (prompts in `prompts.ts`, tool implementations in `tools/`, e.g. YouTube search), `db/client.ts` (Turso/libSQL client), `email/` (Resend + react-email templates), `services/`, `utils/`, `types/`. Import from these only inside route handlers, server components, or server actions.
-- `layout/` — `MainLayout` wrapper used by the root layout.
-- `lib/` — client-safe helpers (`metadata.ts`, `utils.ts` with `cn`).
-- `hooks/`, `styles/` — straightforward.
+### Shared code
+- `components/ui/` — shadcn registry. Don't hand-edit; add with `pnpm dlx shadcn@latest add <name>`.
+- `components/` — `mdx-component.tsx`, `mermaid.tsx`, `animations/`, `icons/`, `social/`, `terminal/`.
+- `layout/` — v1 `MainLayout`, navbar, theme switcher.
+- `lib/` — client-safe helpers (`cn`, `generateUUID` in `utils.ts`; `metadata.ts`).
+- `hooks/` — generic hooks.
+- `server/` — **server-only.** `ai/` (prompts, YouTube tools, model factories), `services/` (`youtube`, `resend`, `cloudflare` R2, `blog` Turso), `db/client.ts` (libSQL), `email/` (react-email templates), `utils/`, `types/`.
 
-### AI chat (`src/app/api/chat/route.ts`)
-Uses Vercel AI SDK with `@ai-sdk/google` (`gemini-2.5-flash` by default). The route loads `public/resume.md` as base64 context, then streams via `createDataStreamResponse` + `streamText` with `smoothStream`. System prompt lives in `src/server/ai/prompts.ts`; tools (YouTube) in `src/server/ai/tools/`. `maxDuration = 30`. OpenRouter / OpenAI providers are installed but the live path is Google. Turnstile (`NEXT_PUBLIC_TURNSTILE_KEY`) guards the client side.
+### Content (Velite)
+- Posts: `src/content/blog/<slug>.mdx`. Schema in `velite.config.ts`: `title` (≤99), `description` (≤999), `date` (ISO), `image` (≤99), `author`, `published` (default true). `slugAsParams` is computed.
+- Output → `.velite/` (generated, never edit); assets → `public/static/`.
+- MDX plugins: `rehype-slug`, `rehype-pretty-code` (nord), `rehype-autolink-headings`.
+- Consume with `import { blogs } from "#site/content"` — only in server code (`modules/v2/*/server/data.ts`).
+
+### AI chat
+`api/chat/route.ts`: `@ai-sdk/google` `gemini-2.5-flash`, `createDataStreamResponse` + `streamText` + `smoothStream`, `maxSteps: 5`, `maxDuration = 30`. Fetches `${NEXT_PUBLIC_APP_URL}/resume.md` (i.e. `public/resume.md`) as base64 context — so it needs `NEXT_PUBLIC_APP_URL` pointing at a running server. System prompt: `server/ai/prompts.ts`; tools: `server/ai/tools/youtube.ts`. OpenAI/OpenRouter providers are installed but unused.
+
+AI SDK is **v4** (`ai@^4`): use v4 APIs (`createDataStreamResponse`, `maxSteps`, `UIMessage` from `ai`). Don't copy v5 examples (`toUIMessageStreamResponse`, `stopWhen`) without upgrading.
 
 ### Database
-**Turso** (libSQL) via `@libsql/client`, client in `src/server/db/client.ts` reading `TURSO_DATABASE_URL` / `TURSO_AUTH_TOKEN`. Migrations are managed by **geni** (see README) under `migrations/` as paired `*.up.sql` / `*.down.sql` files plus a generated `schema.sql`. The `blog` table is currently the only domain table; MDX in `src/content/blog/` is the primary content source — Turso is for runtime-created blog records served from `app/api/blog`.
+Turso/libSQL via `server/db/client.ts`. Migrations in `migrations/` (`*.up.sql` / `*.down.sql` + `schema.sql`), managed with [geni](https://turso.tech/blog/database-migrations-with-geni). Only table: `blog`. Currently **not wired to any route** (`server/services/blog.ts` is unused) — MDX is the source of truth for posts.
 
-### Environment
-See `env.example`: `GOOGLE_GENERATIVE_AI_API_KEY`, `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_TURNSTILE_KEY`, `NEXT_PUBLIC_ENABLE_EMAIL`, `YOUTUBE_API_KEY`, `YOUTUBE_CHANNEL_ID`, `RESEND_API_KEY`. Also referenced in code: `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, `NEXT_PUBLIC_GOOGLE_ANALYTICS_ID` (only injected when `NODE_ENV === "production"`).
+### Design references
+`docs/designs/v2/` and `docs/designs/v3/` are Claude Design handoff bundles (HTML/JSX prototypes). Read `index.html` + its imports when implementing a design. Prototypes, not production code: match the visuals, don't copy the structure.
 
-### Images / external hosts
-`next.config.ts` whitelists `i.ytimg.com` only. Add hosts there before using `next/image` with new remotes.
+## Environment
 
-### Styling
-Tailwind v4 via `@tailwindcss/postcss`. Global styles + CSS variables in `src/app/globals.css`. shadcn config in `components.json` (style: new-york, baseColor: neutral, RSC: true, icon: lucide). Use the `cn` helper from `@/lib/utils`.
+Template: `env.example` (out of date — vars below are all read in code). `.env*` is gitignored.
 
-## Conventions worth knowing
+- AI: `GOOGLE_GENERATIVE_AI_API_KEY` (`OPENAI_API_KEY` optional, unused path)
+- App: `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_TURNSTILE_KEY`, `NEXT_PUBLIC_ENABLE_EMAIL`, `NEXT_PUBLIC_GOOGLE_ANALYTICS_ID`
+- YouTube: `YOUTUBE_API_KEY`, `YOUTUBE_CHANNEL_ID`
+- Email: `RESEND_API_KEY`
+- DB: `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`
+- R2: `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_ACCESS_KEY`, `CLOUDFLARE_SECRET_KEY`, `CLOUDFLARE_BUCKET_NAME`, `CLOUDFLARE_PUBLIC_URL`
 
-- Three Google fonts are loaded as CSS variables in the root layout: `--font-geist-sans`, `--font-geist-mono`, `--font-titillium-web`.
-- Keep server-only imports (`@/server/*`, `@libsql/client`, `resend`, AI SDK provider packages) out of client components.
-- When adding a blog post: create `src/content/blog/<slug>.mdx` with the frontmatter required by `velite.config.ts`, then re-run `pnpm dev:content` (or rely on `pnpm dev` to watch).
-- When adding a shadcn component: `pnpm dlx shadcn@latest add <name>` — it will land in `src/components/ui/` per `components.json`.
+When you add an env var, add it to `env.example` too.
+
+## Conventions
+
+- Imports: `@/*` → `src/*`; `#site/content` → `.velite`.
+- Never import `@/server/*`, `@libsql/client`, `resend`, `@aws-sdk/*`, or `@ai-sdk/*` providers from a `"use client"` file.
+- Styling: Tailwind v4 (`@tailwindcss/postcss`), tokens in `src/app/globals.css`, merge classes with `cn` from `@/lib/utils`. Arcade-specific styles live in `modules/v2/styles/arcade.css`.
+- Fonts (CSS vars from root layout): `--font-geist-sans`, `--font-geist-mono`, `--font-titillium-web`, and arcade fonts `--font-press-start`, `--font-vt323`, `--font-silkscreen`.
+- Animation: `motion` (`motion/react`), not `framer-motion`.
+- Remote images: `next.config.ts` allows only `i.ytimg.com`. Add the host there before using `next/image` with a new remote.
+- Icons: `lucide-react`.
+- Commits: Conventional Commits (`feat:`, `fix:`, `docs:`), lowercase, imperative.
+
+## Project skills
+
+`.claude/skills/` (pinned in `skills-lock.json`) covers Next.js, React, shadcn, Tailwind v4, AI SDK, Zod, a11y, SEO. Use the relevant skill before working in its area.
