@@ -35,7 +35,7 @@ export function ArticleShell({ post, body, prev, next, related }: Props) {
       <Nav />
       <ArticleHeader post={post} />
       <ArticleHero post={post} />
-      <ArticleBody code={body} />
+      <ArticleBody code={body} lang={post.lang} />
       <ArticleReactions />
       <PrevNext prev={prev} next={next} />
       <Related posts={related} />

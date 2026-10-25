@@ -78,6 +78,7 @@ export function ArticleHeader({ post }: Props) {
         </div>
 
         <h1
+          lang={post.lang}
           className="pixel-text"
           style={{
             margin: 0,

@@ -1,18 +1,23 @@
+import { absoluteUrl, SITE_NAME } from "@/lib/metadata";
 import { BlogShell } from "@/modules/v2/blog/blog-shell";
 import { getAllArcadeBlogPosts } from "@/modules/v2/blog/server/data";
 import type { Metadata } from "next";
 
+const description =
+  "Artículos sobre desarrollo web, React, Next.js, arquitectura de software e inteligencia artificial aplicada al desarrollo.";
+
 export const metadata: Metadata = {
-  title: "El Frontend Blog",
-  description:
-    "Read my latest thoughts on software development and web development.",
-  alternates: { canonical: "https://elfrontend.com/blog" },
+  title: "Blog",
+  description,
+  alternates: { canonical: absoluteUrl("/blog") },
   openGraph: {
-    title: "El Frontend Blog",
-    description:
-      "Read my latest thoughts on software development and web development.",
-    url: "https://elfrontend.com/blog",
+    title: "ElFrontend Blog",
+    description,
+    url: absoluteUrl("/blog"),
+    siteName: SITE_NAME,
     type: "website",
+    locale: "es_ES",
+    images: [{ url: "/og.png", width: 1200, height: 630 }],
   },
 };
 

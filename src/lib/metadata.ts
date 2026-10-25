@@ -1,23 +1,33 @@
 import { Metadata } from "next";
 
-const title = "ElFrontend";
+import { SOCIALS } from "@/modules/v2/content/data";
+
+export const SITE_URL = "https://elfrontend.com";
+export const SITE_NAME = "ElFrontend";
+
 const description = "Welcome to ElFrontend - Official Website.";
-const thumbnail = "/og.webp";
+const thumbnail = "/og.png";
+
+export const AUTHOR = {
+  name: "Carlos Chao",
+  url: SITE_URL,
+  sameAs: [...SOCIALS.map((s) => s.href), "https://x.com/cortes_chao"],
+};
+
+export const absoluteUrl = (path: string) => new URL(path, SITE_URL).toString();
 
 export const generateMetadata = (): Metadata => ({
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_APP_URL ?? "https://elfrontend.com"
-  ),
-  title,
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? SITE_URL),
+  title: { default: SITE_NAME, template: `%s · ${SITE_NAME}` },
   description,
   openGraph: {
-    title,
+    siteName: SITE_NAME,
+    title: SITE_NAME,
     description,
-    authors: ['Carlos Chao Cortes'],
+    authors: [AUTHOR.name],
     images: [
       {
         url: thumbnail,
-        secureUrl: thumbnail,
         alt: description,
         width: 1200,
         height: 630,
@@ -26,6 +36,11 @@ export const generateMetadata = (): Metadata => ({
   },
   twitter: {
     card: "summary_large_image",
-    images: ["/og.webp"],
+    images: [thumbnail],
   },
+});
+
+/** Serialize JSON-LD for a <script> tag, escaping `<` so content can't close the tag. */
+export const jsonLd = (data: object) => ({
+  __html: JSON.stringify(data).replace(/</g, "\\u003c"),
 });

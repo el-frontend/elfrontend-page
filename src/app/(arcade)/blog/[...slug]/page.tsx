@@ -1,4 +1,5 @@
 import { blogs as allBlogs } from "#site/content";
+import { absoluteUrl, AUTHOR, jsonLd, SITE_NAME } from "@/lib/metadata";
 import { ArticleShell } from "@/modules/v2/blog/article/article-shell";
 import { getAllArcadeBlogPosts } from "@/modules/v2/blog/server/data";
 import "@/styles/mdx.css";
@@ -17,16 +18,29 @@ export async function generateMetadata({ params }: BlogPageItemProps): Promise<M
   const joined = slug.join("/");
   const blog = allBlogs.find((b) => b.slugAsParams === joined);
   if (!blog) return {};
+  const url = absoluteUrl(`/blog/${blog.slugAsParams}`);
+  const image = { url: `/og/blog/${blog.slugAsParams}`, width: 1200, height: 630, alt: blog.title };
   return {
     title: blog.title,
     description: blog.description,
-    authors: { name: blog.author },
-    alternates: { canonical: `https://elfrontend.com/blog/${blog.slugAsParams}` },
+    authors: { name: AUTHOR.name, url: AUTHOR.url },
+    alternates: { canonical: url },
     openGraph: {
       title: blog.title,
       description: blog.description,
-      url: `https://elfrontend.com/blog/${blog.slugAsParams}`,
+      url,
+      siteName: SITE_NAME,
       type: "article",
+      locale: blog.lang === "es" ? "es_ES" : "en_US",
+      publishedTime: blog.date,
+      authors: [AUTHOR.name],
+      images: [image],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: blog.title,
+      description: blog.description,
+      images: [image],
     },
   };
 }
@@ -52,7 +66,25 @@ export default async function BlogPageItem({ params }: BlogPageItemProps) {
   const fallback = all.filter((p) => p.slug !== joined && p.tag !== post.tag);
   const related = [...sameTag, ...fallback].slice(0, 3);
 
+  const url = absoluteUrl(`/blog/${blog.slugAsParams}`);
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: blog.title,
+    description: blog.description,
+    image: [absoluteUrl(`/og/blog/${blog.slugAsParams}`), absoluteUrl(blog.image)],
+    datePublished: blog.date,
+    inLanguage: blog.lang,
+    url,
+    mainEntityOfPage: url,
+    author: { "@type": "Person", name: AUTHOR.name, url: AUTHOR.url, sameAs: AUTHOR.sameAs },
+    publisher: { "@type": "Person", name: AUTHOR.name, url: AUTHOR.url },
+  };
+
   return (
-    <ArticleShell post={post} body={blog.body} prev={prev} next={next} related={related} />
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(structuredData)} />
+      <ArticleShell post={post} body={blog.body} prev={prev} next={next} related={related} />
+    </>
   );
 }

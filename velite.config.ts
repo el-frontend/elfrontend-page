@@ -21,6 +21,7 @@ const blogs = defineCollection({
       published: s.boolean().default(true),
       image: s.string().max(99),
       author: s.string(),
+      lang: s.enum(["es", "en"]).default("es"),
       body: s.mdx(),
     })
     .transform(computedFields),
