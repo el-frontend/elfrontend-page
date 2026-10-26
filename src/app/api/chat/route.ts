@@ -24,9 +24,17 @@ export async function POST(request: Request) {
   try {
     const {
       messages,
+      lang,
     }: {
       messages: Array<UIMessage>;
+      /** UI language of the page the chat runs on */
+      lang?: "es" | "en";
     } = await request.json();
+
+    const system =
+      lang === "en"
+        ? `${elFrontendPrompt}\n\nThe visitor is browsing the site in English: answer in English unless they write in another language.`
+        : elFrontendPrompt;
 
 
     const contextFile = await getDataBase64FromUrl(
@@ -49,7 +57,7 @@ export async function POST(request: Request) {
 
         const result = streamText({
           model: googleModel,
-          system: elFrontendPrompt,
+          system,
           messages: [
             {
               role: "user",
