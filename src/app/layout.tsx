@@ -62,7 +62,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="es" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${titillium.variable} ${pressStart.variable} ${vt323.variable} ${silkscreen.variable} antialiased overflow-x-hidden scroll-behavior-smooth`}
       >

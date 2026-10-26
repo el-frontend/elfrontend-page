@@ -1,0 +1,36 @@
+/* v4 "Signal" tokens — see docs/designs/v4/README.md */
+.v4 {
+  --v4-bg: #f3f3ef;
+  --v4-s1: #ffffff;
+  --v4-s2: #ecece6;
+  --v4-line: #dcdcd4;
+  --v4-fg: #121316;
+  --v4-muted: #575c66;
+  --v4-acc: #ff6a3d;
+  --v4-acc-ink: #140803;
+  --v4-acc-text: #a8350e;
+}
+
+.dark .v4 {
+  --v4-bg: #0c0d10;
+  --v4-s1: #15171c;
+  --v4-s2: #1b1e25;
+  --v4-line: #2a2e37;
+  --v4-fg: #f2f3f5;
+  --v4-muted: #a2a8b3;
+  --v4-acc-text: #ff6a3d;
+}
+
+.v4 {
+  background: var(--v4-bg);
+  color: var(--v4-fg);
+  color-scheme: light;
+}
+
+.dark .v4 {
+  color-scheme: dark;
+}
+
+.v4-display {
+  font-family: var(--font-bricolage), var(--font-geist-sans), sans-serif;
+}
