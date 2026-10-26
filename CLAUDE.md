@@ -15,25 +15,25 @@ Package manager: **pnpm** (`packageManager` in `package.json`). A `package-lock.
 | Lint | `pnpm exec eslint .` (flat config, `eslint.config.mjs`) |
 | Email template preview | `pnpm email:dev` |
 
-No test runner. **Verify changes with `tsc --noEmit` + lint + `pnpm build`** (the build catches missing modules that broke Vercel before — see commit `f7bc3f8`). For UI changes, run `pnpm dev` and check the page, including at phone width (the arcade layout has had mobile overflow bugs).
+No test runner. **Verify changes with `tsc --noEmit` + lint + `pnpm build`** (the build catches missing modules that broke Vercel before — see commit `f7bc3f8`). For UI changes, run `pnpm dev` and check the page, including at phone width and in light and dark mode.
 
 `#site/content` resolves to `.velite/`, which only exists after Velite runs. If types for `blogs` are missing, run `pnpm build:content` first.
 
 ## Architecture
 
 ### Routes (`src/app/`)
-- `(v4)/` — **the live home** at `/` (v4 "Signal" creator bento, design in `docs/designs/v4/`). Layout loads Bricolage Grotesque (`--font-bricolage`) and `@/modules/v4/styles/v4.css`; page emits `WebSite` + `Person` JSON-LD.
-- `(arcade)/` — arcade edition: `/v3` (previous home, kept as an archive), `/blog`, `/blog/[...slug]` (the blog still uses the arcade look). Layout imports `@/modules/v2/styles/arcade.css` and wraps in `.arcade-root`.
+- `(v4)/` — **the live site** in the v4 "Signal" design (`docs/designs/v4/`): `/` (creator bento, `WebSite` + `Person` JSON-LD), `/blog`, `/blog/[...slug]` (`BlogPosting` JSON-LD). Layout imports `@/modules/v4/styles/v4.css` and sets the `%s · ElFrontend` title template.
+- `(arcade)/` — `/v3` only: the previous arcade home, kept as an archive. Layout imports `@/modules/v2/styles/arcade.css` and wraps in `.arcade-root`.
 - `(with-nav)/v1` — previous site version, kept under `/v1` with `MainLayout` + navbar. Legacy; don't add features here.
 - `api/chat/route.ts` — AI chat (POST). Used by `modules/v4/components/chat-tile.tsx` and the arcade `hero-chat.tsx`.
-- `layout.tsx` — root: fonts, `MainProvider` (home store), `next-themes` `ThemeProvider` (class attribute, system default), sonner `Toaster`, Vercel Analytics/Speed Insights, GTM only when `NODE_ENV === "production"` and `NEXT_PUBLIC_GOOGLE_ANALYTICS_ID` is set.
+- `not-found.tsx` — v4 404 (with the Ask Carlos chat), `noindex`.
+- `layout.tsx` — root: fonts (incl. Bricolage Grotesque `--font-bricolage` for v4), `MainProvider` (home store), `next-themes` `ThemeProvider` (class attribute, system default), sonner `Toaster`, Vercel Analytics/Speed Insights, GTM only when `NODE_ENV === "production"` and `NEXT_PUBLIC_GOOGLE_ANALYTICS_ID` is set.
 - `sitemap.ts`, `robots.txt`, `not-found.tsx`, icons.
 
 ### Feature modules (`src/modules/`)
-- `v4/` — **current home.** `components/` (`v4-home` shell, `header`, `tiles`, `chat-tile`), `server/data.ts` (`getHomeData`: newest posts, real stats incl. YouTube `videoCount`, latest video/talk), `content/copy.ts` (ES/EN strings), `context/lang-context.tsx` (ES default, saved in `localStorage`), `styles/v4.css` (`--v4-*` tokens; light on `.v4`, dark on `.dark .v4`). Style with Tailwind using those tokens, e.g. `bg-(--v4-s1)`.
-- `v2/` — arcade edition (`/v3` and the blog). Its `content/data.ts` (projects, talks, socials) is also read by v4. `components/` (`arcade-shell`, `sections/*`, `sprites/`, CRT overlay, Konami banner), `blog/` (blog + article shells, `server/data.ts`), `content/` (`copy.ts`, `data.ts` — static site copy/projects/skills), `context/arcade-context.tsx`, `hooks/`, `audio.ts`, `server/data.ts` (YouTube + blog data loaders for server components), `styles/arcade.css`.
+- `v4/` — **current site.** `components/` (`shell` = header + footer frame for every v4 page, `v4-home`, `header`, `tiles`, `chat-tile`), `blog/` (`blog-index`, `article`, `v4-mdx`), `not-found/`, `server/data.ts` (`getHomeData`: newest posts, real stats incl. YouTube `videoCount`, latest video/talk), `server/blog.ts` (`getBlogPosts`, `getBlogStats`), `content/copy.ts` (ES/EN strings), `context/lang-context.tsx` (ES default, saved in `localStorage`), `styles/v4.css` (`--v4-*` tokens; light on `.v4`, dark on `.dark .v4`; `.v4-prose` styles article MDX). Style with Tailwind using those tokens, e.g. `bg-(--v4-s1)`.
+- `v2/` — arcade edition (`/v3` only). Its `content/data.ts` (projects, talks, socials) is also read by v4. `components/` (`arcade-shell`, `sections/*`, `sprites/`, CRT overlay, Konami banner), `content/` (`copy.ts`, `data.ts` — static site copy/projects/skills), `context/arcade-context.tsx`, `hooks/`, `audio.ts`, `server/data.ts` (YouTube + blog data loaders for server components), `styles/arcade.css`.
 - `home/`, `blog/` — v1 modules. `home/store` still provides `MainProvider` used by the root layout.
-- `static/` — not-found page.
 
 New feature work goes in a module, not top-level `components/`. Pattern: server components fetch via `<module>/server/*.ts` and pass plain props to `"use client"` shells.
 
@@ -52,7 +52,7 @@ New feature work goes in a module, not top-level `components/`. Pattern: server 
 - Show only real numbers on the site (counts, stats, subscribers). Derive them from content or a data source; never hardcode.
 - Output → `.velite/` (generated, never edit); assets → `public/static/`.
 - MDX plugins: `remark-gfm` (tables), `rehype-slug`, `rehype-pretty-code` (nord), `rehype-autolink-headings`.
-- Consume with `import { blogs } from "#site/content"` — only in server code (`modules/v2/*/server/data.ts`).
+- Consume with `import { blogs } from "#site/content"` — only in server code (`modules/*/server/*.ts`).
 
 ### AI chat
 `api/chat/route.ts`: `@ai-sdk/google` `gemini-2.5-flash`, `createDataStreamResponse` + `streamText` + `smoothStream`, `maxSteps: 5`, `maxDuration = 30`. Fetches `${NEXT_PUBLIC_APP_URL}/resume.md` (i.e. `public/resume.md`) as base64 context — so it needs `NEXT_PUBLIC_APP_URL` pointing at a running server. System prompt: `server/ai/prompts.ts`; tools: `server/ai/tools/youtube.ts`. OpenAI/OpenRouter providers are installed but unused.
@@ -83,7 +83,7 @@ When you add an env var, add it to `env.example` too.
 - Imports: `@/*` → `src/*`; `#site/content` → `.velite`.
 - Never import `@/server/*`, `@libsql/client`, `resend`, `@aws-sdk/*`, or `@ai-sdk/*` providers from a `"use client"` file.
 - Styling: Tailwind v4 (`@tailwindcss/postcss`), tokens in `src/app/globals.css`, merge classes with `cn` from `@/lib/utils`. Arcade-specific styles live in `modules/v2/styles/arcade.css`.
-- Fonts (CSS vars from root layout): `--font-geist-sans`, `--font-geist-mono`, `--font-titillium-web`, and arcade fonts `--font-press-start`, `--font-vt323`, `--font-silkscreen`.
+- Fonts (CSS vars from root layout): `--font-geist-sans`, `--font-geist-mono`, `--font-titillium-web`, `--font-bricolage` (v4 display), and arcade fonts `--font-press-start`, `--font-vt323`, `--font-silkscreen`.
 - Animation: `motion` (`motion/react`), not `framer-motion`.
 - Remote images: `next.config.ts` allows only `i.ytimg.com`. Add the host there before using `next/image` with a new remote.
 - Icons: `lucide-react`.

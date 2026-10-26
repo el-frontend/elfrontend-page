@@ -3,6 +3,7 @@
 import { Menu, Moon, Sun, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useLang } from "../context/lang-context";
 
@@ -13,12 +14,13 @@ export function Header() {
   const { t, toggleLang } = useLang();
   const { resolvedTheme, setTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   const links = [
-    { href: "#videos", label: t.navVideos },
+    { href: "/#videos", label: t.navVideos },
     { href: "/blog", label: t.navBlog },
-    { href: "#talks", label: t.navTalks },
-    { href: "#projects", label: t.navProjects },
+    { href: "/#talks", label: t.navTalks },
+    { href: "/#projects", label: t.navProjects },
   ];
 
   return (
@@ -37,7 +39,8 @@ export function Header() {
           <Link
             key={l.href}
             href={l.href}
-            className="rounded-full px-3.5 py-2.5 text-(--v4-muted) transition-colors hover:text-(--v4-fg)"
+            aria-current={pathname.startsWith(l.href) ? "page" : undefined}
+            className="rounded-full px-3.5 py-2.5 text-(--v4-muted) transition-colors hover:text-(--v4-fg) aria-[current=page]:bg-(--v4-s1) aria-[current=page]:text-(--v4-fg)"
           >
             {l.label}
           </Link>

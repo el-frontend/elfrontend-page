@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { formatDate } from "../content/copy";
-import { LangProvider, useLang } from "../context/lang-context";
+import { useLang } from "../context/lang-context";
 import type { HomeData, HomePost } from "../types";
 import { ChatTile } from "./chat-tile";
-import { Header } from "./header";
+import { V4Shell } from "./shell";
 import {
   CommunityTile,
   IntroTile,
@@ -18,29 +18,41 @@ import {
 
 export function V4Home({ data }: { data: HomeData }) {
   return (
-    <LangProvider>
-      <div className="v4 min-h-screen font-sans">
-        <div className="mx-auto flex max-w-[1280px] flex-col gap-4 px-4 pb-12 pt-4 sm:px-8 sm:pt-6">
-          <Header />
-          <main className="grid grid-cols-12 gap-3 sm:gap-4">
-            <IntroTile className="col-span-12 lg:col-span-7 lg:row-span-2" />
-            <ChatTile className="col-span-12 lg:col-span-5 lg:row-span-2" />
-            <VideoTile video={data.video} className="col-span-12 md:col-span-6 lg:col-span-5" />
-            {data.posts[0] && (
-              <PostTile post={data.posts[0]} className="col-span-12 md:col-span-6 lg:col-span-4" />
-            )}
-            <StatsTile stats={data.stats} className="col-span-12 md:col-span-6 lg:col-span-3" />
-            {data.talk && (
-              <TalkTile talk={data.talk} className="col-span-12 md:col-span-6 lg:col-span-4" />
-            )}
-            <ProjectsTile projects={data.projects} className="col-span-12 md:col-span-6 lg:col-span-5" />
-            <CommunityTile socials={data.socials} className="col-span-12 md:col-span-6 lg:col-span-3" />
-          </main>
-          <MorePosts posts={data.posts.slice(1)} />
-          <Footer />
-        </div>
-      </div>
-    </LangProvider>
+    <V4Shell>
+      <main className="grid grid-cols-12 gap-3 sm:gap-4">
+        <IntroTile className="col-span-12 lg:col-span-7 lg:row-span-2" />
+        <ChatTile className="col-span-12 lg:col-span-5 lg:row-span-2" />
+        <VideoTile
+          video={data.video}
+          className="col-span-12 md:col-span-6 lg:col-span-5"
+        />
+        {data.posts[0] && (
+          <PostTile
+            post={data.posts[0]}
+            className="col-span-12 md:col-span-6 lg:col-span-4"
+          />
+        )}
+        <StatsTile
+          stats={data.stats}
+          className="col-span-12 md:col-span-6 lg:col-span-3"
+        />
+        {data.talk && (
+          <TalkTile
+            talk={data.talk}
+            className="col-span-12 md:col-span-6 lg:col-span-4"
+          />
+        )}
+        <ProjectsTile
+          projects={data.projects}
+          className="col-span-12 md:col-span-6 lg:col-span-5"
+        />
+        <CommunityTile
+          socials={data.socials}
+          className="col-span-12 md:col-span-6 lg:col-span-3"
+        />
+      </main>
+      <MorePosts posts={data.posts.slice(1)} />
+    </V4Shell>
   );
 }
 
@@ -48,12 +60,21 @@ function MorePosts({ posts }: { posts: HomePost[] }) {
   const { t, lang } = useLang();
   if (!posts.length) return null;
   return (
-    <section aria-labelledby="v4-more" className="mt-6 flex flex-col gap-4 sm:mt-10">
+    <section
+      aria-labelledby="v4-more"
+      className="mt-6 flex flex-col gap-4 sm:mt-10"
+    >
       <div className="flex items-baseline justify-between gap-3">
-        <h2 id="v4-more" className="v4-display m-0 text-[26px] font-bold tracking-[-0.03em] sm:text-[32px]">
+        <h2
+          id="v4-more"
+          className="v4-display m-0 text-[26px] font-bold tracking-[-0.03em] sm:text-[32px]"
+        >
           {t.moreTitle}
         </h2>
-        <Link href="/blog" className="py-2.5 text-[15px] font-semibold text-(--v4-acc-text)">
+        <Link
+          href="/blog"
+          className="py-2.5 text-[15px] font-semibold text-(--v4-acc-text)"
+        >
           {t.moreLink} →
         </Link>
       </div>
@@ -77,20 +98,5 @@ function MorePosts({ posts }: { posts: HomePost[] }) {
         ))}
       </div>
     </section>
-  );
-}
-
-function Footer() {
-  const { t } = useLang();
-  return (
-    <footer className="mt-6 flex flex-wrap justify-between gap-4 border-t border-(--v4-line) pt-6 text-sm text-(--v4-muted) sm:mt-10">
-      <span>{t.footer}</span>
-      <span className="flex gap-[18px]">
-        <a href="/rss.xml" className="hover:text-(--v4-fg)">RSS</a>
-        <a href="https://github.com/el-frontend" className="hover:text-(--v4-fg)">GitHub</a>
-        <a href="https://linkedin.com/in/carlos-chao" className="hover:text-(--v4-fg)">LinkedIn</a>
-        <Link href="/v3" className="hover:text-(--v4-fg)">v3</Link>
-      </span>
-    </footer>
   );
 }

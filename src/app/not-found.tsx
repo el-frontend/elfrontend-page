@@ -1,11 +1,12 @@
-import NotFoundContainer from "@/modules/static/not-found/not-found-container";
-import { Metadata } from "next";
+import "@/modules/v4/styles/v4.css";
+import { V4NotFound } from "@/modules/v4/not-found/not-found";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: { absolute: "ElFrontend 404 - You are lost" },
-    description: "ElFrontend - Official Website",
-  };
+  title: { absolute: "Página no encontrada · ElFrontend" },
+  robots: { index: false },
+};
 
 export default function NotFound() {
-  return <NotFoundContainer />;
+  return <V4NotFound />;
 }
