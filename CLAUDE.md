@@ -44,9 +44,12 @@ New feature work goes in a module, not top-level `components/`. Pattern: server 
 - `server/` — **server-only.** `ai/` (prompts, YouTube tools, model factories), `services/` (`youtube`, `resend`, `cloudflare` R2, `blog` Turso), `db/client.ts` (libSQL), `email/` (react-email templates), `utils/`, `types/`.
 
 ### Content (Velite)
-- Posts: `src/content/blog/<slug>.mdx`. Schema in `velite.config.ts`: `title` (≤99), `description` (≤999), `date` (ISO), `image` (≤99), `author`, `published` (default true). `slugAsParams` is computed.
+- Posts: `src/content/blog/<slug>.mdx`. Schema in `velite.config.ts`: `title` (≤120), `description` (≤999), `date` (ISO), `image` (≤99, path under `public/`), `tag` (one of `React`, `CSS`, `AI`, `Theory`, `Process`, `Workflow`, `Web`), `author`, `lang` (`es` default, or `en`), `published` (default true). `slugAsParams` and `metadata` (word count, reading time) are computed.
+- Don't start a post with `# Title` — the article header already renders the title as the page's `<h1>`.
+- Posts are Spanish. Each post gets a 1200×630 JPEG preview at `/og/blog/<slug>` (from its cover), and appears in `/sitemap.xml` and `/rss.xml` automatically.
+- Show only real numbers on the site (counts, stats, subscribers). Derive them from content or a data source; never hardcode.
 - Output → `.velite/` (generated, never edit); assets → `public/static/`.
-- MDX plugins: `rehype-slug`, `rehype-pretty-code` (nord), `rehype-autolink-headings`.
+- MDX plugins: `remark-gfm` (tables), `rehype-slug`, `rehype-pretty-code` (nord), `rehype-autolink-headings`.
 - Consume with `import { blogs } from "#site/content"` — only in server code (`modules/v2/*/server/data.ts`).
 
 ### AI chat

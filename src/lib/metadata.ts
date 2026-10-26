@@ -14,12 +14,18 @@ export const AUTHOR = {
   sameAs: [...SOCIALS.map((s) => s.href), "https://x.com/cortes_chao"],
 };
 
+/** RSS discovery link. Next merges `alternates` shallowly, so pages that set a canonical repeat this. */
+export const RSS_ALTERNATE = {
+  "application/rss+xml": [{ url: "/rss.xml", title: `${SITE_NAME} Blog` }],
+};
+
 export const absoluteUrl = (path: string) => new URL(path, SITE_URL).toString();
 
 export const generateMetadata = (): Metadata => ({
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? SITE_URL),
   title: { default: SITE_NAME, template: `%s · ${SITE_NAME}` },
   description,
+  alternates: { types: RSS_ALTERNATE },
   openGraph: {
     siteName: SITE_NAME,
     title: SITE_NAME,

@@ -20,8 +20,10 @@ const blogs = defineCollection({
       date: s.isodate(),
       published: s.boolean().default(true),
       image: s.string().max(99),
+      tag: s.enum(["React", "CSS", "AI", "Theory", "Process", "Workflow", "Web"]),
       author: s.string(),
       lang: s.enum(["es", "en"]).default("es"),
+      metadata: s.metadata(),
       body: s.mdx(),
     })
     .transform(computedFields),

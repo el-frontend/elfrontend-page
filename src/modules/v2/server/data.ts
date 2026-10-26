@@ -24,8 +24,8 @@ export function getArcadeBlogPosts(): ArcadeBlogPost[] {
       slug: b.slugAsParams,
       title: b.title,
       date: formatDate(b.date),
-      read: estimateReadTime(b.body),
-      tag: inferTag(b.title),
+      read: `${Math.max(1, Math.round(b.metadata.readingTime))} min`,
+      tag: b.tag,
       image: b.image,
     }));
 }
@@ -52,21 +52,4 @@ function relativeDate(iso: string) {
   if (diff < day * 60) return `${Math.floor(diff / (day * 7))}w ago`;
   if (diff < day * 365) return `${Math.floor(diff / (day * 30))}mo ago`;
   return `${Math.floor(diff / (day * 365))}y ago`;
-}
-
-function estimateReadTime(body: string) {
-  const words = body.split(/\s+/).length;
-  const minutes = Math.max(1, Math.round(words / 220));
-  return `${minutes} min`;
-}
-
-function inferTag(title: string) {
-  const t = title.toLowerCase();
-  if (t.includes("react")) return "React";
-  if (t.includes("tailwind")) return "CSS";
-  if (t.includes("estim")) return "Process";
-  if (t.includes("ai") || t.includes("video")) return "AI";
-  if (t.includes("pattern")) return "Theory";
-  if (t.includes("trunk")) return "Workflow";
-  return "Notes";
 }

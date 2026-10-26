@@ -1,5 +1,5 @@
 import { blogs as allBlogs } from "#site/content";
-import { absoluteUrl, AUTHOR, jsonLd, SITE_NAME } from "@/lib/metadata";
+import { absoluteUrl, AUTHOR, jsonLd, RSS_ALTERNATE, SITE_NAME } from "@/lib/metadata";
 import { ArticleShell } from "@/modules/v2/blog/article/article-shell";
 import { getAllArcadeBlogPosts } from "@/modules/v2/blog/server/data";
 import "@/styles/mdx.css";
@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: BlogPageItemProps): Promise<M
     title: blog.title,
     description: blog.description,
     authors: { name: AUTHOR.name, url: AUTHOR.url },
-    alternates: { canonical: url },
+    alternates: { canonical: url, types: RSS_ALTERNATE },
     openGraph: {
       title: blog.title,
       description: blog.description,

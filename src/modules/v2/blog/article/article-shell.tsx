@@ -7,13 +7,11 @@ import { Nav } from "../../components/sections/nav";
 import { StatusBar } from "../../components/sections/status-bar";
 import { ArcadeFooter } from "../../components/sections/footer";
 import { WalkingSprite } from "../../components/walking-sprite";
-import { Newsletter } from "../sections/newsletter";
 import type { BlogPost } from "../types";
 import { ReadingProgress } from "./reading-progress";
 import { ArticleBody } from "./sections/article-body";
 import { ArticleHeader } from "./sections/article-header";
 import { ArticleHero } from "./sections/article-hero";
-import { ArticleReactions } from "./sections/article-reactions";
 import { PrevNext } from "./sections/prev-next";
 import { Related } from "./sections/related";
 
@@ -36,10 +34,8 @@ export function ArticleShell({ post, body, prev, next, related }: Props) {
       <ArticleHeader post={post} />
       <ArticleHero post={post} />
       <ArticleBody code={body} lang={post.lang} />
-      <ArticleReactions />
       <PrevNext prev={prev} next={next} />
       <Related posts={related} />
-      <Newsletter />
       <ArcadeFooter />
       <WalkingSprite />
     </ArcadeProvider>

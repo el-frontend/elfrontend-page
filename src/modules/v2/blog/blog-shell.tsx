@@ -12,21 +12,21 @@ import { BlogHeader } from "./sections/blog-header";
 import { FeaturedPost } from "./sections/featured-post";
 import { BlogToolbar } from "./sections/blog-toolbar";
 import { BlogGrid } from "./sections/blog-grid";
-import { Newsletter } from "./sections/newsletter";
-import type { BlogPost } from "./types";
+import type { BlogPost, BlogStats } from "./types";
 
-export function BlogShell({ posts }: { posts: BlogPost[] }) {
+type Props = { posts: BlogPost[]; stats: BlogStats };
+
+export function BlogShell({ posts, stats }: Props) {
   return (
     <ArcadeProvider>
-      <BlogShellInner posts={posts} />
+      <BlogShellInner posts={posts} stats={stats} />
     </ArcadeProvider>
   );
 }
 
-function BlogShellInner({ posts }: { posts: BlogPost[] }) {
+function BlogShellInner({ posts, stats }: Props) {
   const [query, setQuery] = useState("");
   const [tag, setTag] = useState("ALL");
-  const [sort, setSort] = useState<"newest" | "popular">("newest");
 
   const featured = posts[0];
   const rest = posts.slice(1);
@@ -50,11 +50,8 @@ function BlogShellInner({ posts }: { posts: BlogPost[] }) {
         (p) => p.title.toLowerCase().includes(q) || p.tag.toLowerCase().includes(q),
       );
     }
-    if (sort === "popular") {
-      list = list.slice().sort((a, b) => b.likes - a.likes);
-    }
     return list;
-  }, [rest, tag, query, sort]);
+  }, [rest, tag, query]);
 
   return (
     <>
@@ -62,19 +59,16 @@ function BlogShellInner({ posts }: { posts: BlogPost[] }) {
       <KonamiBanner />
       <StatusBar />
       <Nav />
-      <BlogHeader />
+      <BlogHeader stats={stats} />
       {featured && <FeaturedPost post={featured} />}
       <BlogToolbar
         query={query}
         setQuery={setQuery}
         tag={tag}
         setTag={setTag}
-        sort={sort}
-        setSort={setSort}
         count={filtered.length}
       />
       <BlogGrid posts={filtered} />
-      <Newsletter />
       <ArcadeFooter />
       <WalkingSprite />
     </>
