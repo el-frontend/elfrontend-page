@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>ElFrontend v4 · A Signal phone</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<div style="--bg: {{t.bg}}; --s1: {{t.s1}}; --s2: {{t.s2}}; --line: {{t.line}}; --fg: {{t.fg}}; --muted: {{t.muted}}; --acc: {{t.acc}}; --accInk: {{t.accInk}}; --accText: {{t.accText}}; width: 390px; min-height: 3200px; background: var(--bg); color: var(--fg); font-family: 'Geist', system-ui, sans-serif; padding: 16px 16px 40px; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px;">
+
+<header style="display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 4px 0 8px;">
+<a href="#top" aria-label="ElFrontend, inicio" style="display: inline-flex; align-items: baseline; text-decoration: none; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.04em; color: var(--fg);">elfrontend<span style="display: inline-block; width: 7px; height: 7px; background: var(--acc); border-radius: 2px; margin-left: 2px;"></span></a>
+<div style="display: flex; gap: 6px;">
+<button type="button" onClick="{{toggleLang}}" aria-label="{{c.langAria}}" style="min-width: 44px; height: 44px; border-radius: 999px; border: 1px solid var(--line); background: var(--s1); color: var(--fg); font-family: 'Geist Mono', monospace; font-size: 13px; cursor: pointer;">{{c.langLabel}}</button>
+<button type="button" onClick="{{toggleTheme}}" aria-label="{{c.themeAria}}" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid var(--line); background: var(--s1); color: var(--fg); display: inline-flex; align-items: center; justify-content: center; cursor: pointer;">
+<sc-if value="{{dark}}" hint-placeholder-val="{{true}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if>
+<sc-if value="{{light}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg></sc-if>
+</button>
+<button type="button" aria-label="{{c.menuAria}}" style="width: 44px; height: 44px; border-radius: 999px; border: 0; background: var(--acc); color: var(--accInk); display: inline-flex; align-items: center; justify-content: center; cursor: pointer;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"></path></svg></button>
+</div>
+</header>
+
+<section id="top" style="background: var(--s1); border: 1px solid var(--line); border-radius: 22px; padding: 24px; display: flex; flex-direction: column; gap: 18px;">
+<div style="display: flex; align-items: center; gap: 12px;">
+<img src="/_blob/c267c28fb75f17cac0dfdbb7ed54cf62" alt="Carlos Chao" style="width: 48px; height: 48px; border-radius: 14px; object-fit: cover;">
+<div style="display: flex; flex-direction: column; gap: 2px;">
+<span style="font-weight: 600; font-size: 15px;">Carlos Chao Cortes</span>
+<span style="font-family: 'Geist Mono', monospace; font-size: 12px; color: var(--muted);">@ElFrontend · {{c.location}}</span>
+</div>
+</div>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 42px; line-height: 1; letter-spacing: -0.045em;">{{c.h1a}} <span style="color: var(--acc);">{{c.h1b}}</span></h1>
+<p style="margin: 0; font-size: 16px; line-height: 1.55; color: var(--muted);">{{c.sub}}</p>
+<div style="display: flex; gap: 8px;">
+<a href="#videos" style="flex: 1; height: 48px; display: inline-flex; align-items: center; justify-content: center; border-radius: 14px; background: var(--fg); color: var(--bg); text-decoration: none; font-weight: 600; font-size: 15px;">{{c.ctaPrimary}}</a>
+<a href="#blog" style="flex: 1; height: 48px; display: inline-flex; align-items: center; justify-content: center; border-radius: 14px; border: 1px solid var(--line); color: var(--fg); text-decoration: none; font-weight: 600; font-size: 15px;">{{c.ctaSecondary}}</a>
+</div>
+</section>
+
+<section aria-labelledby="sigp-ask" style="background: var(--s2); border: 1px solid var(--line); border-radius: 22px; padding: 22px; display: flex; flex-direction: column; gap: 14px;">
+<span style="display: inline-flex; align-items: center; gap: 8px; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted);"><span style="width: 8px; height: 8px; border-radius: 99px; background: var(--acc);"></span>{{c.askKicker}}</span>
+<h2 id="sigp-ask" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 28px; letter-spacing: -0.03em;">{{c.askTitle}}</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+<sc-for list="{{chips}}" as="chip" hint-placeholder-count="4">
+<button type="button" onClick="{{chip.pick}}" style="min-height: 40px; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--s1); color: var(--fg); font-family: 'Geist', sans-serif; font-size: 14px; cursor: pointer;">{{chip.label}}</button>
+</sc-for>
+</div>
+<form style="display: flex; gap: 8px;">
+<label for="sigp-q" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">{{c.askTitle}}</label>
+<input id="sigp-q" type="text" value="{{q}}" onChange="{{onQ}}" placeholder="{{c.askPh}}" style="flex: 1; min-width: 0; height: 50px; padding: 0 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); font-family: 'Geist', sans-serif; font-size: 16px; box-sizing: border-box;">
+<button type="button" aria-label="{{c.askBtn}}" style="width: 50px; height: 50px; border-radius: 14px; border: 0; background: var(--acc); color: var(--accInk); display: inline-flex; align-items: center; justify-content: center; cursor: pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg></button>
+</form>
+</section>
+
+<a id="videos" href="https://www.youtube.com/watch?v=LWG7QyaYZaE" style="background: var(--s1); border: 1px solid var(--line); border-radius: 22px; padding: 12px; display: flex; flex-direction: column; gap: 12px; text-decoration: none; color: var(--fg);">
+<div style="position: relative; border-radius: 14px; overflow: hidden; aspect-ratio: 16 / 9; background: #000;">
+<img src="/_blob/e2b31814a0b2d504f6be50530e39eb7f" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+<span style="position: absolute; left: 12px; bottom: 12px; width: 44px; height: 44px; border-radius: 999px; background: var(--acc); color: var(--accInk); display: inline-flex; align-items: center; justify-content: center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></span>
+</div>
+<div style="padding: 0 8px 6px; display: flex; flex-direction: column; gap: 4px;">
+<span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted);">{{c.videoLabel}}</span>
+<span style="font-weight: 600; font-size: 17px; line-height: 1.3;">3 ingredientes que se deben tener en cuenta para crear una comunidad</span>
+</div>
+</a>
+
+<a id="blog" href="https://elfrontend.com/blog/no-necesitas-el-modelo-mas-grande" style="background: var(--s1); border: 1px solid var(--line); border-radius: 22px; padding: 12px; display: flex; flex-direction: column; gap: 12px; text-decoration: none; color: var(--fg);">
+<img src="/_blob/4fc2421ff1de9fdb3ace790ef4f554b3" alt="" style="width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 14px;">
+<div style="padding: 0 8px 6px; display: flex; flex-direction: column; gap: 4px;">
+<span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted);">{{c.postLabel}}</span>
+<span style="font-weight: 600; font-size: 17px; line-height: 1.3;">No necesitas el modelo más grande para todo</span>
+<span style="font-size: 13px; color: var(--muted);">{{c.postMeta}}</span>
+</div>
+</a>
+
+<section aria-label="{{c.statsAria}}" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+<sc-for list="{{c.stats}}" as="s" hint-placeholder-count="4">
+<div style="background: var(--s1); border: 1px solid var(--line); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 4px;">
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 30px; letter-spacing: -0.04em; line-height: 1;">{{s.v}}</span>
+<span style="font-size: 13px; color: var(--muted);">{{s.l}}</span>
+</div>
+</sc-for>
+</section>
+
+<a href="https://www.youtube.com/watch?v=mmt24cot0vg" style="background: var(--s1); border: 1px solid var(--line); border-radius: 22px; padding: 20px; display: flex; gap: 14px; align-items: center; text-decoration: none; color: var(--fg);">
+<img src="/_blob/54cd9fe988486814b3cb55cae27a7ab7" alt="" style="width: 96px; height: 68px; object-fit: cover; border-radius: 12px; flex-shrink: 0;">
+<span style="display: flex; flex-direction: column; gap: 4px;">
+<span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted);">{{c.talkLabel}}</span>
+<span style="font-weight: 600; font-size: 15px; line-height: 1.3;">Mi Framework de Desarrollo con IA (2026)</span>
+</span>
+</a>
+
+<section style="background: var(--s1); border: 1px solid var(--line); border-radius: 22px; padding: 20px; display: flex; flex-direction: column;">
+<span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px;">{{c.projLabel}}</span>
+<sc-for list="{{c.projects}}" as="p" hint-placeholder-count="3">
+<a href="{{p.href}}" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; border-top: 1px solid var(--line); text-decoration: none; color: var(--fg);">
+<span style="display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 600; font-size: 16px;">{{p.name}}</span><span style="font-size: 13px; color: var(--muted);">{{p.tag}}</span></span>
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color: var(--acc);"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+</a>
+</sc-for>
+</section>
+
+<section style="background: var(--acc); color: var(--accInk); border-radius: 22px; padding: 22px; display: flex; flex-direction: column; gap: 14px;">
+<span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;">{{c.commLabel}}</span>
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 24px; letter-spacing: -0.03em; line-height: 1.1;">{{c.commTitle}}</span>
+<div style="display: flex; flex-wrap: wrap; gap: 6px;">
+<sc-for list="{{socials}}" as="so" hint-placeholder-count="6">
+<a href="{{so.href}}" style="min-height: 40px; display: inline-flex; align-items: center; padding: 0 14px; border-radius: 999px; border: 1.5px solid currentColor; color: inherit; text-decoration: none; font-size: 14px; font-weight: 600;">{{so.label}}</a>
+</sc-for>
+</div>
+</section>
+
+<section aria-labelledby="sigp-more" style="display: flex; flex-direction: column; gap: 10px; margin-top: 12px;">
+<div style="display: flex; align-items: baseline; justify-content: space-between;">
+<h2 id="sigp-more" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 26px; letter-spacing: -0.03em;">{{c.moreTitle}}</h2>
+<a href="https://elfrontend.com/blog" style="font-size: 14px; font-weight: 600; color: var(--accText); text-decoration: none; padding: 12px 0;">{{c.moreLink}} →</a>
+</div>
+<sc-for list="{{c.posts}}" as="b" hint-placeholder-count="3">
+<a href="{{b.href}}" style="background: var(--s1); border: 1px solid var(--line); border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 8px; text-decoration: none; color: var(--fg);">
+<span style="font-weight: 600; font-size: 16px; line-height: 1.35;">{{b.title}}</span>
+<span style="font-size: 13px; color: var(--muted);">{{b.meta}}</span>
+</a>
+</sc-for>
+</section>
+
+<footer style="margin-top: 16px; padding-top: 18px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; font-size: 13px; color: var(--muted);">
+<span>© 2026 Carlos Chao · elfrontend.com</span>
+<span style="display: flex; gap: 16px;"><a href="https://elfrontend.com/rss.xml" style="color: var(--muted);">RSS</a><a href="https://github.com/el-frontend" style="color: var(--muted);">GitHub</a><a href="https://linkedin.com/in/carlos-chao" style="color: var(--muted);">LinkedIn</a></span>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#FF6A3D","options":["#FF6A3D","#C8F05A","#7C9CFF","#F4C15D"]},"startDark":{"editor":"boolean","default":true},"$preview":{"width":390,"height":3200}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { lang: 'es', dark: props.startDark ?? true, q: '' };
+  }
+  renderVals() {
+    const acc = this.props.accent ?? '#FF6A3D';
+    const dark = this.state.dark;
+    const t = dark
+      ? { bg: '#0C0D10', s1: '#15171C', s2: '#1B1E25', line: '#2A2E37', fg: '#F2F3F5', muted: '#A2A8B3', acc: acc, accInk: '#140803', accText: acc }
+      : { bg: '#F3F3EF', s1: '#FFFFFF', s2: '#ECECE6', line: '#DCDCD4', fg: '#121316', muted: '#575C66', acc: acc, accInk: '#140803', accText: '#A8350E' };
+    const L = {
+      es: {
+        langLabel: 'EN', langAria: 'Cambiar a inglés', themeAria: 'Cambiar tema claro u oscuro', menuAria: 'Abrir menú',
+        location: 'La Habana',
+        h1a: 'Construyo software.', h1b: 'Y te enseño a construirlo.',
+        sub: 'Arquitecto de software, educador de React y Next.js y creador de la comunidad ElFrontend.',
+        ctaPrimary: 'Videos', ctaSecondary: 'Blog',
+        askKicker: 'Gemelo IA', askTitle: 'Pregúntale a Carlos', askPh: 'Escribe una pregunta…', askBtn: 'Enviar pregunta',
+        chips: ['¿Quién es Carlos?', 'Últimos videos', '¿Cuál es tu stack?', 'Contratar consultoría'],
+        videoLabel: 'Último video', postLabel: 'Nuevo en el blog', postMeta: '18 sep 2026 · 5 min de lectura',
+        statsAria: 'Números', stats: [{ v: '11', l: 'artículos' }, { v: '10.6K', l: 'palabras escritas' }, { v: '100+', l: 'videos en YouTube' }, { v: '10+', l: 'años construyendo' }],
+        talkLabel: 'Última charla', projLabel: 'Proyectos',
+        projects: [
+          { name: 'Resuelve', tag: 'Plataforma de servicios', href: 'https://resuelvecuba.com' },
+          { name: 'Synclat', tag: 'Sync musical', href: 'https://synclat.ai' },
+          { name: 'Video Wizard', tag: 'Recorte con IA', href: 'https://elfrontend.com/blog/build-web-video-wizard' }
+        ],
+        commLabel: 'Comunidad', commTitle: 'Devs hispanohablantes que se ayudan a crecer.',
+        moreTitle: 'Del blog', moreLink: 'Ver todos',
+        posts: [
+          { title: 'Diseñé la interfaz de mi agente antes de programarla', meta: '13 sep 2026 · 5 min', href: 'https://elfrontend.com/blog/disene-la-interfaz-de-mi-agente' },
+          { title: 'Desarrollo con IA: la diferencia no está en el modelo, está en el contexto', meta: '29 ago 2026 · 4 min', href: 'https://elfrontend.com/blog/desarrollo-con-ia-contexto' }
+        ]
+      },
+      en: {
+        langLabel: 'ES', langAria: 'Switch to Spanish', themeAria: 'Toggle light or dark theme', menuAria: 'Open menu',
+        location: 'Havana',
+        h1a: 'I build software.', h1b: 'And I teach you how.',
+        sub: 'Software architect, React and Next.js educator, and founder of the ElFrontend community.',
+        ctaPrimary: 'Videos', ctaSecondary: 'Blog',
+        askKicker: 'AI twin', askTitle: 'Ask Carlos', askPh: 'Type a question…', askBtn: 'Send question',
+        chips: ['Who is Carlos?', 'Latest videos', 'What is your stack?', 'Hire for consulting'],
+        videoLabel: 'Latest video', postLabel: 'New on the blog', postMeta: 'Sep 18, 2026 · 5 min read · Spanish',
+        statsAria: 'Numbers', stats: [{ v: '11', l: 'posts' }, { v: '10.6K', l: 'words written' }, { v: '100+', l: 'YouTube videos' }, { v: '10+', l: 'years building' }],
+        talkLabel: 'Latest talk', projLabel: 'Projects',
+        projects: [
+          { name: 'Resuelve', tag: 'Service platform', href: 'https://resuelvecuba.com' },
+          { name: 'Synclat', tag: 'Music sync', href: 'https://synclat.ai' },
+          { name: 'Video Wizard', tag: 'AI trimming', href: 'https://elfrontend.com/blog/build-web-video-wizard' }
+        ],
+        commLabel: 'Community', commTitle: 'Spanish-speaking devs helping each other level up.',
+        moreTitle: 'From the blog', moreLink: 'See all',
+        posts: [
+          { title: 'Diseñé la interfaz de mi agente antes de programarla', meta: 'Sep 13, 2026 · 5 min · Spanish', href: 'https://elfrontend.com/blog/disene-la-interfaz-de-mi-agente' },
+          { title: 'Desarrollo con IA: la diferencia no está en el modelo, está en el contexto', meta: 'Aug 29, 2026 · 4 min · Spanish', href: 'https://elfrontend.com/blog/desarrollo-con-ia-contexto' }
+        ]
+      }
+    };
+    const c = L[this.state.lang];
+    return {
+      t, c, dark, light: !dark, q: this.state.q,
+      chips: c.chips.map((label) => ({ label, pick: () => this.setState({ q: label }) })),
+      socials: [
+        { label: 'YouTube', href: 'https://youtube.com/@ElFrontend' },
+        { label: 'GitHub', href: 'https://github.com/el-frontend' },
+        { label: 'LinkedIn', href: 'https://linkedin.com/in/carlos-chao' },
+        { label: 'Twitch', href: 'https://twitch.tv/elfrontend' },
+        { label: 'Instagram', href: 'https://instagram.com/elfrontend' },
+        { label: 'X', href: 'https://x.com/elfrontend' }
+      ],
+      onQ: (e) => this.setState({ q: e.target.value }),
+      toggleLang: () => this.setState({ lang: this.state.lang === 'es' ? 'en' : 'es' }),
+      toggleTheme: () => this.setState({ dark: !this.state.dark })
+    };
+  }
+}
+</script>
+</body>
+</html>

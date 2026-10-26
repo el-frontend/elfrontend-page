@@ -1,6 +1,6 @@
 import { absoluteUrl, AUTHOR, jsonLd, SITE_NAME, SITE_URL } from "@/lib/metadata";
-import { ArcadeShell } from "@/modules/v2/components/arcade-shell";
-import { getArcadeBlogPosts, getArcadeVideos } from "@/modules/v2/server/data";
+import { V4Home } from "@/modules/v4/components/v4-home";
+import { getHomeData } from "@/modules/v4/server/data";
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -9,6 +9,7 @@ const structuredData = {
       "@type": "WebSite",
       name: SITE_NAME,
       url: SITE_URL,
+      inLanguage: "es",
       author: { "@id": `${SITE_URL}/#person` },
     },
     {
@@ -23,16 +24,13 @@ const structuredData = {
   ],
 };
 
-export default async function ArcadeHome() {
-  const [videos, posts] = await Promise.all([
-    getArcadeVideos(),
-    Promise.resolve(getArcadeBlogPosts()),
-  ]);
+export default async function Home() {
+  const data = await getHomeData();
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(structuredData)} />
-      <ArcadeShell videos={videos} posts={posts} />
+      <V4Home data={data} />
     </>
   );
 }

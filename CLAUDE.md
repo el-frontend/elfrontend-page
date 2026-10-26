@@ -22,14 +22,16 @@ No test runner. **Verify changes with `tsc --noEmit` + lint + `pnpm build`** (th
 ## Architecture
 
 ### Routes (`src/app/`)
-- `(arcade)/` — **the live site.** `/` (home), `/blog`, `/blog/[...slug]`. Layout imports `@/modules/v2/styles/arcade.css` and wraps in `.arcade-root`.
+- `(v4)/` — **the live home** at `/` (v4 "Signal" creator bento, design in `docs/designs/v4/`). Layout loads Bricolage Grotesque (`--font-bricolage`) and `@/modules/v4/styles/v4.css`; page emits `WebSite` + `Person` JSON-LD.
+- `(arcade)/` — arcade edition: `/v3` (previous home, kept as an archive), `/blog`, `/blog/[...slug]` (the blog still uses the arcade look). Layout imports `@/modules/v2/styles/arcade.css` and wraps in `.arcade-root`.
 - `(with-nav)/v1` — previous site version, kept under `/v1` with `MainLayout` + navbar. Legacy; don't add features here.
-- `api/chat/route.ts` — AI chat (POST). Used by `modules/v2/components/sections/hero-chat.tsx`.
+- `api/chat/route.ts` — AI chat (POST). Used by `modules/v4/components/chat-tile.tsx` and the arcade `hero-chat.tsx`.
 - `layout.tsx` — root: fonts, `MainProvider` (home store), `next-themes` `ThemeProvider` (class attribute, system default), sonner `Toaster`, Vercel Analytics/Speed Insights, GTM only when `NODE_ENV === "production"` and `NEXT_PUBLIC_GOOGLE_ANALYTICS_ID` is set.
 - `sitemap.ts`, `robots.txt`, `not-found.tsx`, icons.
 
 ### Feature modules (`src/modules/`)
-- `v2/` — **arcade edition (current).** `components/` (`arcade-shell`, `sections/*`, `sprites/`, CRT overlay, Konami banner), `blog/` (blog + article shells, `server/data.ts`), `content/` (`copy.ts`, `data.ts` — static site copy/projects/skills), `context/arcade-context.tsx`, `hooks/`, `audio.ts`, `server/data.ts` (YouTube + blog data loaders for server components), `styles/arcade.css`.
+- `v4/` — **current home.** `components/` (`v4-home` shell, `header`, `tiles`, `chat-tile`), `server/data.ts` (`getHomeData`: newest posts, real stats incl. YouTube `videoCount`, latest video/talk), `content/copy.ts` (ES/EN strings), `context/lang-context.tsx` (ES default, saved in `localStorage`), `styles/v4.css` (`--v4-*` tokens; light on `.v4`, dark on `.dark .v4`). Style with Tailwind using those tokens, e.g. `bg-(--v4-s1)`.
+- `v2/` — arcade edition (`/v3` and the blog). Its `content/data.ts` (projects, talks, socials) is also read by v4. `components/` (`arcade-shell`, `sections/*`, `sprites/`, CRT overlay, Konami banner), `blog/` (blog + article shells, `server/data.ts`), `content/` (`copy.ts`, `data.ts` — static site copy/projects/skills), `context/arcade-context.tsx`, `hooks/`, `audio.ts`, `server/data.ts` (YouTube + blog data loaders for server components), `styles/arcade.css`.
 - `home/`, `blog/` — v1 modules. `home/store` still provides `MainProvider` used by the root layout.
 - `static/` — not-found page.
 

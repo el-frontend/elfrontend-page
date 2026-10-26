@@ -69,3 +69,28 @@ export const searchYoutube = async (
     return [];
   }
 };
+
+export type YoutubeChannelStats = { videoCount: number; subscriberCount: number };
+
+export const youtubeChannelStats =
+  async (): Promise<YoutubeChannelStats | null> => {
+    try {
+      const url = `https://youtube.googleapis.com/youtube/v3/channels?part=statistics&id=${YOUTUBE_CHANNEL_ID}&key=${YOUTUBE_API_KEY}`;
+      const response = await fetch(url, {
+        next: {
+          revalidate: 3600 * 24,
+        },
+      });
+      const data = await response.json();
+      const stats = data.items?.[0]?.statistics;
+      if (!stats) return null;
+
+      return {
+        videoCount: Number(stats.videoCount),
+        subscriberCount: Number(stats.subscriberCount),
+      };
+    } catch (e) {
+      console.log("Error getting youtube channel stats", e);
+      return null;
+    }
+  };
