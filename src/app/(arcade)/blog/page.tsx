@@ -1,6 +1,6 @@
-import { absoluteUrl, SITE_NAME } from "@/lib/metadata";
+import { absoluteUrl, RSS_ALTERNATE, SITE_NAME } from "@/lib/metadata";
 import { BlogShell } from "@/modules/v2/blog/blog-shell";
-import { getAllArcadeBlogPosts } from "@/modules/v2/blog/server/data";
+import { getAllArcadeBlogPosts, getBlogStats } from "@/modules/v2/blog/server/data";
 import type { Metadata } from "next";
 
 const description =
@@ -9,7 +9,7 @@ const description =
 export const metadata: Metadata = {
   title: "Blog",
   description,
-  alternates: { canonical: absoluteUrl("/blog") },
+  alternates: { canonical: absoluteUrl("/blog"), types: RSS_ALTERNATE },
   openGraph: {
     title: "ElFrontend Blog",
     description,
@@ -23,5 +23,5 @@ export const metadata: Metadata = {
 
 export default function BlogPage() {
   const posts = getAllArcadeBlogPosts();
-  return <BlogShell posts={posts} />;
+  return <BlogShell posts={posts} stats={getBlogStats()} />;
 }

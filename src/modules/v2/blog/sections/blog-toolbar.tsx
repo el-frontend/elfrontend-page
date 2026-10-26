@@ -9,12 +9,10 @@ type Props = {
   setQuery: Dispatch<SetStateAction<string>>;
   tag: string;
   setTag: Dispatch<SetStateAction<string>>;
-  sort: "newest" | "popular";
-  setSort: Dispatch<SetStateAction<"newest" | "popular">>;
   count: number;
 };
 
-export function BlogToolbar({ query, setQuery, tag, setTag, sort, setSort, count }: Props) {
+export function BlogToolbar({ query, setQuery, tag, setTag, count }: Props) {
   const { accentColor, lang } = useArcade();
   const t = BLOG_COPY[lang];
   const tags = lang === "en" ? BLOG_TAGS_EN : BLOG_TAGS_ES;
@@ -104,27 +102,6 @@ export function BlogToolbar({ query, setQuery, tag, setTag, sort, setSort, count
               <span style={{ color: accentColor }}>{count.toString().padStart(2, "0")}</span>{" "}
               {t.postsCount}
             </span>
-            <div style={{ display: "inline-flex", border: "3px solid var(--dim-2)" }}>
-              {(["newest", "popular"] as const).map((s) => (
-                <button
-                  key={s}
-                  type="button"
-                  onClick={() => setSort(s)}
-                  style={{
-                    background: sort === s ? accentColor : "transparent",
-                    color: sort === s ? "#000" : "var(--dim)",
-                    border: 0,
-                    padding: "8px 14px",
-                    fontFamily: "var(--font-pixel)",
-                    fontSize: 9,
-                    letterSpacing: "0.12em",
-                    cursor: "pointer",
-                  }}
-                >
-                  {s === "newest" ? t.sortNewest : t.sortPopular}
-                </button>
-              ))}
-            </div>
           </div>
         </div>
 

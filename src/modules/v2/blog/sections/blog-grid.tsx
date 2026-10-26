@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useArcade } from "../../context/arcade-context";
-import { PxArrow, PxHeart, PxStar } from "../../components/sprites/pixel";
+import { PxArrow, PxStar } from "../../components/sprites/pixel";
 import { BLOG_COPY } from "../blog-copy";
 import type { BlogPost } from "../types";
 
@@ -166,23 +166,10 @@ export function BlogGrid({ posts }: { posts: BlogPost[] }) {
                     paddingTop: 12,
                     borderTop: "2px dashed var(--dim-2)",
                     display: "flex",
-                    justifyContent: "space-between",
+                    justifyContent: "flex-end",
                     alignItems: "center",
                   }}
                 >
-                  <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-                    <PxHeart scale={1} color="var(--hot-pink)" />
-                    <span
-                      className="pixel-text"
-                      style={{
-                        fontSize: 8,
-                        color: "var(--dim)",
-                        letterSpacing: "0.1em",
-                      }}
-                    >
-                      {b.likes}
-                    </span>
-                  </span>
                   <span
                     className="pixel-text"
                     style={{

@@ -1,5 +1,5 @@
 import { blogs as allBlogs } from "#site/content";
-import type { BlogPost } from "../types";
+import type { BlogPost, BlogStats } from "../types";
 
 export function getAllArcadeBlogPosts(): BlogPost[] {
   return allBlogs
@@ -11,36 +11,25 @@ export function getAllArcadeBlogPosts(): BlogPost[] {
       title: b.title,
       iso: b.date,
       date: formatDate(b.date),
-      read: estimateReadTime(b.body),
-      tag: inferTag(b.title),
+      read: `${Math.max(1, Math.round(b.metadata.readingTime))} min`,
+      tag: b.tag,
       image: b.image,
       description: b.description,
       lang: b.lang,
-      // Stable pseudo-likes so cards have a number without runtime drift.
-      likes: 20 + ((i * 37) % 160),
     }));
+}
+
+export function getBlogStats(): BlogStats {
+  const posts = allBlogs.filter((b) => b.published);
+  return {
+    posts: posts.length,
+    words: posts.reduce((sum, b) => sum + b.metadata.wordCount, 0),
+    minutes: Math.round(posts.reduce((sum, b) => sum + b.metadata.readingTime, 0)),
+    topics: new Set(posts.map((b) => b.tag)).size,
+  };
 }
 
 function formatDate(iso: string) {
   const d = new Date(iso);
   return d.toLocaleDateString("en-US", { month: "short", year: "numeric" });
-}
-
-function estimateReadTime(body: string) {
-  const words = body.split(/\s+/).length;
-  const minutes = Math.max(1, Math.round(words / 220));
-  return `${minutes} min`;
-}
-
-function inferTag(title: string) {
-  const t = title.toLowerCase();
-  if (t.includes("react")) return "React";
-  if (t.includes("tailwind")) return "CSS";
-  if (t.includes("estim")) return "Process";
-  if (t.includes("cookie")) return "Web";
-  if (t.includes("web3")) return "Opinion";
-  if (t.includes("ai") || t.includes("video")) return "AI";
-  if (t.includes("pattern")) return "Theory";
-  if (t.includes("trunk")) return "Workflow";
-  return "Notes";
 }

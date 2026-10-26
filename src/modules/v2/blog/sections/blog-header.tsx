@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { useArcade } from "../../context/arcade-context";
 import { PxArrow } from "../../components/sprites/pixel";
-import { BLOG_COPY, BLOG_STATS } from "../blog-copy";
+import { BLOG_COPY, BLOG_STAT_TILES } from "../blog-copy";
+import type { BlogStats } from "../types";
 
-export function BlogHeader() {
+export function BlogHeader({ stats }: { stats: BlogStats }) {
   const { copy, accentColor, lang } = useArcade();
   const t = BLOG_COPY[lang];
 
@@ -97,7 +98,7 @@ export function BlogHeader() {
               gap: 10,
             }}
           >
-            {BLOG_STATS.map((s) => (
+            {BLOG_STAT_TILES.map((s) => (
               <div
                 key={s.key}
                 style={{
@@ -114,7 +115,7 @@ export function BlogHeader() {
                     letterSpacing: "0.04em",
                   }}
                 >
-                  {s.val}
+                  {formatStat(stats[s.stat])}
                 </div>
                 <div
                   className="pixel-text"
@@ -134,4 +135,8 @@ export function BlogHeader() {
       </div>
     </section>
   );
+}
+
+function formatStat(n: number) {
+  return n >= 1000 ? `${(n / 1000).toFixed(1).replace(/\.0$/, "")}K` : String(n);
 }

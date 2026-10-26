@@ -9,5 +9,11 @@ export type BlogPost = {
   image: string;
   description: string;
   lang: "es" | "en";
-  likes: number;
+};
+
+export type BlogStats = {
+  posts: number;
+  words: number;
+  minutes: number;
+  topics: number;
 };

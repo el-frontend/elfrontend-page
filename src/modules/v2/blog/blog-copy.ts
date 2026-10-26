@@ -1,4 +1,5 @@
 import type { Lang } from "../content/copy";
+import type { BlogStats } from "./types";
 
 export type BlogCopy = {
   pageTitle: string;
@@ -9,8 +10,6 @@ export type BlogCopy = {
   filterPlaceholder: string;
   tagsLabel: string;
   postsCount: string;
-  sortNewest: string;
-  sortPopular: string;
   newsletterTag: string;
   newsletterTitle: string;
   newsletterSub: string;
@@ -23,18 +22,12 @@ export type BlogCopy = {
   noResultsHint: string;
   statPosts: string;
   statWords: string;
-  statReaders: string;
-  statSubs: string;
+  statMinutes: string;
+  statTopics: string;
   backHome: string;
   // Article page
   backToBlog: string;
   readLabel: string;
-  ratePost: string;
-  rateNoLogin: string;
-  rateThanks: string;
-  rateLoved: string;
-  rateLearned: string;
-  rateOk: string;
   prev: string;
   next: string;
   keepReading: string;
@@ -57,32 +50,24 @@ export const BLOG_COPY: Record<Lang, BlogCopy> = {
     filterPlaceholder: "Search posts…",
     tagsLabel: "FILTER BY",
     postsCount: "POSTS",
-    sortNewest: "NEWEST",
-    sortPopular: "POPULAR",
     newsletterTag: "NEW NEWSLETTER",
     newsletterTitle: "Get notes in your inbox.",
     newsletterSub:
       "One post per month-ish. No spam, no AI-generated filler. Just whatever I've been figuring out.",
     newsletterPlaceholder: "your.email@here",
     newsletterCta: "SUBSCRIBE",
-    newsletterFoot: "JOIN 2,400+ DEVS",
+    newsletterFoot: "NO SPAM · UNSUBSCRIBE ANYTIME",
     newsletterDoneTag: "+100 XP · YOU'RE IN",
     newsletterDoneMsg: "See you in your inbox.",
     noResults: "NO POSTS FOUND",
     noResultsHint: "TRY ANOTHER TAG OR SEARCH TERM",
     statPosts: "TOTAL POSTS",
     statWords: "WORDS WRITTEN",
-    statReaders: "MONTHLY READERS",
-    statSubs: "SUBSCRIBERS",
+    statMinutes: "MINUTES OF READING",
+    statTopics: "TOPICS",
     backHome: "BACK TO HOME",
     backToBlog: "BACK TO BLOG",
     readLabel: "READ",
-    ratePost: ">>> RATE THIS POST",
-    rateNoLogin: "No login. Just a tap.",
-    rateThanks: "Thanks! Saved.",
-    rateLoved: "LOVED IT",
-    rateLearned: "LEARNED A LOT",
-    rateOk: "IT WAS OK",
     prev: "PREVIOUS",
     next: "NEXT",
     keepReading: "KEEP READING",
@@ -102,32 +87,24 @@ export const BLOG_COPY: Record<Lang, BlogCopy> = {
     filterPlaceholder: "Buscar posts…",
     tagsLabel: "FILTRAR POR",
     postsCount: "POSTS",
-    sortNewest: "RECIENTES",
-    sortPopular: "POPULARES",
     newsletterTag: "NUEVO NEWSLETTER",
     newsletterTitle: "Recibe las notas en tu inbox.",
     newsletterSub:
       "Un post al mes-ish. Sin spam, sin relleno IA. Solo lo que voy descubriendo.",
     newsletterPlaceholder: "tu.email@aquí",
     newsletterCta: "SUSCRIBIRME",
-    newsletterFoot: "+2,400 DEVS YA SUSCRITOS",
+    newsletterFoot: "SIN SPAM · TE DAS DE BAJA CUANDO QUIERAS",
     newsletterDoneTag: "+100 XP · ESTÁS DENTRO",
     newsletterDoneMsg: "Nos vemos en tu inbox.",
     noResults: "NO HAY POSTS",
     noResultsHint: "PRUEBA OTRO TAG O TÉRMINO",
     statPosts: "POSTS TOTALES",
     statWords: "PALABRAS ESCRITAS",
-    statReaders: "LECTORES / MES",
-    statSubs: "SUSCRIPTORES",
+    statMinutes: "MINUTOS DE LECTURA",
+    statTopics: "TEMAS",
     backHome: "VOLVER A INICIO",
     backToBlog: "VOLVER AL BLOG",
     readLabel: "LECTURA",
-    ratePost: ">>> CALIFICA ESTE POST",
-    rateNoLogin: "Sin login. Solo un click.",
-    rateThanks: "¡Gracias! Guardado.",
-    rateLoved: "ME ENCANTÓ",
-    rateLearned: "APRENDÍ MUCHO",
-    rateOk: "ESTUVO BIEN",
     prev: "ANTERIOR",
     next: "SIGUIENTE",
     keepReading: "SIGUE LEYENDO",
@@ -141,13 +118,17 @@ export const BLOG_COPY: Record<Lang, BlogCopy> = {
 };
 
 // Tag pills (first item = "all" sentinel; engine treats "ALL"/"TODO" as no filter).
-export const BLOG_TAGS_EN = ["ALL", "REACT", "CSS", "AI", "THEORY", "PROCESS", "WORKFLOW"] as const;
-export const BLOG_TAGS_ES = ["TODO", "REACT", "CSS", "AI", "TEORÍA", "PROCESO", "WORKFLOW"] as const;
+export const BLOG_TAGS_EN = ["ALL", "REACT", "CSS", "AI", "WEB", "THEORY", "PROCESS", "WORKFLOW"] as const;
+export const BLOG_TAGS_ES = ["TODO", "REACT", "CSS", "AI", "WEB", "TEORÍA", "PROCESO", "WORKFLOW"] as const;
 
-export type BlogStat = { key: "statPosts" | "statWords" | "statReaders" | "statSubs"; val: string; color: string };
-export const BLOG_STATS: BlogStat[] = [
-  { key: "statPosts", val: "100+", color: "hot-yellow" },
-  { key: "statWords", val: "92K", color: "hot-green" },
-  { key: "statReaders", val: "8.2K", color: "hot-pink" },
-  { key: "statSubs", val: "2.4K", color: "brand" },
+export type BlogStatTile = {
+  key: "statPosts" | "statWords" | "statMinutes" | "statTopics";
+  stat: keyof BlogStats;
+  color: string;
+};
+export const BLOG_STAT_TILES: BlogStatTile[] = [
+  { key: "statPosts", stat: "posts", color: "hot-yellow" },
+  { key: "statWords", stat: "words", color: "hot-green" },
+  { key: "statMinutes", stat: "minutes", color: "hot-pink" },
+  { key: "statTopics", stat: "topics", color: "brand" },
 ];
