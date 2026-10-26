@@ -31,8 +31,11 @@ export function ChatTile({ className = "" }: { className?: string }) {
   return (
     <section
       aria-labelledby="v4-ask"
-      // lg: h-0 + min-h-full lets the intro tile set the row height; the transcript scrolls inside.
-      className={`flex flex-col gap-4 rounded-3xl border border-(--v4-line) bg-(--v4-s2) p-6 sm:p-7 lg:h-0 lg:min-h-full ${className}`}
+      // During a chat, lg:h-0 + min-h-full lets the intro tile set the row height and the
+      // transcript scrolls inside. Before that the card sizes to its content so nothing overflows.
+      className={`flex flex-col gap-4 rounded-3xl border border-(--v4-line) bg-(--v4-s2) p-6 sm:p-7 ${
+        hasMessages ? "lg:h-0 lg:min-h-full" : ""
+      } ${className}`}
     >
       <div className="flex items-center justify-between gap-3">
         <span className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.06em] text-(--v4-muted)">
@@ -72,14 +75,14 @@ export function ChatTile({ className = "" }: { className?: string }) {
             m.role === "user" ? (
               <p
                 key={m.id}
-                className="m-0 max-w-[85%] self-end rounded-[18px] rounded-br-md bg-(--v4-acc) px-4 py-2.5 text-[15px] leading-snug text-(--v4-acc-ink)"
+                className="m-0 max-w-[85%] self-end rounded-[18px] rounded-br-md bg-(--v4-acc) px-4 py-2.5 text-[15px] leading-snug text-(--v4-acc-ink) [overflow-wrap:anywhere]"
               >
                 <span className="sr-only">{t.askYou}: </span>
                 {m.content}
               </p>
             ) : (
               <AssistantRow key={m.id} label={t.askBot}>
-                <div className="text-[15px] leading-relaxed [&_a]:font-medium [&_a]:text-(--v4-acc-text) [&_a]:underline [&_a]:underline-offset-2 [&_li]:my-0.5 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:my-1.5 [&_p:first-child]:mt-0 [&_p:last-child]:mb-0 [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:pl-5">
+                <div className="text-[15px] leading-relaxed [overflow-wrap:anywhere] [&_a]:font-medium [&_a]:text-(--v4-acc-text) [&_a]:underline [&_a]:underline-offset-2 [&_li]:my-0.5 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:my-1.5 [&_p:first-child]:mt-0 [&_p:last-child]:mb-0 [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:pl-5">
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>{m.content}</ReactMarkdown>
                 </div>
               </AssistantRow>
@@ -105,20 +108,14 @@ export function ChatTile({ className = "" }: { className?: string }) {
         <p className="m-0 text-[15px] leading-normal text-(--v4-muted)">{t.askSub}</p>
       )}
 
-      <div
-        className={
-          hasMessages
-            ? "v4-noscrollbar v4-fade-right -mx-6 flex shrink-0 gap-2 overflow-x-auto px-6 sm:-mx-7 sm:px-7"
-            : "flex flex-wrap gap-2"
-        }
-      >
+      <div className="flex shrink-0 flex-wrap gap-2">
         {t.chips.map((chip) => (
           <button
             key={chip}
             type="button"
             disabled={busy}
             onClick={() => append({ role: "user", content: chip })}
-            className={`shrink-0 rounded-full border border-(--v4-line) bg-(--v4-s1) text-(--v4-fg) transition-colors hover:border-(--v4-acc) disabled:opacity-50 ${
+            className={`rounded-full border border-(--v4-line) bg-(--v4-s1) text-(--v4-fg) transition-colors hover:border-(--v4-acc) disabled:opacity-50 ${
               hasMessages ? "min-h-9 px-3 py-1.5 text-[13px]" : "min-h-10 px-3.5 py-2 text-sm"
             }`}
           >

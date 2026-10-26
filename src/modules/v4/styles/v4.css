@@ -69,8 +69,3 @@
 @media (prefers-reduced-motion: reduce) {
   .v4-typing span { animation: none; opacity: 0.6; }
 }
-
-/* Fade the right edge of a horizontally scrolling row */
-.v4-fade-right {
-  mask-image: linear-gradient(to right, #000 calc(100% - 40px), transparent);
-}
