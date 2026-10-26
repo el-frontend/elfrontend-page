@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import {
+  Bricolage_Grotesque,
   Geist,
   Geist_Mono,
   Press_Start_2P,
@@ -54,6 +55,13 @@ const silkscreen = Silkscreen({
   display: "swap",
 });
 
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
+  subsets: ["latin"],
+  weight: ["500", "700", "800"],
+  display: "swap",
+});
+
 export const metadata: Metadata = generateMetadata();
 
 export default function RootLayout({
@@ -64,7 +72,7 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${titillium.variable} ${pressStart.variable} ${vt323.variable} ${silkscreen.variable} antialiased overflow-x-hidden scroll-behavior-smooth`}
+        className={`${geistSans.variable} ${geistMono.variable} ${titillium.variable} ${pressStart.variable} ${vt323.variable} ${silkscreen.variable} ${bricolage.variable} antialiased overflow-x-hidden scroll-behavior-smooth`}
       >
         <MainProvider>
           <ThemeProvider

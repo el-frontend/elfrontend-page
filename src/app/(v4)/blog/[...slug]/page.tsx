@@ -1,7 +1,7 @@
 import { blogs as allBlogs } from "#site/content";
 import { absoluteUrl, AUTHOR, jsonLd, RSS_ALTERNATE, SITE_NAME } from "@/lib/metadata";
-import { ArticleShell } from "@/modules/v2/blog/article/article-shell";
-import { getAllArcadeBlogPosts } from "@/modules/v2/blog/server/data";
+import { Article } from "@/modules/v4/blog/article";
+import { getBlogPosts } from "@/modules/v4/server/blog";
 import "@/styles/mdx.css";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -55,11 +55,12 @@ export default async function BlogPageItem({ params }: BlogPageItemProps) {
   const blog = allBlogs.find((b) => b.slugAsParams === joined);
   if (!blog) notFound();
 
-  const all = getAllArcadeBlogPosts();
+  const all = getBlogPosts();
   const idx = all.findIndex((p) => p.slug === joined);
   const post = all[idx];
-  const prev = idx > 0 ? all[idx - 1] : null;
-  const next = idx < all.length - 1 ? all[idx + 1] : null;
+  // `all` is newest first: previous = older post, next = newer post.
+  const prev = all[idx + 1] ?? null;
+  const next = idx > 0 ? all[idx - 1] : null;
 
   // Related: same tag (excluding current), then pad with most recent.
   const sameTag = all.filter((p) => p.slug !== joined && p.tag === post.tag);
@@ -84,7 +85,7 @@ export default async function BlogPageItem({ params }: BlogPageItemProps) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(structuredData)} />
-      <ArticleShell post={post} body={blog.body} prev={prev} next={next} related={related} />
+      <Article post={post} body={blog.body} prev={prev} next={next} related={related} />
     </>
   );
 }

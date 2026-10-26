@@ -1,6 +1,6 @@
 import { absoluteUrl, RSS_ALTERNATE, SITE_NAME } from "@/lib/metadata";
-import { BlogShell } from "@/modules/v2/blog/blog-shell";
-import { getAllArcadeBlogPosts, getBlogStats } from "@/modules/v2/blog/server/data";
+import { BlogIndex } from "@/modules/v4/blog/blog-index";
+import { getBlogPosts, getBlogStats } from "@/modules/v4/server/blog";
 import type { Metadata } from "next";
 
 const description =
@@ -22,6 +22,5 @@ export const metadata: Metadata = {
 };
 
 export default function BlogPage() {
-  const posts = getAllArcadeBlogPosts();
-  return <BlogShell posts={posts} stats={getBlogStats()} />;
+  return <BlogIndex posts={getBlogPosts()} stats={getBlogStats()} />;
 }

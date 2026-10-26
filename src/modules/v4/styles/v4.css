@@ -69,3 +69,147 @@
 @media (prefers-reduced-motion: reduce) {
   .v4-typing span { animation: none; opacity: 0.6; }
 }
+
+/* Article body (MDX). Elements come raw from the MDX pipeline. */
+.v4-prose {
+  font-size: 18px;
+  line-height: 1.75;
+  color: var(--v4-fg);
+  overflow-wrap: break-word;
+}
+.v4-prose > * + * {
+  margin-top: 1.25em;
+}
+.v4-prose h1,
+.v4-prose h2,
+.v4-prose h3,
+.v4-prose h4 {
+  font-family: var(--font-bricolage), var(--font-geist-sans), sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  scroll-margin-top: 24px;
+}
+.v4-prose h1,
+.v4-prose h2 {
+  margin-top: 2.2em;
+  font-size: 32px;
+}
+.v4-prose h3 {
+  margin-top: 1.8em;
+  font-size: 24px;
+}
+.v4-prose h4 {
+  margin-top: 1.6em;
+  font-size: 20px;
+}
+.v4-prose :is(h1, h2, h3, h4) + * {
+  margin-top: 0.6em;
+}
+.v4-prose :is(h1, h2, h3, h4) a {
+  color: inherit;
+  text-decoration: none;
+}
+.v4-prose a {
+  color: var(--v4-acc-text);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+.v4-prose strong {
+  font-weight: 650;
+}
+.v4-prose ul,
+.v4-prose ol {
+  padding-left: 1.4em;
+}
+.v4-prose ul {
+  list-style: disc;
+}
+.v4-prose ol {
+  list-style: decimal;
+}
+.v4-prose li + li {
+  margin-top: 0.45em;
+}
+.v4-prose li::marker {
+  color: var(--v4-acc);
+}
+.v4-prose blockquote {
+  border-left: 3px solid var(--v4-acc);
+  padding: 4px 0 4px 20px;
+  color: var(--v4-muted);
+  font-size: 20px;
+}
+.v4-prose hr {
+  border: 0;
+  border-top: 1px solid var(--v4-line);
+  margin: 2.5em 0;
+}
+.v4-prose img {
+  width: 100%;
+  border-radius: 18px;
+  border: 1px solid var(--v4-line);
+}
+.v4-prose :not(pre) > code {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.86em;
+  padding: 0.15em 0.4em;
+  border-radius: 6px;
+  background: var(--v4-s2);
+  border: 1px solid var(--v4-line);
+}
+.v4-prose figure[data-rehype-pretty-code-figure] {
+  margin-left: 0;
+  margin-right: 0;
+}
+.v4-prose pre {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 14px;
+  line-height: 1.7;
+  padding: 18px 0;
+  border-radius: 16px;
+  border: 1px solid var(--v4-line);
+  overflow-x: auto;
+}
+.v4-prose pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+}
+.v4-prose table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.v4-prose th,
+.v4-prose td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--v4-line);
+}
+.v4-prose th {
+  font-weight: 650;
+  background: var(--v4-s2);
+}
+.v4-prose .v4-mermaid {
+  border-radius: 16px;
+  border: 1px solid var(--v4-line);
+  background: var(--v4-s1);
+}
+@media (max-width: 640px) {
+  .v4-prose {
+    font-size: 17px;
+  }
+  .v4-prose h1,
+  .v4-prose h2 {
+    font-size: 26px;
+  }
+  .v4-prose h3 {
+    font-size: 21px;
+  }
+}

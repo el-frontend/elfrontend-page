@@ -50,3 +50,21 @@ export type HomeData = {
   projects: HomeProject[];
   socials: Array<{ label: string; href: string }>;
 };
+
+export type BlogCard = {
+  slug: string;
+  title: string;
+  description: string;
+  image: string;
+  iso: string;
+  minutes: number;
+  tag: string;
+  lang: Lang;
+};
+
+export type BlogStats = {
+  posts: number;
+  words: number;
+  minutes: number;
+  topics: number;
+};
