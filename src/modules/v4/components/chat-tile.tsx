@@ -9,9 +9,9 @@ import remarkGfm from "remark-gfm";
 import { useLang } from "../context/lang-context";
 
 export function ChatTile({ className = "" }: { className?: string }) {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const { messages, setMessages, input, setInput, handleSubmit, append, status, error, stop } =
-    useChat({ api: "/api/chat", experimental_throttle: 80 });
+    useChat({ api: "/api/chat", body: { lang }, experimental_throttle: 80 });
   const scrollerRef = useRef<HTMLDivElement | null>(null);
   const busy = status === "submitted" || status === "streaming";
   const hasMessages = messages.length > 0;
