@@ -34,3 +34,43 @@
 .v4-display {
   font-family: var(--font-bricolage), var(--font-geist-sans), sans-serif;
 }
+
+/* Scrollable without a visible scrollbar (chat transcript, chip rows) */
+.v4-noscrollbar {
+  scrollbar-width: none;
+}
+.v4-noscrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Soft fade where the chat transcript scrolls under the header */
+.v4-fade-top {
+  mask-image: linear-gradient(to bottom, transparent 0, #000 28px);
+}
+
+.v4-typing span {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+  animation: v4-typing 1.1s ease-in-out infinite;
+}
+.v4-typing span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.v4-typing span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@keyframes v4-typing {
+  0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-3px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .v4-typing span { animation: none; opacity: 0.6; }
+}
+
+/* Fade the right edge of a horizontally scrolling row */
+.v4-fade-right {
+  mask-image: linear-gradient(to right, #000 calc(100% - 40px), transparent);
+}
